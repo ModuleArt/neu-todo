@@ -15,7 +15,6 @@ yarn-debug.log*
 yarn-error.log*
 
 #lock file
-#yarn.lock
 .yarnclean
 
 # Editor directories and files
@@ -26,4 +25,10 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
-#*.code-workspace
+
+# Neutralinojs related files
+.lite_workspace.lua
+/bin
+neutralino.js
+.storage
+*.log

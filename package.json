@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "vue-cli-service serve --port 8090",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "desktop": "npx @neutralinojs/neu build && npx @neutralinojs/neu run"
   },
   "dependencies": {
     "core-js": "3.6.5",
@@ -15,6 +16,7 @@
     "vuex": "3.5.1"
   },
   "devDependencies": {
+    "@neutralinojs/neu": "^9.1.1",
     "@typescript-eslint/eslint-plugin": "2.34.0",
     "@typescript-eslint/parser": "2.34.0",
     "@vue/cli-plugin-babel": "4.4.6",
