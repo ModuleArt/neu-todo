@@ -29,8 +29,11 @@ export default new Vuex.Store<State>({
     removeTodo(context, todoId: string) {
       context.commit("removeTodo", todoId);
     },
-    setImportant(context, todoId: string) {
-      context.commit("setImportant", todoId);
+    setChecked(context, { todoId, checked }) {
+      context.commit("setChecked", { todoId, checked });
+    },
+    setImportant(context, { todoId, important }) {
+      context.commit("setImportant", { todoId, important });
     },
   },
   mutations: {
@@ -40,9 +43,13 @@ export default new Vuex.Store<State>({
     removeTodo(state, todoId: string) {
       state.todos = state.todos.filter((todo) => todo.id !== todoId);
     },
-    setImportant(state, todoId: string) {
+    setChecked(state, { todoId, checked }) {
       const todo = state.todos.find((todo) => todo.id === todoId);
-      if (todo) todo.important = !todo.important;
+      if (todo) todo.checked = checked;
+    },
+    setImportant(state, { todoId, important }) {
+      const todo = state.todos.find((todo) => todo.id === todoId);
+      if (todo) todo.important = important;
     },
   },
   getters: {},

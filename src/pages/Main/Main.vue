@@ -10,9 +10,12 @@
 
 <script lang="ts">
 import { Vue, Component } from "@/utils/vue-imports";
+
+// componenets
 import Header from "@/components/organisms/Header/Header.vue";
 import TodoList from "@/components/molecules/TodoList/TodoList.vue";
 
+// component
 @Component({
   name: "MainPage",
   components: {

@@ -1,6 +1,6 @@
 <template>
   <div class="header mb-16">
-    <v-app-bar fixed outlined class="px-1">
+    <v-app-bar fixed outlined>
       <v-app-bar-nav-icon />
       <v-spacer />
       <v-text-field
@@ -10,6 +10,8 @@
         append-icon="mdi-magnify"
         solo
         outlined
+        placeholder="Search for task titles and descriptions"
+        class="ml-1 mr-10"
       />
       <v-spacer />
       <v-btn fab bottom right absolute color="primary" @click="addTodo">
