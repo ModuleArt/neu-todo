@@ -9,7 +9,7 @@ const opts = {
     dark: true,
     themes: {
       dark: {
-        primary: "#009688",
+        primary: "#03A9F4",
       },
     },
   },

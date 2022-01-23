@@ -1,13 +1,13 @@
 <template>
   <div class="todo-list">
     <div class="todo-list__todos d-flex">
-      <v-layout wrap row>
+      <v-layout wrap row class="pa-2">
         <v-flex
           v-for="(todo, todoIndex) in todos"
           :key="todo.id"
           grow
           xs6
-          class="pa-2"
+          class="pa-1"
         >
           <v-card>
             <div class="py-1 pl-4 pr-2 d-flex align-center">
@@ -109,14 +109,19 @@
         </v-btn>
       </template>
     </v-snackbar>
-    <v-dialog v-model="showDueDateDialog" max-width="460">
+    <v-dialog v-model="showDueDateDialog" max-width="320">
       <v-card v-if="activeTodo">
-        <v-card-title>Pick a due date</v-card-title>
-        <v-divider />
-        <div class="px-6 py-2">
+        <v-date-picker
+          color="primary"
+          full-width
+          flat
+          :value="numberToCode(activeTodo.dueTime)"
+          @change="setDueDate($event)"
+          class="rounded-0 todo-list__due-date-picker"
+        />
+        <div class="pa-2">
           <v-btn
             depressed
-            rounded
             class="mr-2"
             :color="isDueToDate('today') ? 'primary' : ''"
             @click="setDueDate('today')"
@@ -125,22 +130,11 @@
           </v-btn>
           <v-btn
             depressed
-            rounded
             :color="isDueToDate('tomorrow') ? 'primary' : ''"
             @click="setDueDate('tomorrow')"
           >
             Tomorrow
           </v-btn>
-        </div>
-        <v-divider />
-        <div class="pa-6">
-          <v-calendar
-            class="todo-list__due-date-calendar"
-            :value="activeTodo.dueDate"
-            @click:date="setDueDate($event)"
-            :events="calendarEvents"
-            color="secondary"
-          />
         </div>
         <v-divider />
         <v-card-actions class="pa-2">
@@ -163,11 +157,12 @@
 </template>
 
 <script lang="ts">
+// utils
 import { Vue, Component, Prop } from "@/utils/vue-imports";
+import dateUtils from "@/utils/date";
 
 // interfaces
 import Todo from "@/interfaces/entities/todo";
-import { CalendarTimestamp } from "vuetify/types";
 
 // component
 @Component({
@@ -188,21 +183,6 @@ export default class TodoList extends Vue {
 
   get todos(): Todo[] {
     return this.$store.state.todos;
-  }
-
-  get calendarEvents() {
-    if (this.activeTodo && this.activeTodo.dueDate) {
-      return [
-        {
-          name: "Due date",
-          start: this.activeTodo.dueDate,
-          end: this.activeTodo.dueDate,
-          color: "primary",
-          timed: false,
-        },
-      ];
-    }
-    return [];
   }
 
   toggleChecked(todo: Todo) {
@@ -245,51 +225,23 @@ export default class TodoList extends Vue {
 
   isDueToDate(code: string): boolean {
     if (this.activeTodo && this.activeTodo.dueDate) {
-      const activeTodoDueDate = new Date(this.activeTodo.dueDate);
-      const today = new Date();
-
-      switch (code) {
-        case "today":
-          return (
-            activeTodoDueDate.getDate() == today.getDate() &&
-            activeTodoDueDate.getMonth() == today.getMonth() &&
-            activeTodoDueDate.getFullYear() == today.getFullYear()
-          );
-        case "tomorrow":
-          return (
-            activeTodoDueDate.getDate() == today.getDate() + 1 &&
-            activeTodoDueDate.getMonth() == today.getMonth() &&
-            activeTodoDueDate.getFullYear() == today.getFullYear()
-          );
-      }
-
-      return false;
+      return code === dateUtils.numberToCode(this.activeTodo.dueDate);
     } else {
       return false;
     }
   }
 
-  setDueDate(code: string | CalendarTimestamp) {
+  numberToCode(): string {
+    if (this.activeTodo)
+      return dateUtils.numberToCode(this.activeTodo.dueDate, true);
+    else return "";
+  }
+
+  setDueDate(code: string) {
     if (this.activeTodo) {
-      const today = new Date();
-      let dueDate = Date.now();
-
-      if (typeof code === "string") {
-        switch (code) {
-          case "tomorrow":
-            dueDate = today.setDate(today.getDate() + 1);
-            break;
-        }
-      } else {
-        today.setDate(code.day);
-        today.setMonth(code.month - 1);
-        today.setFullYear(code.year);
-        dueDate = today.getTime();
-      }
-
       this.$store.dispatch("setDueDate", {
         todoId: this.activeTodo.id,
-        dueDate,
+        dueDate: dateUtils.codeToNumber(code),
       });
       this.showDueDateDialog = false;
     }
@@ -306,7 +258,7 @@ export default class TodoList extends Vue {
   }
 
   formatDate(date: number) {
-    return new Date(date).toLocaleDateString("en-US");
+    return dateUtils.toDisplay(date);
   }
 
   addTodo(todo: Todo | null = null) {

@@ -21,8 +21,10 @@
 </template>
 
 <script lang="ts">
+// utils
 import { Vue, Component } from "@/utils/vue-imports";
 
+// component
 @Component({
   name: "Header",
 })

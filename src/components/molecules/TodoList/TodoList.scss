@@ -1,10 +1,8 @@
 .todo-list {
-  &__due-date-calendar {
-    height: 412px;
-
-    /deep/ .v-event {
-      margin: 0 0 0 2px;
-      border-radius: 0;
+  &__due-date-picker /deep/ {
+    .v-picker__body {
+      background: none;
+      padding: 16px 0;
     }
   }
 }
