@@ -1,0 +1,10 @@
+.todo-list {
+  &__due-date-calendar {
+    height: 412px;
+
+    /deep/ .v-event {
+      margin: 0 0 0 2px;
+      border-radius: 0;
+    }
+  }
+}

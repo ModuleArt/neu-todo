@@ -22,6 +22,7 @@ export default new Vuex.Store<State>({
         title: "",
         body: "",
         important: false,
+        dueDate: null,
       }
     ) {
       context.commit("addTodo", todo);
@@ -35,21 +36,28 @@ export default new Vuex.Store<State>({
     setImportant(context, { todoId, important }) {
       context.commit("setImportant", { todoId, important });
     },
+    setDueDate(context, { todoId, dueDate }) {
+      context.commit("setDueDate", { todoId, dueDate });
+    },
   },
   mutations: {
-    addTodo(state, todo: Todo) {
+    addTodo(state: State, todo: Todo) {
       state.todos.push(todo);
     },
-    removeTodo(state, todoId: string) {
+    removeTodo(state: State, todoId: string) {
       state.todos = state.todos.filter((todo) => todo.id !== todoId);
     },
-    setChecked(state, { todoId, checked }) {
+    setChecked(state: State, { todoId, checked }) {
       const todo = state.todos.find((todo) => todo.id === todoId);
       if (todo) todo.checked = checked;
     },
-    setImportant(state, { todoId, important }) {
+    setImportant(state: State, { todoId, important }) {
       const todo = state.todos.find((todo) => todo.id === todoId);
       if (todo) todo.important = important;
+    },
+    setDueDate(state: State, { todoId, dueDate }) {
+      const todo = state.todos.find((todo) => todo.id === todoId);
+      if (todo) todo.dueDate = dueDate;
     },
   },
   getters: {},

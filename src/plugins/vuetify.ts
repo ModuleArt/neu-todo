@@ -10,9 +10,6 @@ const opts = {
     themes: {
       dark: {
         primary: "#009688",
-        secondary: "#b0bec5",
-        accent: "#A7FFEB",
-        error: "#E91E63",
       },
     },
   },
