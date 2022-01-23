@@ -8,11 +8,11 @@ const opts = {
   theme: {
     dark: true,
     themes: {
-      light: {
-        primary: "#3f51b5",
+      dark: {
+        primary: "#009688",
         secondary: "#b0bec5",
-        accent: "#8c9eff",
-        error: "#b71c1c",
+        accent: "#A7FFEB",
+        error: "#E91E63",
       },
     },
   },

@@ -29,7 +29,7 @@
       "minHeight": 200,
       "fullScreen": false,
       "alwaysOnTop": false,
-      "icon": "/public/img/app-icon.png",
+      "icon": "/public/img/icons/vue-boilerplates.png",
       "enableInspector": true,
       "borderless": false,
       "maximize": false,
