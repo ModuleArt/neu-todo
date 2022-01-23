@@ -1,4 +1,4 @@
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component, Prop, Model } from "vue-property-decorator";
 
-export { Vue, Component, Prop };
+export { Vue, Component, Prop, Model };

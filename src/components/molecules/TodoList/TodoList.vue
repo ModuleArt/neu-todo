@@ -2,101 +2,14 @@
   <div class="todo-list">
     <div class="todo-list__todos d-flex">
       <v-layout wrap row class="pa-2">
-        <v-flex
-          v-for="(todo, todoIndex) in todos"
-          :key="todo.id"
-          grow
-          xs6
-          class="pa-1"
-        >
-          <v-card>
-            <div class="py-1 pl-4 pr-2 d-flex align-center">
-              <v-simple-checkbox
-                :value="todo.checked"
-                @input="toggleChecked(todo)"
-                color="primary"
-              />
-              <v-text-field
-                v-model="todo.title"
-                flat
-                solo
-                hide-details
-                :placeholder="`Task ${todoIndex + 1}`"
-                :color="todo.important ? 'orange' : ''"
-              />
-              <v-btn icon @click="toggleActiveTodo(todo)">
-                <v-icon>
-                  {{ todo.expand ? "mdi-chevron-up" : "mdi-chevron-down" }}
-                </v-icon>
-              </v-btn>
-            </div>
-            <v-divider />
-            <v-expand-transition>
-              <div v-show="activeTodo && activeTodo.id == todo.id">
-                <v-textarea
-                  v-model="todo.body"
-                  placeholder="Description"
-                  no-resize
-                  hide-details
-                  class="px-2"
-                  flat
-                  solo
-                />
-                <v-divider />
-              </div>
-            </v-expand-transition>
-            <v-card-actions>
-              <v-spacer />
-              <v-tooltip bottom :open-delay="tooltipOpenDelay">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    :icon="!todo.dueDate"
-                    :text="todo.dueDate != null"
-                    @click="addDueDate(todo)"
-                    :color="todo.dueDate ? 'primary' : ''"
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <v-icon>mdi-calendar-outline</v-icon>
-                    <span v-if="todo.dueDate" class="ml-1">
-                      {{ formatDate(todo.dueDate) }}
-                    </span>
-                  </v-btn>
-                </template>
-                <span>Add due date</span>
-              </v-tooltip>
-              <v-tooltip bottom :open-delay="tooltipOpenDelay">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    icon
-                    @click="toggleImportant(todo)"
-                    :color="todo.important ? 'orange' : ''"
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <v-icon v-if="todo.important">mdi-alert-octagram</v-icon>
-                    <v-icon v-else>mdi-octagram-outline</v-icon>
-                  </v-btn>
-                </template>
-                <span>Important</span>
-              </v-tooltip>
-              <v-tooltip bottom :open-delay="tooltipOpenDelay">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    icon
-                    @click="removeTodo(todo)"
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <v-icon>mdi-delete-outline</v-icon>
-                  </v-btn>
-                </template>
-                <span>Delete task</span>
-              </v-tooltip>
-            </v-card-actions>
-          </v-card>
+        <v-flex v-for="todo in todos" :key="todo.id" grow xs6 class="pa-1">
+          <todo-card
+            :todo="todo"
+            @addDueDateClicked="addDueDate"
+            @removeTodoClicked="removeTodo"
+          />
         </v-flex>
-        <v-subheader v-if="!todos.length">
+        <v-subheader v-if="!todos.length" class="px-1">
           No tasks. Try to <a @click="addTodo()" class="ml-1">create one</a>
         </v-subheader>
       </v-layout>
@@ -110,12 +23,12 @@
       </template>
     </v-snackbar>
     <v-dialog v-model="showDueDateDialog" max-width="320">
-      <v-card v-if="activeTodo">
+      <v-card v-if="selectedTodo">
         <v-date-picker
           color="primary"
           full-width
           flat
-          :value="numberToCode(activeTodo.dueTime)"
+          :value="numberToCode(selectedTodo.dueTime)"
           @change="setDueDate($event)"
           class="rounded-0 todo-list__due-date-picker"
         />
@@ -139,7 +52,7 @@
         <v-divider />
         <v-card-actions class="pa-2">
           <v-btn
-            v-if="activeTodo.dueDate"
+            v-if="selectedTodo.dueDate"
             text
             @click="clearDueDate()"
             color="red"
@@ -164,18 +77,22 @@ import dateUtils from "@/utils/date";
 // interfaces
 import Todo from "@/interfaces/entities/todo";
 
+// components
+import TodoCard from "@/components/molecules/TodoCard/TodoCard.vue";
+
 // component
 @Component({
   name: "TodoList",
+  components: {
+    TodoCard,
+  },
 })
 export default class TodoList extends Vue {
-  activeTodo: Todo | null = null;
+  selectedTodo: Todo | null = null;
 
   showRemoveSnackbar = false;
   removeSnackbarTimeout = 3000;
   removeSnackbarTempTodo: Todo | null = null;
-
-  tooltipOpenDelay = 500;
 
   showDueDateDialog = false;
 
@@ -183,21 +100,6 @@ export default class TodoList extends Vue {
 
   get todos(): Todo[] {
     return this.$store.state.todos;
-  }
-
-  toggleChecked(todo: Todo) {
-    this.$store.dispatch("setChecked", {
-      todoId: todo.id,
-      checked: !todo.checked,
-    });
-  }
-
-  toggleActiveTodo(todo: Todo) {
-    if (this.activeTodo && todo.id == this.activeTodo.id) {
-      this.activeTodo = null;
-    } else {
-      this.activeTodo = todo;
-    }
   }
 
   removeTodo(todo: Todo) {
@@ -211,36 +113,29 @@ export default class TodoList extends Vue {
     this.addTodo(this.removeSnackbarTempTodo);
   }
 
-  toggleImportant(todo: Todo) {
-    this.$store.dispatch("setImportant", {
-      todoId: todo.id,
-      important: !todo.important,
-    });
-  }
-
   addDueDate(todo: Todo) {
-    this.activeTodo = todo;
+    this.selectedTodo = todo;
     this.showDueDateDialog = true;
   }
 
   isDueToDate(code: string): boolean {
-    if (this.activeTodo && this.activeTodo.dueDate) {
-      return code === dateUtils.numberToCode(this.activeTodo.dueDate);
+    if (this.selectedTodo && this.selectedTodo.dueDate) {
+      return code === dateUtils.numberToCode(this.selectedTodo.dueDate);
     } else {
       return false;
     }
   }
 
   numberToCode(): string {
-    if (this.activeTodo)
-      return dateUtils.numberToCode(this.activeTodo.dueDate, true);
+    if (this.selectedTodo)
+      return dateUtils.numberToCode(this.selectedTodo.dueDate, true);
     else return "";
   }
 
   setDueDate(code: string) {
-    if (this.activeTodo) {
+    if (this.selectedTodo) {
       this.$store.dispatch("setDueDate", {
-        todoId: this.activeTodo.id,
+        todoId: this.selectedTodo.id,
         dueDate: dateUtils.codeToNumber(code),
       });
       this.showDueDateDialog = false;
@@ -248,17 +143,13 @@ export default class TodoList extends Vue {
   }
 
   clearDueDate() {
-    if (this.activeTodo) {
+    if (this.selectedTodo) {
       this.$store.dispatch("setDueDate", {
-        todoId: this.activeTodo.id,
+        todoId: this.selectedTodo.id,
         dueDate: null,
       });
       this.showDueDateDialog = false;
     }
-  }
-
-  formatDate(date: number) {
-    return dateUtils.toDisplay(date);
   }
 
   addTodo(todo: Todo | null = null) {
