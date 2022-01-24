@@ -1,7 +1,7 @@
+import User from "@/interfaces/entities/user";
 import Todo from "@/interfaces/entities/todo";
 
-interface State {
+export default interface GlobalState {
+  user: User | null;
   todos: Todo[];
 }
-
-export default State;

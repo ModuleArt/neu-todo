@@ -1,16 +1,17 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { nanoid } from "nanoid";
 
 // interfaces
 import State from "@/store/state";
 import Todo from "@/interfaces/entities/todo";
 
-import { nanoid } from "nanoid";
-
 Vue.use(Vuex);
 
+// export
 export default new Vuex.Store<State>({
   state: {
+    user: null,
     todos: [],
   },
   actions: {
@@ -61,5 +62,4 @@ export default new Vuex.Store<State>({
     },
   },
   getters: {},
-  modules: {},
 });

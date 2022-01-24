@@ -1,7 +1,6 @@
 <template>
   <div class="header mb-16">
     <v-app-bar fixed>
-      <v-app-bar-nav-icon />
       <v-spacer />
       <v-text-field
         dense
@@ -10,7 +9,7 @@
         append-icon="mdi-magnify"
         solo
         placeholder="Search for task titles and descriptions"
-        class="ml-1 mr-10"
+        class="pl-14"
       />
       <v-spacer />
       <v-btn fab bottom right absolute color="primary" @click="addTodo">

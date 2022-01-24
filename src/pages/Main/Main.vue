@@ -1,10 +1,17 @@
 <template>
   <div class="main-page">
-    <Header />
-    <v-container class="py-12">
-      <h1 class="mb-4">Tasks</h1>
-      <TodoList />
-    </v-container>
+    <div class="d-flex">
+      <Sidebar />
+      <v-row>
+        <v-col>
+          <Header />
+          <v-container class="py-12">
+            <h1 class="mb-4">Tasks</h1>
+            <TodoList />
+          </v-container>
+        </v-col>
+      </v-row>
+    </div>
   </div>
 </template>
 
@@ -14,6 +21,7 @@ import { Vue, Component } from "@/utils/vue-imports";
 
 // componenets
 import Header from "@/components/organisms/Header/Header.vue";
+import Sidebar from "@/components/organisms/Sidebar/Sidebar.vue";
 import TodoList from "@/components/molecules/TodoList/TodoList.vue";
 
 // component
@@ -21,6 +29,7 @@ import TodoList from "@/components/molecules/TodoList/TodoList.vue";
   name: "MainPage",
   components: {
     Header,
+    Sidebar,
     TodoList,
   },
 })

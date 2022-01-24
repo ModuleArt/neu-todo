@@ -2,7 +2,13 @@
   <div class="todo-list">
     <div class="todo-list__todos d-flex">
       <v-layout wrap row class="pa-2">
-        <v-flex v-for="todo in todos" :key="todo.id" grow xs6 class="pa-1">
+        <v-flex
+          v-for="todo in todos"
+          :key="`todo--${todo.id}`"
+          grow
+          xs6
+          class="pa-1"
+        >
           <todo-card
             :todo="todo"
             @addDueDateClicked="addDueDate"
