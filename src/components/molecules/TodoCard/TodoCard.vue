@@ -100,15 +100,19 @@ import todosModule from "@/store/modules/todos";
   name: "TodoCard",
 })
 export default class TodoCard extends Vue {
+  // props
   @Prop() readonly todo!: Todo;
 
+  // data
   expanded = false;
   tooltipOpenDelay = 500;
 
+  // computed
   get formattedDate(): string {
     return dateUtils.toDisplay(this.todo.dueDate || 0);
   }
 
+  // methods
   toggleChecked() {
     todosModule.setChecked({
       todoId: this.todo.id,

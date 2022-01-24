@@ -30,6 +30,7 @@ import todosModule from "@/store/modules/todos";
   name: "Header",
 })
 export default class Header extends Vue {
+  // methods
   addTodo() {
     todosModule.addTodo();
   }

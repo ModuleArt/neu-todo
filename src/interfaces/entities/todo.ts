@@ -5,6 +5,7 @@ interface Todo {
   body: string;
   important: boolean;
   dueDate: number | null;
+  folder: string | null;
 }
 
 export default Todo;

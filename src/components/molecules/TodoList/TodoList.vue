@@ -1,9 +1,10 @@
 <template>
   <div class="todo-list">
+    <h1 class="mb-4">{{ currentFolder.title }}</h1>
     <div class="todo-list__todos d-flex">
       <v-layout wrap row class="pa-2">
         <v-flex
-          v-for="todo in todos"
+          v-for="todo in filteredTodos"
           :key="`todo--${todo.id}`"
           grow
           xs6
@@ -15,7 +16,7 @@
             @removeTodoClicked="removeTodo"
           />
         </v-flex>
-        <v-subheader v-if="!todos.length" class="px-1">
+        <v-subheader v-if="!filteredTodos.length" class="px-1">
           No tasks. Try to <a @click="addTodo()" class="ml-1">create one</a>
         </v-subheader>
       </v-layout>
@@ -81,14 +82,16 @@
 
 <script lang="ts">
 // utils
-import { Vue, Component, Prop } from "@/utils/vue-imports";
+import { Vue, Component } from "@/utils/vue-imports";
 import dateUtils from "@/utils/date";
 
 // interfaces
 import Todo from "@/interfaces/entities/todo";
+import Folder from "@/interfaces/entities/folder";
 
 // store modules
 import todosModule from "@/store/modules/todos";
+import foldersModule from "@/store/modules/folders";
 
 // components
 import TodoCard from "@/components/molecules/TodoCard/TodoCard.vue";
@@ -101,6 +104,7 @@ import TodoCard from "@/components/molecules/TodoCard/TodoCard.vue";
   },
 })
 export default class TodoList extends Vue {
+  // data
   selectedTodo: Todo | null = null;
 
   showRemoveSnackbar = false;
@@ -109,12 +113,34 @@ export default class TodoList extends Vue {
 
   showDueDateDialog = false;
 
-  @Prop({ default: "" }) readonly filter!: string;
-
-  get todos(): Todo[] {
-    return todosModule.todos;
+  // computed
+  get currentFolderId(): string {
+    return foldersModule.currentFolderId;
   }
 
+  get currentFolder(): Folder | undefined {
+    return foldersModule.folders.find(
+      (folder: Folder) => folder.id === this.currentFolderId
+    );
+  }
+
+  get filteredTodos(): Todo[] {
+    if (this.currentFolder) {
+      return todosModule.todos.filter((todo) => {
+        if (this.currentFolder) {
+          if (this.currentFolder.filter) {
+            return this.currentFolder.filter(todo);
+          } else {
+            return this.currentFolder.id === todo.folder;
+          }
+        }
+      });
+    } else {
+      return todosModule.todos;
+    }
+  }
+
+  // methods
   removeTodo(todo: Todo) {
     this.removeSnackbarTempTodo = todo;
     this.showRemoveSnackbar = true;

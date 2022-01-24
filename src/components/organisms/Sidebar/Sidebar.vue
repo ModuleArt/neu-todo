@@ -55,6 +55,7 @@ import foldersModule from "@/store/modules/folders";
   name: "Sidebar",
 })
 export default class Sidebar extends Vue {
+  // computed
   get folders(): Folder[] {
     return foldersModule.folders;
   }
@@ -69,6 +70,7 @@ export default class Sidebar extends Vue {
     );
   }
 
+  // methods
   selectedItemChanged(selectedItem: number) {
     foldersModule.setCurrentFolderId(this.folders[selectedItem].id);
   }

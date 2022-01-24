@@ -6,7 +6,6 @@
         <v-col>
           <Header />
           <v-container class="py-12">
-            <h1 class="mb-4">Tasks</h1>
             <TodoList />
           </v-container>
         </v-col>

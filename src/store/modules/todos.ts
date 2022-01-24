@@ -68,6 +68,7 @@ class TodosModule extends VuexModule {
         body: "",
         important: false,
         dueDate: null,
+        folder: null,
       };
     }
     this.mutationAddTodo(todo);

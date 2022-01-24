@@ -4,6 +4,9 @@ import store from "@/store";
 import { VuexModule, Module, Mutation, Action } from "vuex-class-modules";
 import Folder from "@/interfaces/entities/folder";
 
+// utils
+import dateUtils from "@/utils/date";
+
 @Module
 class FoldersModule extends VuexModule {
   //state
@@ -13,21 +16,25 @@ class FoldersModule extends VuexModule {
       id: "tasks",
       title: "Tasks",
       icon: "mdi-sticker-check-outline",
+      filter: () => true,
     },
     {
       id: "today",
       title: "Today",
       icon: "mdi-calendar-today",
+      filter: (todo) => dateUtils.numberToCode(todo.dueDate) === "today",
     },
     {
       id: "tomorrow",
       title: "Tomorrow",
       icon: "mdi-calendar-arrow-right",
+      filter: (todo) => dateUtils.numberToCode(todo.dueDate) === "tomorrow",
     },
     {
       id: "important",
       title: "Important",
       icon: "mdi-alert-octagram-outline",
+      filter: (todo) => todo.important,
     },
   ];
 
