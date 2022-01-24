@@ -5,6 +5,7 @@
     "dev": "vue-cli-service serve --port 8090",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "update": "npx @neutralinojs/neu update",
     "desktop": "npx @neutralinojs/neu build && npx @neutralinojs/neu run"
   },
   "dependencies": {

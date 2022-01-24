@@ -33,3 +33,5 @@ neutralino.js
 .storage
 *.log
 .tmp
+.temp
+/temp

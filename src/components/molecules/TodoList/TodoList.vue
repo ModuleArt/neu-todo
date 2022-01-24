@@ -20,7 +20,11 @@
         </v-subheader>
       </v-layout>
     </div>
-    <v-snackbar v-model="showRemoveSnackbar" :timeout="removeSnackbarTimeout">
+    <v-snackbar
+      v-model="showRemoveSnackbar"
+      :timeout="removeSnackbarTimeout"
+      class="pl-14"
+    >
       Task has been deleted
       <template v-slot:action="{ attrs }">
         <v-btn color="primary" text v-bind="attrs" @click="bringTodoBack()">
@@ -83,6 +87,9 @@ import dateUtils from "@/utils/date";
 // interfaces
 import Todo from "@/interfaces/entities/todo";
 
+// store modules
+import todosModule from "@/store/modules/todos";
+
 // components
 import TodoCard from "@/components/molecules/TodoCard/TodoCard.vue";
 
@@ -105,13 +112,13 @@ export default class TodoList extends Vue {
   @Prop({ default: "" }) readonly filter!: string;
 
   get todos(): Todo[] {
-    return this.$store.state.todos;
+    return todosModule.todos;
   }
 
   removeTodo(todo: Todo) {
     this.removeSnackbarTempTodo = todo;
     this.showRemoveSnackbar = true;
-    this.$store.dispatch("removeTodo", todo.id);
+    todosModule.removeTodo(todo.id);
   }
 
   bringTodoBack() {
@@ -140,7 +147,7 @@ export default class TodoList extends Vue {
 
   setDueDate(code: string) {
     if (this.selectedTodo) {
-      this.$store.dispatch("setDueDate", {
+      todosModule.setDueDate({
         todoId: this.selectedTodo.id,
         dueDate: dateUtils.codeToNumber(code),
       });
@@ -150,7 +157,7 @@ export default class TodoList extends Vue {
 
   clearDueDate() {
     if (this.selectedTodo) {
-      this.$store.dispatch("setDueDate", {
+      todosModule.setDueDate({
         todoId: this.selectedTodo.id,
         dueDate: null,
       });
@@ -159,8 +166,8 @@ export default class TodoList extends Vue {
   }
 
   addTodo(todo: Todo | null = null) {
-    if (todo) this.$store.dispatch("addTodo", todo);
-    else this.$store.dispatch("addTodo");
+    if (todo) todosModule.addTodo(todo);
+    else todosModule.addTodo();
   }
 }
 </script>

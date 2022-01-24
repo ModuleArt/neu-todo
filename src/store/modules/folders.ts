@@ -31,15 +31,17 @@ class FoldersModule extends VuexModule {
     },
   ];
 
+  // mutations
   @Mutation
-  mutationSetCurrentFolderId(currentFolderId: string) {
+  private mutationSetCurrentFolderId(currentFolderId: string) {
     this.currentFolderId = currentFolderId;
   }
 
+  // actions
   @Action
   setCurrentFolderId(currentFolderId: string) {
     this.mutationSetCurrentFolderId(currentFolderId);
   }
 }
 
-export const foldersModule = new FoldersModule({ store, name: "folders" });
+export default new FoldersModule({ store, name: "folders" });

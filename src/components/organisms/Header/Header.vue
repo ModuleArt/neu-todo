@@ -1,6 +1,6 @@
 <template>
   <div class="header mb-16">
-    <v-app-bar fixed>
+    <v-app-bar fixed class="pl-14">
       <v-spacer />
       <v-text-field
         dense
@@ -9,7 +9,6 @@
         append-icon="mdi-magnify"
         solo
         placeholder="Search for task titles and descriptions"
-        class="pl-14"
       />
       <v-spacer />
       <v-btn fab bottom right absolute color="primary" @click="addTodo">
@@ -23,13 +22,16 @@
 // utils
 import { Vue, Component } from "@/utils/vue-imports";
 
+// store modules
+import todosModule from "@/store/modules/todos";
+
 // component
 @Component({
   name: "Header",
 })
 export default class Header extends Vue {
   addTodo() {
-    this.$store.dispatch("addTodo");
+    todosModule.addTodo();
   }
 }
 </script>

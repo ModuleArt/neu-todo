@@ -22,6 +22,7 @@
           :value="selectedItem"
           color="primary"
           @change="selectedItemChanged($event)"
+          mandatory
         >
           <v-list-item
             v-for="folder in folders"
@@ -47,7 +48,7 @@ import { Vue, Component } from "@/utils/vue-imports";
 import Folder from "@/interfaces/entities/folder";
 
 // store modules
-import { foldersModule } from "@/store/modules/folders";
+import foldersModule from "@/store/modules/folders";
 
 // component
 @Component({

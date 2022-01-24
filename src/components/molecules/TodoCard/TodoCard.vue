@@ -92,6 +92,9 @@ import dateUtils from "@/utils/date";
 // interfaces
 import Todo from "@/interfaces/entities/todo";
 
+// store modules
+import todosModule from "@/store/modules/todos";
+
 // component
 @Component({
   name: "TodoCard",
@@ -107,7 +110,7 @@ export default class TodoCard extends Vue {
   }
 
   toggleChecked() {
-    this.$store.dispatch("setChecked", {
+    todosModule.setChecked({
       todoId: this.todo.id,
       checked: !this.todo.checked,
     });
@@ -122,7 +125,7 @@ export default class TodoCard extends Vue {
   }
 
   toggleImportant() {
-    this.$store.dispatch("setImportant", {
+    todosModule.setImportant({
       todoId: this.todo.id,
       important: !this.todo.important,
     });
