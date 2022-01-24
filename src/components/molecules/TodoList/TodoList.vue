@@ -17,7 +17,8 @@
           />
         </v-flex>
         <v-subheader v-if="!filteredTodos.length" class="px-1">
-          No tasks. Try to <a @click="addTodo()" class="ml-1">create one</a>
+          There are no tasks in this list. Try to
+          <a @click="addTodo()" class="ml-1">create one</a>
         </v-subheader>
       </v-layout>
     </div>
@@ -149,7 +150,7 @@ export default class TodoList extends Vue {
 
   bringTodoBack() {
     this.showRemoveSnackbar = false;
-    this.addTodo(this.removeSnackbarTempTodo);
+    if (this.removeSnackbarTempTodo) this.addTodo(this.removeSnackbarTempTodo);
   }
 
   addDueDate(todo: Todo) {
@@ -191,9 +192,9 @@ export default class TodoList extends Vue {
     }
   }
 
-  addTodo(todo: Todo | null = null) {
-    if (todo) todosModule.addTodo(todo);
-    else todosModule.addTodo();
+  addTodo(todo?: Todo) {
+    if (todo) todosModule.addTodo({ todo });
+    else todosModule.addTodo({ transform: this.currentFolder?.transform });
   }
 }
 </script>

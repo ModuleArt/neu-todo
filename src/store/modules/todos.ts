@@ -59,7 +59,7 @@ class TodosModule extends VuexModule {
 
   // actions
   @Action
-  addTodo(todo?: Todo) {
+  addTodo({ todo, transform }: { todo?: Todo; transform?(todo: Todo): Todo }) {
     if (!todo) {
       todo = {
         id: nanoid(),
@@ -70,6 +70,9 @@ class TodosModule extends VuexModule {
         dueDate: null,
         folder: null,
       };
+    }
+    if (transform) {
+      todo = transform(todo);
     }
     this.mutationAddTodo(todo);
   }
