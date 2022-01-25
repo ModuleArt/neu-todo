@@ -24,7 +24,7 @@
     "window": {
       "title": "NeuTodo",
       "width": 800,
-      "height": 500,
+      "height": 600,
       "minWidth": 400,
       "minHeight": 200,
       "fullScreen": false,

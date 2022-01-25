@@ -27,7 +27,11 @@
       :timeout="removeSnackbarTimeout"
       class="pl-14"
     >
-      Task has been deleted
+      Task
+      <span v-if="removeSnackbarTempTodo">
+        <b>{{ removeSnackbarTempTodo.title }}</b>
+      </span>
+      has been deleted
       <template v-slot:action="{ attrs }">
         <v-btn color="primary" text v-bind="attrs" @click="bringTodoBack()">
           Undo
@@ -150,7 +154,10 @@ export default class TodoList extends Vue {
 
   bringTodoBack() {
     this.showRemoveSnackbar = false;
-    if (this.removeSnackbarTempTodo) this.addTodo(this.removeSnackbarTempTodo);
+    if (this.removeSnackbarTempTodo) {
+      this.addTodo(this.removeSnackbarTempTodo);
+      this.removeSnackbarTempTodo = null;
+    }
   }
 
   addDueDate(todo: Todo) {

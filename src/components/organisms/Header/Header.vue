@@ -1,5 +1,5 @@
 <template>
-  <div class="header mb-16">
+  <div class="header pb-16">
     <v-app-bar fixed class="pl-14">
       <v-spacer />
       <v-text-field
@@ -35,6 +35,7 @@
 <script lang="ts">
 // utils
 import { Vue, Component } from "@/utils/vue-imports";
+import config from "@/config";
 
 // interfaces
 import Folder from "@/interfaces/entities/folder";
@@ -49,7 +50,7 @@ import foldersModule from "@/store/modules/folders";
 })
 export default class Header extends Vue {
   // data
-  tooltipOpenDelay = 500;
+  tooltipOpenDelay = config.delays.tooltipOpenDelay;
 
   // computed
   get currentFolder(): Folder | undefined {

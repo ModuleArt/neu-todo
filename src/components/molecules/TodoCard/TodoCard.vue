@@ -14,6 +14,7 @@
           hide-details
           placeholder="Task title"
           :color="todo.important ? 'orange' : ''"
+          :id="`task-title--${todo.id}`"
         />
         <v-btn icon @click="toggleExpandedTodo()">
           <v-icon>
@@ -88,6 +89,7 @@
 // utils
 import { Vue, Component, Prop } from "@/utils/vue-imports";
 import dateUtils from "@/utils/date";
+import config from "@/config";
 
 // interfaces
 import Todo from "@/interfaces/entities/todo";
@@ -105,11 +107,18 @@ export default class TodoCard extends Vue {
 
   // data
   expanded = false;
-  tooltipOpenDelay = 500;
+  tooltipOpenDelay = config.delays.tooltipOpenDelay;
 
   // computed
   get formattedDate(): string {
     return dateUtils.toDisplay(this.todo.dueDate || 0);
+  }
+
+  mounted() {
+    const titleInput = document.getElementById(
+      `task-title--${this.todo.id}`
+    ) as HTMLInputElement;
+    titleInput.focus();
   }
 
   // methods
