@@ -7,8 +7,7 @@ Simple cross-platform todo app, built on top of Typescript, Vue, Vuetify and Neu
 ##### 1. Install packages
 
 ```console
-yarn
-yarn update
+yarn && yarn update
 ```
 
 ##### 2. Develop

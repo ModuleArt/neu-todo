@@ -48,7 +48,7 @@ import { Vue, Component } from "@/utils/vue-imports";
 import Folder from "@/interfaces/entities/folder";
 
 // store modules
-import foldersModule from "@/store/modules/folders";
+import { foldersModule } from "@/store";
 
 // component
 @Component({

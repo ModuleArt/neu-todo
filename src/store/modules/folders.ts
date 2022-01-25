@@ -1,5 +1,3 @@
-import store from "@/store";
-
 // interfaces
 import { VuexModule, Module, Mutation, Action } from "vuex-class-modules";
 import Folder from "@/interfaces/entities/folder";
@@ -64,4 +62,4 @@ class FoldersModule extends VuexModule {
   }
 }
 
-export default new FoldersModule({ store, name: "folders" });
+export default FoldersModule;

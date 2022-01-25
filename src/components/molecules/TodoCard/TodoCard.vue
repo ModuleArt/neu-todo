@@ -15,6 +15,7 @@
           placeholder="Task title"
           :color="todo.important ? 'orange' : ''"
           :id="`task-title--${todo.id}`"
+          @blur="setTitle($event.target.value)"
         />
         <v-btn icon @click="toggleExpandedTodo()">
           <v-icon>
@@ -95,7 +96,7 @@ import config from "@/config";
 import Todo from "@/interfaces/entities/todo";
 
 // store modules
-import todosModule from "@/store/modules/todos";
+import { todosModule } from "@/store";
 
 // component
 @Component({
@@ -127,6 +128,7 @@ export default class TodoCard extends Vue {
       todoId: this.todo.id,
       checked: !this.todo.checked,
     });
+    todosModule.syncTodo(this.todo.id);
   }
 
   toggleExpandedTodo() {
@@ -146,6 +148,13 @@ export default class TodoCard extends Vue {
 
   removeTodo() {
     this.$emit("removeTodoClicked", this.todo);
+  }
+
+  setTitle(title: string) {
+    todosModule.setTitle({
+      todoId: this.todo.id,
+      title: title,
+    });
   }
 }
 </script>

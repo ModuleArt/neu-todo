@@ -95,8 +95,7 @@ import Todo from "@/interfaces/entities/todo";
 import Folder from "@/interfaces/entities/folder";
 
 // store modules
-import todosModule from "@/store/modules/todos";
-import foldersModule from "@/store/modules/folders";
+import { todosModule, foldersModule } from "@/store";
 
 // components
 import TodoCard from "@/components/molecules/TodoCard/TodoCard.vue";

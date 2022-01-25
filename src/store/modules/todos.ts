@@ -1,4 +1,4 @@
-import store from "@/store";
+import todosApi from "@/api/todos";
 import { nanoid } from "nanoid";
 
 // interfaces
@@ -57,6 +57,18 @@ class TodosModule extends VuexModule {
     if (todo) todo.dueDate = dueDate;
   }
 
+  @Mutation
+  private mutationSetTitle({
+    todoId,
+    title,
+  }: {
+    todoId: string;
+    title: string;
+  }) {
+    const todo = this.todos.find((todo) => todo.id === todoId);
+    if (todo) todo.title = title;
+  }
+
   // actions
   @Action
   addTodo({ todo, transform }: { todo?: Todo; transform?(todo: Todo): Todo }) {
@@ -69,6 +81,7 @@ class TodosModule extends VuexModule {
         important: false,
         dueDate: null,
         folder: null,
+        synced: false,
       };
     }
     if (transform) {
@@ -96,6 +109,20 @@ class TodosModule extends VuexModule {
   setDueDate({ todoId, dueDate }: { todoId: string; dueDate: number | null }) {
     this.mutationSetDueDate({ todoId, dueDate });
   }
+
+  @Action
+  setTitle({ todoId, title }: { todoId: string; title: string }) {
+    this.mutationSetTitle({ todoId, title });
+  }
+
+  @Action
+  async syncTodo(todoId: string) {
+    const todo = this.todos.find((todo) => todo.id === todoId);
+    if (todo) {
+      const response = await todosApi.addTodo(todo);
+      console.log(response);
+    }
+  }
 }
 
-export default new TodosModule({ store, name: "todos" });
+export default TodosModule;

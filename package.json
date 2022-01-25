@@ -9,6 +9,7 @@
     "desktop": "npx @neutralinojs/neu build && npx @neutralinojs/neu run"
   },
   "dependencies": {
+    "axios": "^0.25.0",
     "core-js": "3.6.5",
     "moment": "^2.29.1",
     "nanoid": "^3.2.0",
