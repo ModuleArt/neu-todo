@@ -18,7 +18,7 @@
             bottom
             right
             absolute
-            color="primary"
+            :color="currentFolder.id == 'important' ? 'orange' : 'primary'"
             @click="addTodo()"
             v-bind="attrs"
             v-on="on"

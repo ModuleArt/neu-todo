@@ -1,0 +1,15 @@
+.todo-card {
+  &__checkbox {
+    padding: 0 6px;
+
+    /deep/ .v-input--selection-controls__input {
+      margin: 0;
+    }
+  }
+
+  &__title-input {
+    /deep/ fieldset {
+      border-color: transparent;
+    }
+  }
+}

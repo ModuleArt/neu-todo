@@ -18,7 +18,15 @@
         </v-flex>
         <v-subheader v-if="!filteredTodos.length" class="px-1">
           There are no tasks in this list. Try to
-          <a @click="addTodo()" class="ml-1">create one</a>
+          <a
+            @click="addTodo()"
+            :class="{
+              'ml-1': true,
+              'orange--text': currentFolderId == 'important',
+            }"
+          >
+            create one
+          </a>
         </v-subheader>
       </v-layout>
     </div>

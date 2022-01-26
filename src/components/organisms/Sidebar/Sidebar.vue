@@ -20,7 +20,7 @@
       <v-list nav dense>
         <v-list-item-group
           :value="selectedItem"
-          color="primary"
+          :color="currentFolderId == 'important' ? 'orange' : 'primary'"
           @change="selectedItemChanged($event)"
           mandatory
         >

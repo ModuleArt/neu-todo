@@ -1,20 +1,24 @@
 <template>
   <div class="todo-card">
     <v-card>
-      <div class="py-1 pl-4 pr-2 d-flex align-center">
+      <div class="pa-2 d-flex align-center">
         <v-simple-checkbox
           :value="todo.checked"
           @input="toggleChecked()"
-          color="primary"
+          :color="todo.important ? 'orange' : 'primary'"
+          class="todo-card__checkbox"
         />
         <v-text-field
           v-model="todo.title"
           flat
           solo
           hide-details
+          dense
           placeholder="Task title"
+          outlined
           :color="todo.important ? 'orange' : ''"
           :id="`task-title--${todo.id}`"
+          class="todo-card__title-input mx-2"
           @blur="setTitle($event.target.value)"
         />
         <v-btn icon @click="toggleExpandedTodo()">
@@ -34,6 +38,7 @@
             class="px-2"
             flat
             solo
+            @blur="setBody($event.target.value)"
           />
           <v-divider />
         </div>
@@ -46,7 +51,6 @@
               :icon="!todo.dueDate"
               :text="todo.dueDate != null"
               @click="addDueDate()"
-              :color="todo.dueDate ? 'primary' : ''"
               v-bind="attrs"
               v-on="on"
             >
@@ -153,8 +157,19 @@ export default class TodoCard extends Vue {
   setTitle(title: string) {
     todosModule.setTitle({
       todoId: this.todo.id,
-      title: title,
+      title,
+    });
+  }
+
+  setBody(body: string) {
+    todosModule.setBody({
+      todoId: this.todo.id,
+      body,
     });
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "./TodoCard.scss";
+</style>

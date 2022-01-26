@@ -69,6 +69,12 @@ class TodosModule extends VuexModule {
     if (todo) todo.title = title;
   }
 
+  @Mutation
+  private mutationSetBody({ todoId, body }: { todoId: string; body: string }) {
+    const todo = this.todos.find((todo) => todo.id === todoId);
+    if (todo) todo.body = body;
+  }
+
   // actions
   @Action
   addTodo({ todo, transform }: { todo?: Todo; transform?(todo: Todo): Todo }) {
@@ -81,7 +87,6 @@ class TodosModule extends VuexModule {
         important: false,
         dueDate: null,
         folder: null,
-        synced: false,
       };
     }
     if (transform) {
@@ -113,6 +118,11 @@ class TodosModule extends VuexModule {
   @Action
   setTitle({ todoId, title }: { todoId: string; title: string }) {
     this.mutationSetTitle({ todoId, title });
+  }
+
+  @Action
+  setBody({ todoId, body }: { todoId: string; body: string }) {
+    this.mutationSetBody({ todoId, body });
   }
 
   @Action
