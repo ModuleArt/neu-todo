@@ -12,14 +12,6 @@
     "writeToLogFile": true
   },
   "nativeBlockList": [],
-  "globalVariables": {
-    "TEST1": "Hello",
-    "TEST2": [2, 4, 5],
-    "TEST3": {
-      "value1": 10,
-      "value2": {}
-    }
-  },
   "modes": {
     "window": {
       "title": "NeuTodo",
@@ -35,7 +27,7 @@
       "maximize": false,
       "hidden": false,
       "resizable": true,
-      "exitProcessOnClose": false
+      "exitProcessOnClose": true
     },
     "browser": {
       "globalVariables": {

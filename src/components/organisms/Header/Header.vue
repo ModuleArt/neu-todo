@@ -18,7 +18,7 @@
             bottom
             right
             absolute
-            :color="currentFolder.id == 'important' ? 'orange' : 'primary'"
+            :color="currentFolder.color || 'primary'"
             @click="addTodo()"
             v-bind="attrs"
             v-on="on"
@@ -52,10 +52,8 @@ export default class Header extends Vue {
   tooltipOpenDelay = config.delays.tooltipOpenDelay;
 
   // computed
-  get currentFolder(): Folder | undefined {
-    return foldersModule.folders.find(
-      (folder: Folder) => folder.id === foldersModule.currentFolderId
-    );
+  get currentFolder(): Folder {
+    return foldersModule.getCurrentFolder;
   }
 
   // methods

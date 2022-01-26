@@ -5,6 +5,8 @@ interface Folder {
   id: string;
   title: string;
   icon: string;
+  custom: boolean;
+  color?: string;
   filter?(todo: Todo): boolean;
   transform?(todo: Todo): Todo;
 }

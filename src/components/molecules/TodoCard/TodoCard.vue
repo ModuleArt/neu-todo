@@ -5,7 +5,7 @@
         <v-simple-checkbox
           :value="todo.checked"
           @input="toggleChecked()"
-          :color="todo.important ? 'orange' : 'primary'"
+          :color="(customTodoFolder && customTodoFolder.color) || 'primary'"
           class="todo-card__checkbox"
         />
         <v-text-field
@@ -16,7 +16,7 @@
           dense
           placeholder="Task title"
           outlined
-          :color="todo.important ? 'orange' : ''"
+          :color="(customTodoFolder && customTodoFolder.color) || 'primary'"
           :id="`task-title--${todo.id}`"
           class="todo-card__title-input mx-2"
           @blur="setTitle($event.target.value)"
@@ -45,6 +45,24 @@
       </v-expand-transition>
       <v-card-actions>
         <v-spacer />
+        <v-tooltip bottom :open-delay="tooltipOpenDelay">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              :color="customTodoFolder && customTodoFolder.color"
+              :icon="!customTodoFolder"
+              :text="customTodoFolder != null"
+              @click="chooseFolder()"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-folder-outline</v-icon>
+              <span v-if="customTodoFolder" class="ml-1">
+                {{ customTodoFolder.title }}
+              </span>
+            </v-btn>
+          </template>
+          <span>Choose folder</span>
+        </v-tooltip>
         <v-tooltip bottom :open-delay="tooltipOpenDelay">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -98,9 +116,10 @@ import config from "@/config";
 
 // interfaces
 import Todo from "@/interfaces/entities/todo";
+import Folder from "@/interfaces/entities/folder";
 
 // store modules
-import { todosModule } from "@/store";
+import { todosModule, foldersModule } from "@/store";
 
 // component
 @Component({
@@ -119,6 +138,15 @@ export default class TodoCard extends Vue {
     return dateUtils.toDisplay(this.todo.dueDate || 0);
   }
 
+  get customTodoFolder(): Folder | null {
+    return (
+      foldersModule.folders.find(
+        (folder: Folder) => folder.id === this.todo.customFolderId
+      ) || null
+    );
+  }
+
+  // lifecycle
   mounted() {
     const titleInput = document.getElementById(
       `task-title--${this.todo.id}`

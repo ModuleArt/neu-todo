@@ -22,7 +22,7 @@
             @click="addTodo()"
             :class="{
               'ml-1': true,
-              'orange--text': currentFolderId == 'important',
+              [`${currentFolder.color}--text`]: currentFolder.color,
             }"
           >
             create one
@@ -97,6 +97,7 @@
 // utils
 import { Vue, Component } from "@/utils/vue-imports";
 import dateUtils from "@/utils/date";
+import config from "@/config";
 
 // interfaces
 import Todo from "@/interfaces/entities/todo";
@@ -120,20 +121,14 @@ export default class TodoList extends Vue {
   selectedTodo: Todo | null = null;
 
   showRemoveSnackbar = false;
-  removeSnackbarTimeout = 3000;
+  removeSnackbarTimeout = config.delays.notificationDelay;
   removeSnackbarTempTodo: Todo | null = null;
 
   showDueDateDialog = false;
 
   // computed
-  get currentFolderId(): string {
-    return foldersModule.currentFolderId;
-  }
-
-  get currentFolder(): Folder | undefined {
-    return foldersModule.folders.find(
-      (folder: Folder) => folder.id === this.currentFolderId
-    );
+  get currentFolder(): Folder {
+    return foldersModule.getCurrentFolder;
   }
 
   get filteredTodos(): Todo[] {
@@ -143,7 +138,7 @@ export default class TodoList extends Vue {
           if (this.currentFolder.filter) {
             return this.currentFolder.filter(todo);
           } else {
-            return this.currentFolder.id === todo.folder;
+            return this.currentFolder.id === todo.customFolderId;
           }
         }
       });

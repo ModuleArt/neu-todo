@@ -16,16 +16,27 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-divider />
+      <v-divider class="mb-1" />
       <v-list nav dense>
         <v-list-item-group
           :value="selectedItem"
-          :color="currentFolderId == 'important' ? 'orange' : 'primary'"
+          :color="currentFolder.color || 'primary'"
           @change="selectedItemChanged($event)"
           mandatory
         >
           <v-list-item
-            v-for="folder in folders"
+            v-for="folder in systemFolders"
+            :key="`folder--${folder.id}`"
+            link
+          >
+            <v-list-item-icon>
+              <v-icon>{{ folder.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>{{ folder.title }}</v-list-item-title>
+          </v-list-item>
+          <v-divider v-if="customFolders.length" class="my-3" />
+          <v-list-item
+            v-for="folder in customFolders"
             :key="`folder--${folder.id}`"
             link
           >
@@ -60,13 +71,21 @@ export default class Sidebar extends Vue {
     return foldersModule.folders;
   }
 
-  get currentFolderId(): string {
-    return foldersModule.currentFolderId;
+  get systemFolders(): Folder[] {
+    return foldersModule.getSystemFolders;
+  }
+
+  get customFolders(): Folder[] {
+    return foldersModule.getCustomFolders;
+  }
+
+  get currentFolder(): Folder {
+    return foldersModule.getCurrentFolder;
   }
 
   get selectedItem(): number {
     return this.folders.findIndex(
-      (folder: Folder) => folder.id === this.currentFolderId
+      (folder: Folder) => folder.id === foldersModule.currentFolderId
     );
   }
 

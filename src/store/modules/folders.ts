@@ -14,6 +14,7 @@ class FoldersModule extends VuexModule {
       id: "tasks",
       title: "Tasks",
       icon: "mdi-sticker-check-outline",
+      custom: false,
       filter: () => true,
       transform: (todo) => todo,
     },
@@ -21,6 +22,7 @@ class FoldersModule extends VuexModule {
       id: "today",
       title: "Today",
       icon: "mdi-calendar-today",
+      custom: false,
       filter: (todo) => dateUtils.numberToCode(todo.dueDate) === "today",
       transform: (todo) => {
         todo.dueDate = dateUtils.codeToNumber("today");
@@ -31,6 +33,7 @@ class FoldersModule extends VuexModule {
       id: "tomorrow",
       title: "Tomorrow",
       icon: "mdi-calendar-arrow-right",
+      custom: false,
       filter: (todo) => dateUtils.numberToCode(todo.dueDate) === "tomorrow",
       transform: (todo) => {
         todo.dueDate = dateUtils.codeToNumber("tomorrow");
@@ -41,13 +44,68 @@ class FoldersModule extends VuexModule {
       id: "important",
       title: "Important",
       icon: "mdi-alert-octagram-outline",
+      color: "orange",
+      custom: false,
       filter: (todo) => todo.important,
       transform: (todo) => {
         todo.important = true;
         return todo;
       },
     },
+    {
+      id: "custom-yellow-folder",
+      title: "Yellow folder",
+      icon: "mdi-folder-outline",
+      color: "yellow",
+      custom: true,
+      filter: (todo) => todo.customFolderId === "custom-yellow-folder",
+      transform: (todo) => {
+        todo.customFolderId = "custom-yellow-folder";
+        return todo;
+      },
+    },
+    {
+      id: "custom-pink-folder",
+      title: "Pink folder",
+      icon: "mdi-folder-outline",
+      color: "pink",
+      custom: true,
+      filter: (todo) => todo.customFolderId === "custom-pink-folder",
+      transform: (todo) => {
+        todo.customFolderId = "custom-pink-folder";
+        return todo;
+      },
+    },
+    {
+      id: "custom-green-folder",
+      title: "Green folder",
+      icon: "mdi-folder-outline",
+      color: "green",
+      custom: true,
+      filter: (todo) => todo.customFolderId === "custom-green-folder",
+      transform: (todo) => {
+        todo.customFolderId = "custom-green-folder";
+        return todo;
+      },
+    },
   ];
+
+  // getters
+  get getCurrentFolder(): Folder {
+    return (
+      this.folders.find(
+        (folder: Folder) => folder.id === this.currentFolderId
+      ) || this.folders[0]
+    );
+  }
+
+  get getSystemFolders(): Folder[] {
+    return this.folders.filter((folder) => !folder.custom);
+  }
+
+  get getCustomFolders(): Folder[] {
+    return this.folders.filter((folder) => folder.custom);
+  }
 
   // mutations
   @Mutation
