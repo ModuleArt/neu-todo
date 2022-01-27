@@ -135,7 +135,11 @@ export default class TodoList extends Vue {
     if (this.currentFolder) {
       return todosModule.todos.filter((todo) => {
         if (this.currentFolder) {
-          return this.currentFolder.filter(todo);
+          if (this.currentFolder.filter) {
+            return this.currentFolder.filter(todo);
+          } else {
+            return this.currentFolder.id === todo.customFolderId;
+          }
         }
       });
     } else {
@@ -198,8 +202,14 @@ export default class TodoList extends Vue {
   }
 
   addTodo(todo?: Todo) {
-    if (todo) todosModule.addTodo({ todo });
-    else todosModule.addTodo({ transform: this.currentFolder?.transform });
+    if (todo) {
+      todosModule.addTodo({ todo });
+    } else if (this.currentFolder) {
+      todosModule.addTodo({
+        transform: this.currentFolder.transform,
+        customFolderId: this.currentFolder.id,
+      });
+    }
   }
 }
 </script>

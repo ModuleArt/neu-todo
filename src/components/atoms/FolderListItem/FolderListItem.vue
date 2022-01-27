@@ -1,5 +1,5 @@
 <template>
-  <v-list-item link @contextmenu="setFolderContextMenuOpened($event)">
+  <v-list-item link @contextmenu.prevent="setFolderContextMenuOpened($event)">
     <v-list-item-icon class="mr-4">
       <v-icon>{{ folder.icon }}</v-icon>
     </v-list-item-icon>
@@ -34,7 +34,15 @@ export default class FolderListItem extends Vue {
 
   // methods
   getFolderTodosCount(folder: Folder): number | string {
-    return todosModule.todos.filter((todo) => folder.filter(todo)).length || "";
+    return (
+      todosModule.todos.filter((todo) => {
+        if (folder.filter) {
+          return folder.filter(todo);
+        } else {
+          return folder.id === todo.customFolderId;
+        }
+      }).length || ""
+    );
   }
 
   setFolderContextMenuOpened(e: MouseEvent) {

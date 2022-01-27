@@ -58,7 +58,12 @@ export default class Header extends Vue {
 
   // methods
   addTodo() {
-    todosModule.addTodo({ transform: this.currentFolder?.transform });
+    if (this.currentFolder) {
+      todosModule.addTodo({
+        transform: this.currentFolder.transform,
+        customFolderId: this.currentFolder.id,
+      });
+    }
   }
 }
 </script>

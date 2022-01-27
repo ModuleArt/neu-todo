@@ -93,11 +93,6 @@ class FoldersModule extends VuexModule {
       icon: "mdi-folder-outline",
       color: "green",
       custom: true,
-      filter: (todo) => todo.customFolderId === id,
-      transform: (todo) => {
-        todo.customFolderId = id;
-        return todo;
-      },
     });
     this.currentFolderId = id;
   }

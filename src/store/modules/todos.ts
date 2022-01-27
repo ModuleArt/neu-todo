@@ -84,7 +84,15 @@ class TodosModule extends VuexModule {
 
   // actions
   @Action
-  addTodo({ todo, transform }: { todo?: Todo; transform?(todo: Todo): Todo }) {
+  addTodo({
+    todo,
+    transform,
+    customFolderId,
+  }: {
+    todo?: Todo;
+    transform?(todo: Todo): Todo;
+    customFolderId?: string;
+  }) {
     if (!todo) {
       todo = {
         id: nanoid(),
@@ -98,6 +106,8 @@ class TodosModule extends VuexModule {
     }
     if (transform) {
       todo = transform(todo);
+    } else if (customFolderId) {
+      todo.customFolderId = customFolderId;
     }
     this.mutationAddTodo(todo);
   }

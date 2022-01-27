@@ -133,7 +133,6 @@ export default class Sidebar extends Vue {
   }
 
   setFolderContextMenuOpened(e: MouseEvent, folder: Folder) {
-    e.preventDefault();
     this.folderWithContextMenu = folder;
     this.folderContextMenuX = e.clientX;
     this.folderContextMenuY = e.clientY;
