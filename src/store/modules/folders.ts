@@ -1,3 +1,5 @@
+import { nanoid } from "nanoid";
+
 // interfaces
 import { VuexModule, Module, Mutation, Action } from "vuex-class-modules";
 import Folder from "@/interfaces/entities/folder";
@@ -56,44 +58,7 @@ class FoldersModule extends VuexModule {
       },
     },
   ];
-  folders: Folder[] = [
-    // {
-    //   id: "custom-yellow-folder",
-    //   title: "Yellow folder",
-    //   icon: "mdi-folder-outline",
-    //   color: "yellow",
-    //   custom: true,
-    //   filter: (todo) => todo.customFolderId === "custom-yellow-folder",
-    //   transform: (todo) => {
-    //     todo.customFolderId = "custom-yellow-folder";
-    //     return todo;
-    //   },
-    // },
-    // {
-    //   id: "custom-pink-folder",
-    //   title: "Pink folder",
-    //   icon: "mdi-folder-outline",
-    //   color: "pink",
-    //   custom: true,
-    //   filter: (todo) => todo.customFolderId === "custom-pink-folder",
-    //   transform: (todo) => {
-    //     todo.customFolderId = "custom-pink-folder";
-    //     return todo;
-    //   },
-    // },
-    // {
-    //   id: "custom-green-folder",
-    //   title: "Green folder",
-    //   icon: "mdi-folder-outline",
-    //   color: "green",
-    //   custom: true,
-    //   filter: (todo) => todo.customFolderId === "custom-green-folder",
-    //   transform: (todo) => {
-    //     todo.customFolderId = "custom-green-folder";
-    //     return todo;
-    //   },
-    // },
-  ];
+  folders: Folder[] = [];
 
   // getters
   get getCurrentFolder(): Folder | null {
@@ -119,6 +84,31 @@ class FoldersModule extends VuexModule {
   }
 
   @Mutation
+  private mutationAddNewFolder() {
+    const id = nanoid();
+
+    this.folders.push({
+      id,
+      title: "Untitled folder",
+      icon: "mdi-folder-outline",
+      color: "green",
+      custom: true,
+      filter: (todo) => todo.customFolderId === id,
+      transform: (todo) => {
+        todo.customFolderId = id;
+        return todo;
+      },
+    });
+    this.currentFolderId = id;
+  }
+
+  @Mutation
+  private mutationRemoveFolder(folderId: string) {
+    this.currentFolderId = this.folders[0].id;
+    this.folders = this.folders.filter((folder) => folder.id !== folderId);
+  }
+
+  @Mutation
   private mutationInitState({ folders }: { folders: Folder[] }) {
     this.folders = this.defaultFolders;
     if (folders) {
@@ -132,6 +122,16 @@ class FoldersModule extends VuexModule {
   @Action
   setCurrentFolderId(currentFolderId: string) {
     this.mutationSetCurrentFolderId(currentFolderId);
+  }
+
+  @Action
+  addNewFolder() {
+    this.mutationAddNewFolder();
+  }
+
+  @Action
+  removeFolder(folderId: string) {
+    this.mutationRemoveFolder(folderId);
   }
 }
 
