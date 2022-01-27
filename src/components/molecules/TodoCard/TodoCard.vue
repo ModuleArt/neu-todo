@@ -148,10 +148,12 @@ export default class TodoCard extends Vue {
 
   // lifecycle
   mounted() {
-    const titleInput = document.getElementById(
-      `task-title--${this.todo.id}`
-    ) as HTMLInputElement;
-    titleInput.focus();
+    if (!this.todo.title) {
+      const titleInput = document.getElementById(
+        `task-title--${this.todo.id}`
+      ) as HTMLInputElement;
+      titleInput.focus();
+    }
   }
 
   // methods

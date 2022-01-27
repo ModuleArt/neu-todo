@@ -10,13 +10,13 @@
           xs6
           class="pa-1"
         >
-          <todo-card
+          <TodoCard
             :todo="todo"
             @addDueDateClicked="addDueDate"
             @removeTodoClicked="removeTodo"
           />
         </v-flex>
-        <v-subheader v-if="!filteredTodos.length" class="px-1">
+        <v-subheader v-if="!filteredTodos.length && currentFolder" class="px-1">
           There are no tasks in this list. Try to
           <a
             @click="addTodo()"
@@ -135,11 +135,7 @@ export default class TodoList extends Vue {
     if (this.currentFolder) {
       return todosModule.todos.filter((todo) => {
         if (this.currentFolder) {
-          if (this.currentFolder.filter) {
-            return this.currentFolder.filter(todo);
-          } else {
-            return this.currentFolder.id === todo.customFolderId;
-          }
+          return this.currentFolder.filter(todo);
         }
       });
     } else {

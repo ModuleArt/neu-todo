@@ -24,27 +24,17 @@
           @change="selectedItemChanged($event)"
           mandatory
         >
-          <v-list-item
+          <FolderListItem
             v-for="folder in systemFolders"
             :key="`folder--${folder.id}`"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon>{{ folder.icon }}</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>{{ folder.title }}</v-list-item-title>
-          </v-list-item>
+            :folder="folder"
+          />
           <v-divider v-if="customFolders.length" class="my-3" />
-          <v-list-item
+          <FolderListItem
             v-for="folder in customFolders"
             :key="`folder--${folder.id}`"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon>{{ folder.icon }}</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>{{ folder.title }}</v-list-item-title>
-          </v-list-item>
+            :folder="folder"
+          />
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -61,9 +51,13 @@ import Folder from "@/interfaces/entities/folder";
 // store modules
 import { foldersModule } from "@/store";
 
+// components
+import FolderListItem from "@/components/atoms/FolderListItem/FolderListItem.vue";
+
 // component
 @Component({
   name: "Sidebar",
+  components: { FolderListItem },
 })
 export default class Sidebar extends Vue {
   // computed

@@ -13,7 +13,7 @@ class TodosModule extends VuexModule {
   // mutations
   @Mutation
   private mutationAddTodo(todo: Todo) {
-    this.todos.push(todo);
+    this.todos.unshift(todo);
   }
 
   @Mutation
@@ -77,7 +77,9 @@ class TodosModule extends VuexModule {
 
   @Mutation
   private mutationInitState({ todos }: { todos: Todo[] }) {
-    this.todos = todos;
+    if (todos) {
+      this.todos = todos;
+    }
   }
 
   // actions

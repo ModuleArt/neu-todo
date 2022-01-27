@@ -25,11 +25,15 @@ const store = new Vuex.Store({
   actions: {
     initStore(context) {
       const s = localStorage.getItem("store");
+      let parsed: State | null = null;
       if (s) {
-        const parsed: State = JSON.parse(s);
-        context.commit("todos/mutationInitState", parsed.todos);
-        // context.commit("folders/mutationInitState", parsed.folders);
+        parsed = JSON.parse(s);
       }
+      context.commit("todos/mutationInitState", (parsed && parsed.todos) || {});
+      context.commit(
+        "folders/mutationInitState",
+        (parsed && parsed.folders) || {}
+      );
     },
   },
 });
