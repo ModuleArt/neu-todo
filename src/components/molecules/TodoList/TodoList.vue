@@ -1,6 +1,6 @@
 <template>
   <div class="todo-list">
-    <h1 class="mb-4">{{ currentFolder.title }}</h1>
+    <h1 class="mb-4">{{ currentFolder && currentFolder.title }}</h1>
     <div class="todo-list__todos d-flex">
       <v-layout wrap row class="pa-2">
         <v-flex
@@ -127,7 +127,7 @@ export default class TodoList extends Vue {
   showDueDateDialog = false;
 
   // computed
-  get currentFolder(): Folder {
+  get currentFolder(): Folder | null {
     return foldersModule.getCurrentFolder;
   }
 

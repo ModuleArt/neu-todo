@@ -75,6 +75,11 @@ class TodosModule extends VuexModule {
     if (todo) todo.body = body;
   }
 
+  @Mutation
+  private mutationInitState({ todos }: { todos: Todo[] }) {
+    this.todos = todos;
+  }
+
   // actions
   @Action
   addTodo({ todo, transform }: { todo?: Todo; transform?(todo: Todo): Todo }) {

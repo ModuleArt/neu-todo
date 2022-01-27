@@ -20,7 +20,7 @@
       <v-list nav dense>
         <v-list-item-group
           :value="selectedItem"
-          :color="currentFolder.color || 'primary'"
+          :color="(currentFolder && currentFolder.color) || 'primary'"
           @change="selectedItemChanged($event)"
           mandatory
         >
@@ -72,14 +72,14 @@ export default class Sidebar extends Vue {
   }
 
   get systemFolders(): Folder[] {
-    return foldersModule.getSystemFolders;
+    return foldersModule.getSystemFolders || [];
   }
 
   get customFolders(): Folder[] {
-    return foldersModule.getCustomFolders;
+    return foldersModule.getCustomFolders || [];
   }
 
-  get currentFolder(): Folder {
+  get currentFolder(): Folder | null {
     return foldersModule.getCurrentFolder;
   }
 

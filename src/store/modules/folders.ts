@@ -15,8 +15,11 @@ class FoldersModule extends VuexModule {
       title: "Tasks",
       icon: "mdi-sticker-check-outline",
       custom: false,
-      filter: () => true,
-      transform: (todo) => todo,
+      filter: (todo) => !todo.customFolderId,
+      transform: (todo) => {
+        todo.customFolderId = null;
+        return todo;
+      },
     },
     {
       id: "today",
@@ -91,11 +94,11 @@ class FoldersModule extends VuexModule {
   ];
 
   // getters
-  get getCurrentFolder(): Folder {
+  get getCurrentFolder(): Folder | null {
     return (
       this.folders.find(
         (folder: Folder) => folder.id === this.currentFolderId
-      ) || this.folders[0]
+      ) || null
     );
   }
 
