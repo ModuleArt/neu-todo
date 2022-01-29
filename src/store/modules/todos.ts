@@ -76,6 +76,18 @@ class TodosModule extends VuexModule {
   }
 
   @Mutation
+  private mutationSetCustomFolderId({
+    todoId,
+    customFolderId,
+  }: {
+    todoId: string;
+    customFolderId: string | null;
+  }) {
+    const todo = this.todos.find((todo) => todo.id === todoId);
+    if (todo) todo.customFolderId = customFolderId;
+  }
+
+  @Mutation
   private mutationInitState({ todos }: { todos: Todo[] }) {
     if (todos) {
       this.todos = todos;
@@ -140,6 +152,17 @@ class TodosModule extends VuexModule {
   @Action
   setBody({ todoId, body }: { todoId: string; body: string }) {
     this.mutationSetBody({ todoId, body });
+  }
+
+  @Action
+  setCustomFolderId({
+    todoId,
+    customFolderId,
+  }: {
+    todoId: string;
+    customFolderId: string | null;
+  }) {
+    this.mutationSetCustomFolderId({ todoId, customFolderId });
   }
 
   @Action

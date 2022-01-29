@@ -66,9 +66,9 @@
       <v-list dense>
         <v-list-item link @click="removeFolder()">
           <v-list-item-icon class="mr-4">
-            <v-icon>mdi-delete-outline</v-icon>
+            <v-icon color="red">mdi-delete-outline</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>Delete folder</v-list-item-title>
+          <v-list-item-title class="red--text">Delete folder</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>

@@ -56,12 +56,13 @@
           @change="setDueDate($event)"
           class="rounded-0 todo-list__due-date-picker"
         />
-        <div class="pa-2">
+        <v-divider />
+        <div class="pa-2 d-flex justify-space-between">
           <v-btn
             depressed
-            class="mr-2"
             :color="isDueToDate('today') ? 'primary' : ''"
             @click="setDueDate('today')"
+            width="calc(50% - 4px)"
           >
             Today
           </v-btn>
@@ -69,6 +70,7 @@
             depressed
             :color="isDueToDate('tomorrow') ? 'primary' : ''"
             @click="setDueDate('tomorrow')"
+            width="calc(50% - 4px)"
           >
             Tomorrow
           </v-btn>
