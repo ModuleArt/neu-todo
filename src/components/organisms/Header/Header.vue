@@ -49,7 +49,7 @@ import { todosModule, foldersModule } from "@/store";
 })
 export default class Header extends Vue {
   // data
-  tooltipOpenDelay = config.delays.tooltipOpenDelay;
+  private tooltipOpenDelay = config.delays.tooltipOpenDelay;
 
   // computed
   get currentFolder(): Folder | null {
@@ -57,7 +57,7 @@ export default class Header extends Vue {
   }
 
   // methods
-  addTodo() {
+  private addTodo() {
     if (this.currentFolder) {
       todosModule.addTodo({
         transform: this.currentFolder.transform,

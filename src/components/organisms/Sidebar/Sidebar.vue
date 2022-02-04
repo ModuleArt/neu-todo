@@ -64,6 +64,13 @@
       offset-y
     >
       <v-list dense>
+        <v-list-item link @click="editFolder()">
+          <v-list-item-icon class="mr-4">
+            <v-icon>mdi-pencil-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Edit folder</v-list-item-title>
+        </v-list-item>
+        <v-divider class="my-2" />
         <v-list-item link @click="removeFolder()">
           <v-list-item-icon class="mr-4">
             <v-icon color="red">mdi-delete-outline</v-icon>
@@ -95,10 +102,10 @@ import FolderListItem from "@/components/atoms/FolderListItem/FolderListItem.vue
 })
 export default class Sidebar extends Vue {
   // data
-  showFolderContextMenu = false;
-  folderContextMenuX = 0;
-  folderContextMenuY = 0;
-  folderWithContextMenu: Folder | null = null;
+  private showFolderContextMenu = false;
+  private folderContextMenuX = 0;
+  private folderContextMenuY = 0;
+  private folderWithContextMenu: Folder | null = null;
 
   // computed
   get folders(): Folder[] {
@@ -123,26 +130,30 @@ export default class Sidebar extends Vue {
     );
   }
 
-  // methods
-  selectedItemChanged(selectedItem: number) {
+  // private methods
+  private selectedItemChanged(selectedItem: number) {
     foldersModule.setCurrentFolderId(this.folders[selectedItem].id);
   }
 
-  addNewFolder() {
+  private addNewFolder() {
     foldersModule.addNewFolder();
   }
 
-  setFolderContextMenuOpened(e: MouseEvent, folder: Folder) {
+  private setFolderContextMenuOpened(e: MouseEvent, folder: Folder) {
     this.folderWithContextMenu = folder;
     this.folderContextMenuX = e.clientX;
     this.folderContextMenuY = e.clientY;
     this.showFolderContextMenu = true;
   }
 
-  removeFolder() {
+  private removeFolder() {
     if (this.folderWithContextMenu) {
       foldersModule.removeFolder(this.folderWithContextMenu.id);
     }
+  }
+
+  private editFolder() {
+    console.log("editFolder");
   }
 }
 </script>

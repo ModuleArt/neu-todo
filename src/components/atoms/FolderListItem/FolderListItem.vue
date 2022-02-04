@@ -32,8 +32,8 @@ export default class FolderListItem extends Vue {
   // props
   @Prop() readonly folder!: Folder;
 
-  // methods
-  getFolderTodosCount(folder: Folder): number | string {
+  // private methods
+  private getFolderTodosCount(folder: Folder): number | string {
     return (
       todosModule.todos.filter((todo) => {
         if (folder.filter) {
@@ -45,7 +45,7 @@ export default class FolderListItem extends Vue {
     );
   }
 
-  setFolderContextMenuOpened(e: MouseEvent) {
+  private setFolderContextMenuOpened(e: MouseEvent) {
     this.$emit("contextmenu", e);
   }
 }

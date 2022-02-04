@@ -158,8 +158,8 @@ export default class TodoCard extends Vue {
   @Prop() readonly todo!: Todo;
 
   // data
-  expanded = false;
-  tooltipOpenDelay = config.delays.tooltipOpenDelay;
+  private expanded = false;
+  private tooltipOpenDelay = config.delays.tooltipOpenDelay;
 
   // computed
   get formattedDate(): string {
@@ -195,8 +195,8 @@ export default class TodoCard extends Vue {
     }
   }
 
-  // methods
-  toggleChecked() {
+  // private methods
+  private toggleChecked() {
     todosModule.setChecked({
       todoId: this.todo.id,
       checked: !this.todo.checked,
@@ -204,40 +204,40 @@ export default class TodoCard extends Vue {
     todosModule.syncTodo(this.todo.id);
   }
 
-  toggleExpandedTodo() {
+  private toggleExpandedTodo() {
     this.expanded = !this.expanded;
   }
 
-  addDueDate() {
+  private addDueDate() {
     this.$emit("addDueDateClicked", this.todo);
   }
 
-  toggleImportant() {
+  private toggleImportant() {
     todosModule.setImportant({
       todoId: this.todo.id,
       important: !this.todo.important,
     });
   }
 
-  removeTodo() {
+  private removeTodo() {
     this.$emit("removeTodoClicked", this.todo);
   }
 
-  setTitle(title: string) {
+  private setTitle(title: string) {
     todosModule.setTitle({
       todoId: this.todo.id,
       title,
     });
   }
 
-  setBody(body: string) {
+  private setBody(body: string) {
     todosModule.setBody({
       todoId: this.todo.id,
       body,
     });
   }
 
-  setCustomFolderId(customFolderId: string | null) {
+  private setCustomFolderId(customFolderId: string | null) {
     todosModule.setCustomFolderId({
       todoId: this.todo.id,
       customFolderId,
