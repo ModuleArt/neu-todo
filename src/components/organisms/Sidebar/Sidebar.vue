@@ -79,6 +79,7 @@
         </v-list-item>
       </v-list>
     </v-menu>
+    <EditFolderDialog ref="editFolderDialog" />
   </div>
 </template>
 
@@ -94,13 +95,19 @@ import { foldersModule } from "@/store";
 
 // components
 import FolderListItem from "@/components/atoms/FolderListItem/FolderListItem.vue";
+import EditFolderDialog from "@/components/dialogs/EditFolderDialog/EditFolderDialog.vue";
 
 // component
 @Component({
   name: "Sidebar",
-  components: { FolderListItem },
+  components: { FolderListItem, EditFolderDialog },
 })
 export default class Sidebar extends Vue {
+  // refs
+  public $refs!: {
+    editFolderDialog: EditFolderDialog;
+  };
+
   // data
   private showFolderContextMenu = false;
   private folderContextMenuX = 0;
@@ -153,7 +160,10 @@ export default class Sidebar extends Vue {
   }
 
   private editFolder() {
-    console.log("editFolder");
+    this.$refs.editFolderDialog.setDialogOpened(
+      true,
+      this.folderWithContextMenu
+    );
   }
 }
 </script>

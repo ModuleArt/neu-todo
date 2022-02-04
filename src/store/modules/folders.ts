@@ -113,6 +113,18 @@ class FoldersModule extends VuexModule {
     }
   }
 
+  @Mutation
+  private mutationSetTitle({
+    folderId,
+    title,
+  }: {
+    folderId: string;
+    title: string;
+  }) {
+    const folder = this.folders.find((folder) => folder.id === folderId);
+    if (folder) folder.title = title;
+  }
+
   // actions
   @Action
   setCurrentFolderId(currentFolderId: string) {
@@ -127,6 +139,11 @@ class FoldersModule extends VuexModule {
   @Action
   removeFolder(folderId: string) {
     this.mutationRemoveFolder(folderId);
+  }
+
+  @Action
+  setFolderTitle({ folderId, title }: { folderId: string; title: string }) {
+    this.mutationSetTitle({ folderId, title });
   }
 }
 
