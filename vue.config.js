@@ -5,7 +5,7 @@ const MomentLocalesPlugin = require("moment-locales-webpack-plugin"); // for mom
 const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
 
 module.exports = {
-  publicPath: "/",
+  publicPath: "/neu-todo/",
   runtimeCompiler: true,
   productionSourceMap: process.env.NODE_ENV !== "production",
   crossorigin: "use-credentials",

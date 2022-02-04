@@ -10,8 +10,7 @@
           @change="setDueDate($event)"
           class="rounded-0 due-date-dialog__due-date-picker"
         />
-        <v-divider />
-        <div class="pa-2 d-flex justify-space-between">
+        <div class="pa-2 pt-0 d-flex justify-space-between">
           <v-btn
             depressed
             :color="isDueToDate('today') ? 'primary' : ''"

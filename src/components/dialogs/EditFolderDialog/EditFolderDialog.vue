@@ -4,7 +4,7 @@
       <v-card v-if="folder">
         <v-card-title class="pa-4">Edit folder</v-card-title>
         <v-divider />
-        <div class="px-4 py-8">
+        <div class="px-4 py-6">
           <v-text-field
             v-model="folderTitle"
             label="Folder title"
@@ -45,8 +45,7 @@
             </v-btn>
           </v-card>
         </div>
-        <v-divider />
-        <v-card-actions class="pa-2">
+        <v-card-actions class="pa-2 pt-0">
           <v-spacer />
           <v-btn text @click="apply()" :color="folderColor">
             Apply
@@ -109,9 +108,21 @@ export default class EditFolderDialog extends Vue {
     "mdi-credit-card-outline",
     "mdi-xml",
     "mdi-hammer-wrench",
-    "mdi-chat-processing-outline",
+    "mdi-comment-text-outline",
     "mdi-heart-outline",
     "mdi-robot-outline",
+    "mdi-airplane",
+    "mdi-package-variant-closed",
+    "mdi-earth",
+    "mdi-brain",
+    "mdi-cart-outline",
+    "mdi-fire",
+    "mdi-car",
+    "mdi-account-outline",
+    "mdi-alien-outline",
+    "mdi-briefcase-outline",
+    "mdi-cookie-outline",
+    "mdi-calendar-star",
   ];
 
   private folder: Folder | null = null;
