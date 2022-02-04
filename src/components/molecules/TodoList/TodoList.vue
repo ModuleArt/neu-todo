@@ -8,6 +8,7 @@
           :key="`todo--${todo.id}`"
           grow
           xs6
+          shrink
           class="pa-1"
         >
           <TodoCard

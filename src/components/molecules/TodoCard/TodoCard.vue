@@ -59,7 +59,10 @@
                     : "mdi-folder-outline"
                 }}
               </v-icon>
-              <span v-if="customTodoFolder" class="ml-2">
+              <span
+                v-if="customTodoFolder"
+                class="ml-2 todo-card__folder-title"
+              >
                 {{ customTodoFolder.title }}
               </span>
             </v-btn>

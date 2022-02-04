@@ -12,4 +12,10 @@
       border-color: transparent;
     }
   }
+
+  &__folder-title {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
