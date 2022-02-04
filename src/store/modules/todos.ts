@@ -8,9 +8,9 @@ import Todo from "@/interfaces/entities/todo";
 @Module
 class TodosModule extends VuexModule {
   //state
-  todos: Todo[] = [];
+  public todos: Todo[] = [];
 
-  // mutations
+  // private mutations
   @Mutation
   private mutationAddTodo(todo: Todo) {
     this.todos.unshift(todo);
@@ -88,15 +88,20 @@ class TodosModule extends VuexModule {
   }
 
   @Mutation
+  private mutationRemoveTodosByCustomFolderId(folderId: string) {
+    this.todos = this.todos.filter((todo) => todo.customFolderId != folderId);
+  }
+
+  @Mutation
   private mutationInitState({ todos }: { todos: Todo[] }) {
     if (todos) {
       this.todos = todos;
     }
   }
 
-  // actions
+  // public actions
   @Action
-  addTodo({
+  public addTodo({
     todo,
     transform,
     customFolderId,
@@ -125,37 +130,49 @@ class TodosModule extends VuexModule {
   }
 
   @Action
-  removeTodo(todoId: string) {
+  public removeTodo(todoId: string) {
     this.mutationRemoveTodo(todoId);
   }
 
   @Action
-  setChecked({ todoId, checked }: { todoId: string; checked: boolean }) {
+  public setChecked({ todoId, checked }: { todoId: string; checked: boolean }) {
     this.mutationSetChecked({ todoId, checked });
   }
 
   @Action
-  setImportant({ todoId, important }: { todoId: string; important: boolean }) {
+  public setImportant({
+    todoId,
+    important,
+  }: {
+    todoId: string;
+    important: boolean;
+  }) {
     this.mutationSetImportant({ todoId, important });
   }
 
   @Action
-  setDueDate({ todoId, dueDate }: { todoId: string; dueDate: number | null }) {
+  public setDueDate({
+    todoId,
+    dueDate,
+  }: {
+    todoId: string;
+    dueDate: number | null;
+  }) {
     this.mutationSetDueDate({ todoId, dueDate });
   }
 
   @Action
-  setTitle({ todoId, title }: { todoId: string; title: string }) {
+  public setTitle({ todoId, title }: { todoId: string; title: string }) {
     this.mutationSetTitle({ todoId, title });
   }
 
   @Action
-  setBody({ todoId, body }: { todoId: string; body: string }) {
+  public setBody({ todoId, body }: { todoId: string; body: string }) {
     this.mutationSetBody({ todoId, body });
   }
 
   @Action
-  setCustomFolderId({
+  public setCustomFolderId({
     todoId,
     customFolderId,
   }: {
@@ -166,7 +183,12 @@ class TodosModule extends VuexModule {
   }
 
   @Action
-  async syncTodo(todoId: string) {
+  public removeTodosByCustomFolderId(folderId: string) {
+    this.mutationRemoveTodosByCustomFolderId(folderId);
+  }
+
+  @Action
+  public async syncTodo(todoId: string) {
     const todo = this.todos.find((todo) => todo.id === todoId);
     if (todo) {
       const response = await todosApi.addTodo(todo);

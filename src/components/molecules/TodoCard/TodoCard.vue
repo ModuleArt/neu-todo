@@ -54,7 +54,7 @@
               :text="customTodoFolder != null"
             >
               <v-icon>mdi-folder-outline</v-icon>
-              <span v-if="customTodoFolder" class="ml-1">
+              <span v-if="customTodoFolder" class="ml-2">
                 {{ customTodoFolder.title }}
               </span>
             </v-btn>
@@ -113,7 +113,7 @@
             <v-btn
               icon
               @click="toggleImportant()"
-              :color="todo.important ? 'orange' : ''"
+              :color="todo.important ? 'deep-orange' : ''"
               v-bind="attrs"
               v-on="on"
             >
@@ -203,7 +203,6 @@ export default class TodoCard extends Vue {
       todoId: this.todo.id,
       checked: !this.todo.checked,
     });
-    todosModule.syncTodo(this.todo.id);
   }
 
   private toggleExpandedTodo() {

@@ -10,8 +10,9 @@ import dateUtils from "@/utils/date";
 @Module
 class FoldersModule extends VuexModule {
   //state
-  currentFolderId = "today";
-  defaultFolders: Folder[] = [
+  public currentFolderId = "today";
+  public folders: Folder[] = [];
+  private defaultFolders: Folder[] = [
     {
       id: "tasks",
       title: "Tasks",
@@ -49,7 +50,7 @@ class FoldersModule extends VuexModule {
       id: "important",
       title: "Important",
       icon: "mdi-alert-octagram-outline",
-      color: "orange",
+      color: "deep-orange",
       custom: false,
       filter: (todo) => todo.important,
       transform: (todo) => {
@@ -58,7 +59,6 @@ class FoldersModule extends VuexModule {
       },
     },
   ];
-  folders: Folder[] = [];
 
   // getters
   get getCurrentFolder(): Folder | null {
@@ -77,7 +77,7 @@ class FoldersModule extends VuexModule {
     return this.folders.filter((folder) => folder.custom);
   }
 
-  // mutations
+  // private mutations
   @Mutation
   private mutationSetCurrentFolderId(currentFolderId: string) {
     this.currentFolderId = currentFolderId;
@@ -91,7 +91,7 @@ class FoldersModule extends VuexModule {
       id,
       title: "Untitled folder",
       icon: "mdi-folder-outline",
-      color: "green",
+      color: "primary",
       custom: true,
     });
     this.currentFolderId = id;
@@ -108,15 +108,18 @@ class FoldersModule extends VuexModule {
     folderId,
     title,
     color,
+    icon,
   }: {
     folderId: string;
     title: string;
     color: string;
+    icon: string;
   }) {
     const folder = this.folders.find((folder) => folder.id === folderId);
     if (folder) {
       folder.title = title;
       folder.color = color;
+      folder.icon = icon;
     }
   }
 
@@ -130,33 +133,35 @@ class FoldersModule extends VuexModule {
     }
   }
 
-  // actions
+  // public actions
   @Action
-  setCurrentFolderId(currentFolderId: string) {
+  public setCurrentFolderId(currentFolderId: string) {
     this.mutationSetCurrentFolderId(currentFolderId);
   }
 
   @Action
-  addNewFolder() {
+  public addNewFolder() {
     this.mutationAddNewFolder();
   }
 
   @Action
-  removeFolder(folderId: string) {
+  public removeFolder(folderId: string) {
     this.mutationRemoveFolder(folderId);
   }
 
   @Action
-  editFolder({
+  public editFolder({
     folderId,
     title,
     color,
+    icon,
   }: {
     folderId: string;
     title: string;
     color: string;
+    icon: string;
   }) {
-    this.mutationEditFolder({ folderId, title, color });
+    this.mutationEditFolder({ folderId, title, color, icon });
   }
 }
 

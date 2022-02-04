@@ -6,8 +6,8 @@
       :expand-on-hover="!showFolderContextMenu"
     >
       <v-list>
-        <v-list-item class="px-2">
-          <v-list-item-avatar class="my-0">
+        <v-list-item class="px-3">
+          <v-list-item-avatar class="my-0" size="32">
             <v-img
               src="https://avatars.githubusercontent.com/u/46830450?s=40"
             />
@@ -91,7 +91,7 @@ import { Vue, Component } from "@/utils/vue-imports";
 import Folder from "@/interfaces/entities/folder";
 
 // store modules
-import { foldersModule } from "@/store";
+import { foldersModule, todosModule } from "@/store";
 
 // components
 import FolderListItem from "@/components/atoms/FolderListItem/FolderListItem.vue";
@@ -155,6 +155,7 @@ export default class Sidebar extends Vue {
 
   private removeFolder() {
     if (this.folderWithContextMenu) {
+      todosModule.removeTodosByCustomFolderId(this.folderWithContextMenu.id);
       foldersModule.removeFolder(this.folderWithContextMenu.id);
     }
   }
