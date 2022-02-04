@@ -17,7 +17,7 @@
           placeholder="Task title"
           outlined
           :color="(customTodoFolder && customTodoFolder.color) || 'primary'"
-          :id="`task-title--${todo.id}`"
+          ref="taskTitleInput"
           class="todo-card__title-input mx-2"
           @blur="setTitle($event.target.value)"
         />
@@ -154,6 +154,11 @@ import { todosModule, foldersModule } from "@/store";
   name: "TodoCard",
 })
 export default class TodoCard extends Vue {
+  // refs
+  public $refs!: {
+    taskTitleInput: HTMLInputElement;
+  };
+
   // props
   @Prop() readonly todo!: Todo;
 
@@ -188,10 +193,7 @@ export default class TodoCard extends Vue {
   // lifecycle
   mounted() {
     if (!this.todo.title) {
-      const titleInput = document.getElementById(
-        `task-title--${this.todo.id}`
-      ) as HTMLInputElement;
-      titleInput.focus();
+      this.$refs.taskTitleInput.focus();
     }
   }
 

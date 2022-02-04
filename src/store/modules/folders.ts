@@ -104,6 +104,23 @@ class FoldersModule extends VuexModule {
   }
 
   @Mutation
+  private mutationEditFolder({
+    folderId,
+    title,
+    color,
+  }: {
+    folderId: string;
+    title: string;
+    color: string;
+  }) {
+    const folder = this.folders.find((folder) => folder.id === folderId);
+    if (folder) {
+      folder.title = title;
+      folder.color = color;
+    }
+  }
+
+  @Mutation
   private mutationInitState({ folders }: { folders: Folder[] }) {
     this.folders = this.defaultFolders;
     if (folders) {
@@ -111,18 +128,6 @@ class FoldersModule extends VuexModule {
         folders.filter((folder) => folder.custom)
       );
     }
-  }
-
-  @Mutation
-  private mutationSetTitle({
-    folderId,
-    title,
-  }: {
-    folderId: string;
-    title: string;
-  }) {
-    const folder = this.folders.find((folder) => folder.id === folderId);
-    if (folder) folder.title = title;
   }
 
   // actions
@@ -142,8 +147,16 @@ class FoldersModule extends VuexModule {
   }
 
   @Action
-  setFolderTitle({ folderId, title }: { folderId: string; title: string }) {
-    this.mutationSetTitle({ folderId, title });
+  editFolder({
+    folderId,
+    title,
+    color,
+  }: {
+    folderId: string;
+    title: string;
+    color: string;
+  }) {
+    this.mutationEditFolder({ folderId, title, color });
   }
 }
 
