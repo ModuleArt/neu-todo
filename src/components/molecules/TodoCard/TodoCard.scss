@@ -1,6 +1,8 @@
+@import "@/assets/scss/variables.scss";
+
 .todo-card {
   &--checked {
-    opacity: 0.25;
+    opacity: $opacity-secondary;
   }
 
   &__checkbox {

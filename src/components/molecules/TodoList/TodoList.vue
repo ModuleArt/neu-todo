@@ -18,16 +18,21 @@
           />
         </v-flex>
         <v-subheader v-if="!filteredTodos.length && currentFolder" class="px-1">
-          There are no tasks in this list. Try to
-          <a
-            @click="addTodo()"
-            :class="{
-              'ml-1': true,
-              [`${currentFolder.color}--text`]: currentFolder.color,
-            }"
+          There are no tasks in this folder.
+          <span
+            v-if="currentFolder.transform || currentFolder.custom"
+            class="ml-1"
           >
-            create one
-          </a>
+            Try to
+            <a
+              @click="addTodo()"
+              :class="{
+                [`${currentFolder.color}--text`]: currentFolder.color,
+              }"
+            >
+              create one
+            </a>
+          </span>
         </v-subheader>
       </v-layout>
     </div>

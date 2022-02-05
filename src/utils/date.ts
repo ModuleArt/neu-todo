@@ -33,6 +33,13 @@ const dateUtils = {
     }
     return dueDate;
   },
+  isOverdue(date: number | null) {
+    if (date) {
+      return moment(date).isBefore(moment().startOf("day"));
+    } else {
+      return false;
+    }
+  },
   toDisplay(date: number) {
     switch (this.numberToCode(date)) {
       case "today":

@@ -36,10 +36,14 @@ export default class FolderListItem extends Vue {
   private getFolderTodosCount(folder: Folder): number | string {
     return (
       todosModule.todos.filter((todo) => {
-        if (folder.filter) {
-          return folder.filter(todo);
+        if (todo.checked) {
+          return false;
         } else {
-          return folder.id === todo.customFolderId;
+          if (folder.filter) {
+            return folder.filter(todo);
+          } else {
+            return folder.id === todo.customFolderId;
+          }
         }
       }).length || ""
     );

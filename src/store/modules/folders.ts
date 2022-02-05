@@ -27,7 +27,7 @@ class FoldersModule extends VuexModule {
     {
       id: "today",
       title: "Today",
-      icon: "mdi-calendar-outline",
+      icon: "mdi-calendar-today",
       custom: false,
       filter: (todo) => dateUtils.numberToCode(todo.dueDate) === "today",
       transform: (todo) => {
@@ -47,10 +47,18 @@ class FoldersModule extends VuexModule {
       },
     },
     {
+      id: "overdue",
+      title: "Overdue",
+      icon: "mdi-calendar-remove",
+      color: "red",
+      custom: false,
+      filter: (todo) => dateUtils.isOverdue(todo.dueDate),
+    },
+    {
       id: "important",
       title: "Important",
       icon: "mdi-alert-octagram-outline",
-      color: "deep-orange",
+      color: "orange",
       custom: false,
       filter: (todo) => todo.important,
       transform: (todo) => {

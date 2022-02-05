@@ -73,11 +73,7 @@
             </v-btn>
           </template>
           <v-list dense>
-            <v-list-item
-              v-if="customTodoFolder"
-              link
-              @click="setCustomFolderId(null)"
-            >
+            <v-list-item link @click="setCustomFolderId(null)">
               <v-list-item-icon class="mr-4">
                 <v-icon>mdi-close</v-icon>
               </v-list-item-icon>
@@ -85,7 +81,7 @@
                 No folder
               </v-list-item-title>
             </v-list-item>
-            <v-divider v-if="customTodoFolder" class="my-2" />
+            <v-divider class="my-2" />
             <v-list-item
               v-for="(item, index) in foldersToChoose"
               :key="index"
@@ -110,8 +106,9 @@
               @click="addDueDate()"
               v-bind="attrs"
               v-on="on"
+              :color="isOverdue ? 'red' : ''"
             >
-              <v-icon>mdi-calendar-outline</v-icon>
+              <v-icon>mdi-calendar-blank</v-icon>
               <span v-if="todo.dueDate" class="ml-1">
                 {{ formattedDate }}
               </span>
@@ -124,7 +121,7 @@
             <v-btn
               icon
               @click="toggleImportant()"
-              :color="todo.important ? 'deep-orange' : ''"
+              :color="todo.important ? 'orange' : ''"
               v-bind="attrs"
               v-on="on"
             >
@@ -180,6 +177,10 @@ export default class TodoCard extends Vue {
   // computed
   get formattedDate(): string {
     return dateUtils.toDisplay(this.todo.dueDate || 0);
+  }
+
+  get isOverdue(): boolean {
+    return dateUtils.isOverdue(this.todo.dueDate);
   }
 
   get customTodoFolder(): Folder | null {

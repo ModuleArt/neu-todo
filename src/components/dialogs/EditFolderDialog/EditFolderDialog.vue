@@ -4,7 +4,7 @@
       <v-card v-if="folder">
         <v-card-title class="pa-4">Edit folder</v-card-title>
         <v-divider />
-        <div class="pa-4 pb-0">
+        <div class="px-4 pt-6">
           <v-text-field
             v-model="folderTitle"
             label="Folder title"
@@ -24,10 +24,16 @@
               @click="folderColor = color.code"
             >
               <v-avatar :color="color.code" size="32">
-                <v-icon v-if="folderColor == color.code" size="24">
-                  mdi-check-circle
+                <v-icon
+                  v-if="folderColor == color.code"
+                  size="24"
+                  :color="`${color.code} darken-4`"
+                >
+                  mdi-check
                 </v-icon>
-                <span v-else>{{ color.name }}</span>
+                <span :class="`${color.code}--text text--darken-4`" v-else>
+                  {{ color.name }}
+                </span>
               </v-avatar>
             </v-btn>
           </v-card>
@@ -79,7 +85,7 @@ export default class EditFolderDialog extends Vue {
   // data
   private showDialog = false;
   private colors = [
-    { code: "red", name: "RE" },
+    // { code: "red", name: "RE" },
     { code: "pink", name: "PI" },
     { code: "purple", name: "PU" },
     { code: "deep-purple", name: "DP" },
@@ -91,12 +97,12 @@ export default class EditFolderDialog extends Vue {
     { code: "green", name: "GR" },
     { code: "light-green", name: "LG" },
     { code: "lime", name: "LI" },
-    { code: "yellow", name: "YE" },
-    { code: "amber", name: "AM" },
-    { code: "orange", name: "OR" },
-    { code: "brown", name: "BR" },
+    // { code: "yellow", name: "YE" },
+    // { code: "amber", name: "AM" },
+    // { code: "orange", name: "OR" },
+    // { code: "brown", name: "BR" },
     { code: "blue-grey", name: "BG" },
-    { code: "grey", name: "GR" },
+    // { code: "grey", name: "GR" },
   ];
   private icons = [
     "mdi-folder-outline",
@@ -114,7 +120,7 @@ export default class EditFolderDialog extends Vue {
     "mdi-airplane",
     "mdi-package-variant-closed",
     "mdi-earth",
-    "mdi-brain",
+    "mdi-camera-outline",
     "mdi-cart-outline",
     "mdi-fire",
     "mdi-car",
@@ -123,7 +129,7 @@ export default class EditFolderDialog extends Vue {
     "mdi-briefcase-outline",
     "mdi-cookie-outline",
     "mdi-calendar-star",
-    "mdi-pistol",
+    "mdi-movie-open-outline",
     "mdi-timer-outline",
     "mdi-chart-timeline-variant",
     "mdi-map-marker-outline",

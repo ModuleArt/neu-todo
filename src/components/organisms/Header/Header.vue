@@ -11,7 +11,11 @@
         placeholder="Search for task titles and descriptions"
       />
       <v-spacer />
-      <v-tooltip left :open-delay="tooltipOpenDelay">
+      <v-tooltip
+        v-if="currentFolder.transform || currentFolder.custom"
+        left
+        :open-delay="tooltipOpenDelay"
+      >
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             fab
@@ -23,7 +27,13 @@
             v-bind="attrs"
             v-on="on"
           >
-            <v-icon>mdi-plus</v-icon>
+            <v-icon
+              :color="`${
+                (currentFolder && currentFolder.color) || 'primary'
+              } darken-4`"
+            >
+              mdi-plus
+            </v-icon>
           </v-btn>
         </template>
         <span>Add a task</span>
