@@ -1,8 +1,9 @@
 {
   "name": "neu-todo",
   "version": "0.0.1",
+  "license" : "GPL-3.0",
   "scripts": {
-    "dev": "vue-cli-service serve --port 8090",
+    "dev": "vue-cli-service serve --host localhost --port 8090",
     "build": "vue-cli-service build",
     "build-github": "NODE_ENV=github vue-cli-service build",
     "lint": "vue-cli-service lint",

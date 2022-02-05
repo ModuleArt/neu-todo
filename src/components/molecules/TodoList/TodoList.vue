@@ -17,23 +17,26 @@
             @removeTodoClicked="removeTodo"
           />
         </v-flex>
-        <v-subheader v-if="!filteredTodos.length && currentFolder" class="px-1">
-          There are no tasks in this folder.
-          <span
-            v-if="currentFolder.transform || currentFolder.custom"
-            class="ml-1"
-          >
-            Try to
-            <a
-              @click="addTodo()"
-              :class="{
-                [`${currentFolder.color}--text`]: currentFolder.color,
-              }"
+        <div v-if="!filteredTodos.length && currentFolder">
+          <v-subheader class="px-1">
+            <span>There are no tasks in this folder.</span>
+            <span
+              v-if="currentFolder.transform || currentFolder.custom"
+              class="ml-1"
             >
-              create one
-            </a>
-          </span>
-        </v-subheader>
+              Try to
+              {{ " " }}
+              <a
+                @click="addTodo()"
+                :class="{
+                  [`${currentFolder.color}--text`]: currentFolder.color,
+                }"
+              >
+                create one
+              </a>
+            </span>
+          </v-subheader>
+        </div>
       </v-layout>
     </div>
     <v-snackbar

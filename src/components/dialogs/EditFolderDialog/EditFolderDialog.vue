@@ -8,8 +8,9 @@
           <v-text-field
             v-model="folderTitle"
             label="Folder title"
-            hide-details
             class="ma-0"
+            counter="64"
+            :error-messages="titleErrors"
             :color="folderColor"
             ref="folderTitleInput"
             @keypress.enter="apply()"
@@ -64,7 +65,7 @@
 
 <script lang="ts">
 // utils
-import { Vue, Component } from "@/utils/vue-imports";
+import { Vue, Component, Watch } from "@/utils/vue-imports";
 
 // interfaces
 import Folder from "@/interfaces/entities/folder";
@@ -84,8 +85,8 @@ export default class EditFolderDialog extends Vue {
 
   // data
   private showDialog = false;
+  private titleErrors: string[] = [];
   private colors = [
-    // { code: "red", name: "RE" },
     { code: "pink", name: "PI" },
     { code: "purple", name: "PU" },
     { code: "deep-purple", name: "DP" },
@@ -97,12 +98,7 @@ export default class EditFolderDialog extends Vue {
     { code: "green", name: "GR" },
     { code: "light-green", name: "LG" },
     { code: "lime", name: "LI" },
-    // { code: "yellow", name: "YE" },
-    // { code: "amber", name: "AM" },
-    // { code: "orange", name: "OR" },
-    // { code: "brown", name: "BR" },
     { code: "blue-grey", name: "BG" },
-    // { code: "grey", name: "GR" },
   ];
   private icons = [
     "mdi-folder-outline",
@@ -136,11 +132,18 @@ export default class EditFolderDialog extends Vue {
     "mdi-sitemap-outline",
     "mdi-alert-octagon-outline",
   ];
-
   private folder: Folder | null = null;
   private folderTitle = "";
   private folderColor = "";
   private folderIcon = "";
+
+  // watchers
+  @Watch("folderTitle")
+  onFolderTitleChanged(value: string) {
+    if (value.length <= 64) {
+      this.titleErrors = [];
+    }
+  }
 
   // public methods
   public setDialogOpened(open: boolean, folder: Folder | null) {
@@ -158,15 +161,21 @@ export default class EditFolderDialog extends Vue {
 
   // private methods
   private apply() {
-    this.showDialog = false;
-
     if (this.folder) {
-      foldersModule.editFolder({
-        folderId: this.folder.id,
-        title: this.folderTitle,
-        color: this.folderColor,
-        icon: this.folderIcon,
-      });
+      if (this.folderTitle.length > 64) {
+        this.titleErrors.push(
+          "Maximum number of characters for the title has been reached"
+        );
+      } else {
+        foldersModule.editFolder({
+          folderId: this.folder.id,
+          title: this.folderTitle,
+          color: this.folderColor,
+          icon: this.folderIcon,
+        });
+        this.titleErrors = [];
+        this.showDialog = false;
+      }
     }
   }
 }

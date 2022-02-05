@@ -9,7 +9,7 @@
         <v-list-item class="px-3">
           <v-list-item-avatar class="my-0" size="32">
             <v-img
-              src="https://avatars.githubusercontent.com/u/46830450?s=40"
+              src="https://avatars.githubusercontent.com/u/40366303?s=64"
             />
           </v-list-item-avatar>
           <v-list-item-content class="py-0">
@@ -17,7 +17,7 @@
               NeuTodo
             </v-list-item-title>
             <v-list-item-subtitle>
-              by ModuleArt
+              v0.0.1 (dev)
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
