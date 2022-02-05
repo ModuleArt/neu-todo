@@ -1,4 +1,8 @@
 .todo-card {
+  &--checked {
+    opacity: 0.25;
+  }
+
   &__checkbox {
     padding: 0 6px;
 

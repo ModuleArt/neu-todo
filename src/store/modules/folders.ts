@@ -27,7 +27,7 @@ class FoldersModule extends VuexModule {
     {
       id: "today",
       title: "Today",
-      icon: "mdi-calendar-today",
+      icon: "mdi-calendar-outline",
       custom: false,
       filter: (todo) => dateUtils.numberToCode(todo.dueDate) === "today",
       transform: (todo) => {

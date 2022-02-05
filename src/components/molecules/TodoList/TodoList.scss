@@ -1,0 +1,12 @@
+.todo-list {
+  @media screen and (max-width: 940px) {
+    &__list {
+      flex-flow: column;
+      flex-wrap: initial !important;
+    }
+
+    &__item {
+      max-width: none !important;
+    }
+  }
+}

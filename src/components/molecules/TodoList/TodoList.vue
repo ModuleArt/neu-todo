@@ -2,14 +2,14 @@
   <div class="todo-list">
     <h1 class="mb-4">{{ currentFolder && currentFolder.title }}</h1>
     <div class="todo-list__todos d-flex">
-      <v-layout wrap row class="pa-2">
+      <v-layout wrap row class="pa-2 todo-list__list">
         <v-flex
           v-for="todo in filteredTodos"
           :key="`todo--${todo.id}`"
           grow
           xs6
           shrink
-          class="pa-1"
+          class="pa-1 todo-list__item"
         >
           <TodoCard
             :todo="todo"
@@ -141,3 +141,7 @@ export default class TodoList extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "./TodoList.scss";
+</style>

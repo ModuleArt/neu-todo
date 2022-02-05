@@ -1,5 +1,10 @@
 <template>
-  <div class="todo-card">
+  <div
+    :class="{
+      'todo-card': true,
+      'todo-card--checked': todo.checked,
+    }"
+  >
     <v-card>
       <div class="pa-2 pb-0 d-flex align-center">
         <v-simple-checkbox
@@ -61,7 +66,7 @@
               </v-icon>
               <span
                 v-if="customTodoFolder"
-                class="ml-2 todo-card__folder-title"
+                class="ml-1 todo-card__folder-title"
               >
                 {{ customTodoFolder.title }}
               </span>

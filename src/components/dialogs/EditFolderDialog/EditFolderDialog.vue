@@ -4,7 +4,7 @@
       <v-card v-if="folder">
         <v-card-title class="pa-4">Edit folder</v-card-title>
         <v-divider />
-        <div class="px-4 py-6">
+        <div class="pa-4 pb-0">
           <v-text-field
             v-model="folderTitle"
             label="Folder title"
@@ -14,7 +14,7 @@
             ref="folderTitleInput"
             @keypress.enter="apply()"
           />
-          <v-subheader class="pa-0 mt-4">Color</v-subheader>
+          <v-subheader class="pa-0 mt-2">Color</v-subheader>
           <v-card class="d-flex justify-center flex-wrap px-2 py-3" outlined>
             <v-btn
               icon
@@ -31,7 +31,7 @@
               </v-avatar>
             </v-btn>
           </v-card>
-          <v-subheader class="pa-0 mt-4">Icon</v-subheader>
+          <v-subheader class="pa-0 mt-2">Icon</v-subheader>
           <v-card class="d-flex justify-center flex-wrap px-2 py-3" outlined>
             <v-btn
               icon
@@ -45,10 +45,10 @@
             </v-btn>
           </v-card>
         </div>
-        <v-card-actions class="pa-2 pt-0">
+        <v-card-actions class="pa-2">
           <v-spacer />
           <v-btn text @click="apply()" :color="folderColor">
-            Apply
+            Save
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -123,6 +123,12 @@ export default class EditFolderDialog extends Vue {
     "mdi-briefcase-outline",
     "mdi-cookie-outline",
     "mdi-calendar-star",
+    "mdi-pistol",
+    "mdi-timer-outline",
+    "mdi-chart-timeline-variant",
+    "mdi-map-marker-outline",
+    "mdi-sitemap-outline",
+    "mdi-alert-octagon-outline",
   ];
 
   private folder: Folder | null = null;
