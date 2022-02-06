@@ -5,7 +5,7 @@
       <v-row>
         <v-col>
           <Header />
-          <v-container class="py-12">
+          <v-container class="py-12 mb-7">
             <TodoList />
           </v-container>
         </v-col>

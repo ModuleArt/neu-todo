@@ -26,6 +26,7 @@
             @click="addTodo()"
             v-bind="attrs"
             v-on="on"
+            class="header__create-button"
           >
             <v-icon
               :color="`${
@@ -77,3 +78,7 @@ export default class Header extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "./Header.scss";
+</style>

@@ -81,7 +81,7 @@
                 No folder
               </v-list-item-title>
             </v-list-item>
-            <v-divider class="my-2" />
+            <v-divider v-if="foldersToChoose.length" class="my-2" />
             <v-list-item
               v-for="(item, index) in foldersToChoose"
               :key="index"

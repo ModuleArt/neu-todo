@@ -163,9 +163,7 @@ export default class EditFolderDialog extends Vue {
   private apply() {
     if (this.folder) {
       if (this.folderTitle.length > 64) {
-        this.titleErrors.push(
-          "Maximum number of characters for the title has been reached"
-        );
+        this.titleErrors.push("Maximum number of characters has been reached");
       } else {
         foldersModule.editFolder({
           folderId: this.folder.id,
