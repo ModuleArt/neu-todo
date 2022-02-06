@@ -56,29 +56,12 @@
         </v-list>
       </div>
     </v-navigation-drawer>
-    <v-menu
+    <FolderContextMenu
+      ref="folderContextMenu"
       v-model="showFolderContextMenu"
-      :position-x="folderContextMenuX"
-      :position-y="folderContextMenuY"
-      absolute
-      offset-y
-    >
-      <v-list dense>
-        <v-list-item link @click="editFolder()">
-          <v-list-item-icon class="mr-4">
-            <v-icon>mdi-pencil-outline</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>Edit folder</v-list-item-title>
-        </v-list-item>
-        <v-divider class="my-2" />
-        <v-list-item link @click="removeFolder()">
-          <v-list-item-icon class="mr-4">
-            <v-icon color="red">mdi-delete-outline</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title class="red--text">Delete folder</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
+      @removeFolder="removeFolder"
+      @editFolder="editFolder"
+    />
     <EditFolderDialog ref="editFolderDialog" />
   </div>
 </template>
@@ -96,22 +79,22 @@ import { foldersModule, todosModule } from "@/store";
 // components
 import FolderListItem from "@/components/atoms/FolderListItem/FolderListItem.vue";
 import EditFolderDialog from "@/components/dialogs/EditFolderDialog/EditFolderDialog.vue";
+import FolderContextMenu from "@/components/menus/FolderContextMenu/FolderContextMenu.vue";
 
 // component
 @Component({
   name: "Sidebar",
-  components: { FolderListItem, EditFolderDialog },
+  components: { FolderListItem, EditFolderDialog, FolderContextMenu },
 })
 export default class Sidebar extends Vue {
   // refs
   public $refs!: {
     editFolderDialog: EditFolderDialog;
+    folderContextMenu: FolderContextMenu;
   };
 
   // data
   private showFolderContextMenu = false;
-  private folderContextMenuX = 0;
-  private folderContextMenuY = 0;
   private folderWithContextMenu: Folder | null = null;
 
   // computed
@@ -148,8 +131,7 @@ export default class Sidebar extends Vue {
 
   private setFolderContextMenuOpened(e: MouseEvent, folder: Folder) {
     this.folderWithContextMenu = folder;
-    this.folderContextMenuX = e.clientX;
-    this.folderContextMenuY = e.clientY;
+    this.$refs.folderContextMenu.setCoordinates(e.clientX, e.clientY);
     this.showFolderContextMenu = true;
   }
 

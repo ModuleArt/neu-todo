@@ -56,6 +56,9 @@
               :color="customTodoFolder && customTodoFolder.color"
               :icon="!customTodoFolder"
               :text="customTodoFolder != null"
+              :title="
+                customTodoFolder ? customTodoFolder.title : 'Choose folder'
+              "
             >
               <v-icon>
                 {{
@@ -98,47 +101,30 @@
           </v-list>
         </v-menu>
         <v-spacer />
-        <v-tooltip bottom :open-delay="tooltipOpenDelay">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              :icon="!todo.dueDate"
-              :text="todo.dueDate != null"
-              @click="addDueDate()"
-              v-bind="attrs"
-              v-on="on"
-              :color="isOverdue ? 'red' : ''"
-            >
-              <v-icon>mdi-calendar-blank</v-icon>
-              <span v-if="todo.dueDate" class="ml-1">
-                {{ formattedDate }}
-              </span>
-            </v-btn>
-          </template>
-          <span>Add due date</span>
-        </v-tooltip>
-        <v-tooltip bottom :open-delay="tooltipOpenDelay">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              icon
-              @click="toggleImportant()"
-              :color="todo.important ? 'orange' : ''"
-              v-bind="attrs"
-              v-on="on"
-            >
-              <v-icon v-if="todo.important">mdi-alert-octagram</v-icon>
-              <v-icon v-else>mdi-octagram-outline</v-icon>
-            </v-btn>
-          </template>
-          <span>Important</span>
-        </v-tooltip>
-        <v-tooltip bottom :open-delay="tooltipOpenDelay">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn icon @click="removeTodo()" v-bind="attrs" v-on="on">
-              <v-icon>mdi-delete-outline</v-icon>
-            </v-btn>
-          </template>
-          <span>Delete task</span>
-        </v-tooltip>
+        <v-btn
+          :icon="!todo.dueDate"
+          :text="todo.dueDate != null"
+          @click="addDueDate()"
+          :color="isOverdue ? 'red' : ''"
+          title="Add due date"
+        >
+          <v-icon>mdi-calendar-blank</v-icon>
+          <span v-if="todo.dueDate" class="ml-1">
+            {{ formattedDate }}
+          </span>
+        </v-btn>
+        <v-btn
+          icon
+          @click="toggleImportant()"
+          :color="todo.important ? 'orange' : ''"
+          title="Important"
+        >
+          <v-icon v-if="todo.important">mdi-alert-octagram</v-icon>
+          <v-icon v-else>mdi-octagram-outline</v-icon>
+        </v-btn>
+        <v-btn icon @click="removeTodo()" title="Delete task">
+          <v-icon>mdi-delete-outline</v-icon>
+        </v-btn>
       </v-card-actions>
     </v-card>
   </div>
