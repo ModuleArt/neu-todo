@@ -5,22 +5,24 @@
 
 html {
   background: #121212;
+  overflow: hidden;
 }
 
+// scrollbar
 ::-webkit-scrollbar {
   width: 15px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #272727;
+  background: #121212;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #363636;
-  border: solid 3px #272727;
+  background-color: #363636;
+  border: 4px solid #121212;
   border-radius: 7px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #fff;
+  background-color: #354c63;
+}
+::-webkit-scrollbar-thumb:active {
+  background-color: #2096f3;
 }

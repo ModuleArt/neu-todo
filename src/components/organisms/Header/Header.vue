@@ -1,6 +1,6 @@
 <template>
-  <div class="header pb-16">
-    <v-app-bar fixed class="pl-14">
+  <div class="header">
+    <v-app-bar fixed class="pl-14" short>
       <v-spacer />
       <v-text-field
         dense

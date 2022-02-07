@@ -1,15 +1,15 @@
 <template>
   <div class="main-page">
+    <Header />
     <div class="d-flex">
       <Sidebar />
-      <v-row>
-        <v-col>
-          <Header />
-          <v-container class="py-12 mb-7">
+      <v-flex class="pt-14 main-page__content">
+        <div class="main-page__scroll">
+          <v-container class="py-12 mb-10">
             <TodoList />
           </v-container>
-        </v-col>
-      </v-row>
+        </div>
+      </v-flex>
     </div>
   </div>
 </template>
@@ -34,3 +34,7 @@ import TodoList from "@/components/molecules/TodoList/TodoList.vue";
 })
 export default class MainPage extends Vue {}
 </script>
+
+<style lang="scss" scoped>
+@import "./MainPage.scss";
+</style>

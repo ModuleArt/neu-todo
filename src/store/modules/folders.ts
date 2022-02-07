@@ -49,7 +49,7 @@ class FoldersModule extends VuexModule {
     {
       id: "overdue",
       title: "Overdue",
-      icon: "mdi-calendar-remove",
+      icon: "mdi-calendar-arrow-left",
       color: "red",
       custom: false,
       filter: (todo) => dateUtils.isOverdue(todo.dueDate),

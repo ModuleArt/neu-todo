@@ -1,0 +1,10 @@
+.main-page {
+  &__content {
+    height: 100vh;
+  }
+
+  &__scroll {
+    overflow: auto;
+    height: 100%;
+  }
+}

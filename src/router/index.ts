@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 
 // pages
-import MainPage from "@/pages/Main/Main.vue";
+import MainPage from "@/pages/MainPage/MainPage.vue";
 
 Vue.use(VueRouter);
 

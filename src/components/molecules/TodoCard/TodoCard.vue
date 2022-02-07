@@ -108,7 +108,7 @@
           :color="isOverdue ? 'red' : ''"
           title="Add due date"
         >
-          <v-icon>mdi-calendar-blank</v-icon>
+          <v-icon>{{ dueDateIcon }}</v-icon>
           <span v-if="todo.dueDate" class="ml-1">
             {{ formattedDate }}
           </span>
@@ -177,14 +177,30 @@ export default class TodoCard extends Vue {
     );
   }
 
-  get foldersToChoose() {
+  get foldersToChoose(): Folder[] {
     return foldersModule.folders.filter((folder) => folder.custom);
+  }
+
+  get dueDateIcon(): string {
+    if (!this.todo.dueDate) {
+      return "mdi-calendar-blank";
+    } else {
+      const code = dateUtils.numberToCode(this.todo.dueDate);
+      if (code == "today") {
+        return "mdi-calendar-today";
+      } else if (dateUtils.isOverdue(this.todo.dueDate)) {
+        return "mdi-calendar-arrow-left";
+      } else {
+        return "mdi-calendar-arrow-right";
+      }
+    }
   }
 
   // lifecycle
   mounted() {
-    if (!this.todo.title) {
+    if (this.todo.lastAdded) {
       this.$refs.taskTitleInput.focus();
+      this.todo.lastAdded = false;
     }
   }
 
