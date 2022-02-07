@@ -33,11 +33,7 @@
         </div>
       </v-layout>
     </div>
-    <v-snackbar
-      v-model="showRemoveSnackbar"
-      :timeout="removeSnackbarTimeout"
-      class="pl-14"
-    >
+    <v-snackbar v-model="showRemoveSnackbar" :timeout="removeSnackbarTimeout">
       Task
       <span v-if="removeSnackbarTempTodo">
         <b>{{ removeSnackbarTempTodo.title }}</b>

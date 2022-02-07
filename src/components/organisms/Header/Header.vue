@@ -11,34 +11,24 @@
         placeholder="Search for task titles and descriptions"
       />
       <v-spacer />
-      <v-tooltip
-        v-if="currentFolder.transform || currentFolder.custom"
-        left
-        :open-delay="tooltipOpenDelay"
+      <v-btn
+        fab
+        bottom
+        right
+        absolute
+        :color="(currentFolder && currentFolder.color) || 'primary'"
+        @click="addTodo()"
+        class="header__create-button"
+        title="Add a task"
       >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            fab
-            bottom
-            right
-            absolute
-            :color="(currentFolder && currentFolder.color) || 'primary'"
-            @click="addTodo()"
-            v-bind="attrs"
-            v-on="on"
-            class="header__create-button"
-          >
-            <v-icon
-              :color="`${
-                (currentFolder && currentFolder.color) || 'primary'
-              } darken-4`"
-            >
-              mdi-plus
-            </v-icon>
-          </v-btn>
-        </template>
-        <span>Add a task</span>
-      </v-tooltip>
+        <v-icon
+          :color="`${
+            (currentFolder && currentFolder.color) || 'primary'
+          } darken-4`"
+        >
+          mdi-plus
+        </v-icon>
+      </v-btn>
     </v-app-bar>
   </div>
 </template>
@@ -46,7 +36,6 @@
 <script lang="ts">
 // utils
 import { Vue, Component } from "@/utils/vue-imports";
-import config from "@/config";
 
 // interfaces
 import Folder from "@/interfaces/entities/folder";
@@ -59,9 +48,6 @@ import { todosModule, foldersModule } from "@/store";
   name: "Header",
 })
 export default class Header extends Vue {
-  // data
-  private tooltipOpenDelay = config.delays.tooltipOpenDelay;
-
   // computed
   get currentFolder(): Folder | null {
     return foldersModule.getCurrentFolder;

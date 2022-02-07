@@ -134,7 +134,6 @@
 // utils
 import { Vue, Component, Prop } from "@/utils/vue-imports";
 import dateUtils from "@/utils/date";
-import config from "@/config";
 
 // interfaces
 import Todo from "@/interfaces/entities/todo";
@@ -158,7 +157,6 @@ export default class TodoCard extends Vue {
 
   // data
   private expanded = false;
-  private tooltipOpenDelay = config.delays.tooltipOpenDelay;
 
   // computed
   get formattedDate(): string {
