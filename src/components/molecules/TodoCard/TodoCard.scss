@@ -5,6 +5,10 @@
     opacity: $opacity-secondary;
   }
 
+  /deep/ .v-swipeout-content {
+    background: #121212;
+  }
+
   &__checkbox {
     padding: 0 6px;
 

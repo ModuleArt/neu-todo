@@ -12,6 +12,7 @@
       />
       <v-spacer />
       <v-btn
+        v-if="currentFolder.transform || currentFolder.custom"
         fab
         bottom
         right

@@ -1,12 +1,19 @@
 <template>
-  <div
+  <Swipeout
+    :right-buttons="swipeoutRightButtons"
+    :enable="isMobile"
     :class="{
       'todo-card': true,
       'todo-card--checked': todo.checked,
     }"
   >
     <v-card>
-      <div class="pa-2 pb-0 d-flex align-center">
+      <div
+        :class="{
+          'pa-2 d-flex align-center': true,
+          'pb-0': !isMobile,
+        }"
+      >
         <v-simple-checkbox
           :value="todo.checked"
           @input="toggleChecked()"
@@ -44,10 +51,10 @@
             solo
             @blur="setBody($event.target.value)"
           />
-          <v-divider />
+          <v-divider v-if="!isMobile" />
         </div>
       </v-expand-transition>
-      <v-card-actions>
+      <v-card-actions v-if="!isMobile">
         <v-menu bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -118,22 +125,24 @@
           @click="toggleImportant()"
           :color="todo.important ? 'orange' : ''"
           title="Important"
+          class="ma-0"
         >
           <v-icon v-if="todo.important">mdi-alert-octagram</v-icon>
           <v-icon v-else>mdi-octagram-outline</v-icon>
         </v-btn>
-        <v-btn icon @click="removeTodo()" title="Delete task">
+        <v-btn icon @click="removeTodo()" title="Delete task" class="ma-0">
           <v-icon>mdi-delete-outline</v-icon>
         </v-btn>
       </v-card-actions>
     </v-card>
-  </div>
+  </Swipeout>
 </template>
 
 <script lang="ts">
 // utils
 import { Vue, Component, Prop } from "@/utils/vue-imports";
 import dateUtils from "@/utils/date";
+import mobile from "is-mobile";
 
 // interfaces
 import Todo from "@/interfaces/entities/todo";
@@ -142,9 +151,15 @@ import Folder from "@/interfaces/entities/folder";
 // store modules
 import { todosModule, foldersModule } from "@/store";
 
+// components
+import Swipeout from "@/components/atoms/Swipeout/Swipeout.vue";
+
 // component
 @Component({
   name: "TodoCard",
+  components: {
+    Swipeout,
+  },
 })
 export default class TodoCard extends Vue {
   // refs
@@ -157,6 +172,22 @@ export default class TodoCard extends Vue {
 
   // data
   private expanded = false;
+  private swipeoutRightButtons = [
+    {
+      text: "Important",
+      color: "#FF9800",
+      onPress: () => {
+        this.toggleImportant();
+      },
+    },
+    {
+      text: "Delete",
+      color: "#F44336",
+      onPress: () => {
+        this.removeTodo();
+      },
+    },
+  ];
 
   // computed
   get formattedDate(): string {
@@ -192,6 +223,10 @@ export default class TodoCard extends Vue {
         return "mdi-calendar-arrow-right";
       }
     }
+  }
+
+  get isMobile(): boolean {
+    return mobile();
   }
 
   // lifecycle

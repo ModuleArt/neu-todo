@@ -1,0 +1,5 @@
+.folder-list-item {
+  &__list-item > * {
+    pointer-events: none;
+  }
+}

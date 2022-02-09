@@ -2,9 +2,9 @@
   <v-list-item
     link
     :title="folder.title"
-    class="folder-list-item"
     @contextmenu.prevent="rightClick"
-    v-touch:touchhold.self="touchHold"
+    v-touch:touchhold="touchHold"
+    class="folder-list-item"
   >
     <v-list-item-icon class="mr-4">
       <v-icon>{{ folder.icon }}</v-icon>
@@ -57,13 +57,20 @@ export default class FolderListItem extends Vue {
   }
 
   private rightClick(e: MouseEvent) {
-    this.$emit("contextmenu", e);
+    if (!isMobile()) {
+      this.$emit("contextmenu", { x: e.clientX, y: e.clientY });
+    }
   }
 
   private touchHold(e: MouseEvent) {
     if (isMobile()) {
-      this.$emit("contextmenu", e);
+      const p = (e.target as HTMLElement).getBoundingClientRect();
+      this.$emit("contextmenu", { x: p.x, y: p.y + p.height - 8 });
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "./FolderListItem.scss";
+</style>

@@ -5,12 +5,12 @@
       fixed
       app
       stateless
-      :expand-on-hover="isDesktop && !showFolderContextMenu"
-      :mini-variant="!isDesktop && !expandDrawer"
+      :expand-on-hover="!isMobile && !showFolderContextMenu"
+      :mini-variant="isMobile && !expandDrawer"
       v-click-outside="drawerClickOutside"
     >
       <div class="d-flex">
-        <div v-if="!isDesktop" class="sidebar__menu-button">
+        <div v-if="isMobile" class="sidebar__menu-button">
           <v-btn icon @click="expandDrawer = !expandDrawer">
             <v-icon>mdi-menu</v-icon>
           </v-btn>
@@ -80,7 +80,7 @@
 <script lang="ts">
 // utils
 import { Vue, Component } from "@/utils/vue-imports";
-import isMobile from "is-mobile";
+import mobile from "is-mobile";
 
 // interfaces
 import Folder from "@/interfaces/entities/folder";
@@ -133,13 +133,13 @@ export default class Sidebar extends Vue {
     );
   }
 
-  get isDesktop(): boolean {
-    return !isMobile();
+  get isMobile(): boolean {
+    return mobile();
   }
 
   // private methods
   private selectedItemChanged(selectedItem: number) {
-    foldersModule.setCurrentFolderId(this.folders[selectedItem].id);
+    foldersModule.setCurrentFolderId(this.folders[selectedItem || 0].id);
     this.expandDrawer = false;
   }
 
@@ -147,9 +147,12 @@ export default class Sidebar extends Vue {
     foldersModule.addNewFolder();
   }
 
-  private setFolderContextMenuOpened(e: MouseEvent, folder: Folder) {
+  private setFolderContextMenuOpened(
+    e: { x: number; y: number },
+    folder: Folder
+  ) {
     this.folderWithContextMenu = folder;
-    this.$refs.folderContextMenu.setCoordinates(e.clientX, e.clientY);
+    this.$refs.folderContextMenu.setCoordinates(e.x, e.y);
     this.showFolderContextMenu = true;
   }
 
