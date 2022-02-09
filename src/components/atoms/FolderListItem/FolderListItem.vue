@@ -2,10 +2,9 @@
   <v-list-item
     link
     :title="folder.title"
-    ref="folderListItem"
     class="folder-list-item"
     @contextmenu.prevent="rightClick"
-    v-touch:touchhold="touchHold"
+    v-touch:touchhold.self="touchHold"
   >
     <v-list-item-icon class="mr-4">
       <v-icon>{{ folder.icon }}</v-icon>
@@ -37,11 +36,6 @@ import { todosModule } from "@/store";
   name: "FolderListItem",
 })
 export default class FolderListItem extends Vue {
-  // refs
-  public $refs!: {
-    folderListItem: HTMLElement;
-  };
-
   // props
   @Prop() readonly folder!: Folder;
 

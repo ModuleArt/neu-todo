@@ -3,25 +3,36 @@
     <v-navigation-drawer
       permanent
       fixed
-      :expand-on-hover="!showFolderContextMenu"
+      app
+      stateless
+      :expand-on-hover="isDesktop && !showFolderContextMenu"
+      :mini-variant="!isDesktop && !expandDrawer"
+      v-click-outside="drawerClickOutside"
     >
-      <v-list>
-        <v-list-item class="px-3">
-          <v-list-item-avatar class="my-0" size="32">
-            <v-img
-              src="https://avatars.githubusercontent.com/u/40366303?s=64"
-            />
-          </v-list-item-avatar>
-          <v-list-item-content class="py-0">
-            <v-list-item-title>
-              NeuTodo
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              v0.0.1 (dev)
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <div class="d-flex">
+        <div v-if="!isDesktop" class="sidebar__menu-button">
+          <v-btn icon @click="expandDrawer = !expandDrawer">
+            <v-icon>mdi-menu</v-icon>
+          </v-btn>
+        </div>
+        <v-list class="py-1">
+          <v-list-item class="px-3">
+            <v-list-item-avatar class="my-0" size="32">
+              <v-img
+                src="https://avatars.githubusercontent.com/u/40366303?s=64"
+              />
+            </v-list-item-avatar>
+            <v-list-item-content class="py-0">
+              <v-list-item-title>
+                NeuTodo
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                v0.0.1 (dev)
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </div>
       <v-divider class="mb-1" />
       <v-list nav dense class="py-1 pb-16 mb-6">
         <v-list-item-group
@@ -69,6 +80,7 @@
 <script lang="ts">
 // utils
 import { Vue, Component } from "@/utils/vue-imports";
+import isMobile from "is-mobile";
 
 // interfaces
 import Folder from "@/interfaces/entities/folder";
@@ -94,6 +106,7 @@ export default class Sidebar extends Vue {
   };
 
   // data
+  private expandDrawer = false;
   private showFolderContextMenu = false;
   private folderWithContextMenu: Folder | null = null;
 
@@ -120,9 +133,14 @@ export default class Sidebar extends Vue {
     );
   }
 
+  get isDesktop(): boolean {
+    return !isMobile();
+  }
+
   // private methods
   private selectedItemChanged(selectedItem: number) {
     foldersModule.setCurrentFolderId(this.folders[selectedItem].id);
+    this.expandDrawer = false;
   }
 
   private addNewFolder() {
@@ -147,6 +165,10 @@ export default class Sidebar extends Vue {
       true,
       this.folderWithContextMenu
     );
+  }
+
+  private drawerClickOutside() {
+    this.expandDrawer = false;
   }
 }
 </script>

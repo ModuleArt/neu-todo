@@ -1,11 +1,16 @@
 * {
   box-sizing: border-box;
   font-family: Roboto;
+  user-select: none;
 }
 
 html {
   background: #121212;
   overflow: hidden;
+}
+
+input {
+  user-select: initial;
 }
 
 // scrollbar
@@ -14,6 +19,7 @@ html {
 }
 ::-webkit-scrollbar-track {
   background: #121212;
+  border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb {
   background-color: #363636;

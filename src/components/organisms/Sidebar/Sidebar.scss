@@ -1,4 +1,8 @@
 .sidebar {
+  &__menu-button {
+    padding: 10px 0 10px 10px;
+  }
+
   &__new-folder {
     position: absolute;
     bottom: 0;
