@@ -9,6 +9,10 @@
     background: #121212;
   }
 
+  /deep/ .v-swipeout-actions {
+    border-radius: 4px;
+  }
+
   &__checkbox {
     padding: 0 6px;
 
@@ -27,5 +31,16 @@
     max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  &__caption {
+    span {
+      max-width: calc(33% - 8px);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: middle;
+    }
   }
 }

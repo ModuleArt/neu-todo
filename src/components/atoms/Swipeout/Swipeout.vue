@@ -41,10 +41,12 @@ export default class Swipeout extends Vue {
       style: {
         backgroundColor: item.color,
         color: "white",
-        borderRadius: "4px",
-        marginLeft: "8px",
       },
     };
   });
 }
 </script>
+
+<style lang="scss" scoped>
+@import "./Swipeout.scss";
+</style>

@@ -8,12 +8,7 @@
     }"
   >
     <v-card>
-      <div
-        :class="{
-          'pa-2 d-flex align-center': true,
-          'pb-0': !isMobile,
-        }"
-      >
+      <div class="pa-2 pb-0 d-flex align-center">
         <v-simple-checkbox
           :value="todo.checked"
           @input="toggleChecked()"
@@ -51,10 +46,20 @@
             solo
             @blur="setBody($event.target.value)"
           />
-          <v-divider v-if="!isMobile" />
+          <v-divider />
         </div>
       </v-expand-transition>
-      <v-card-actions v-if="!isMobile">
+      <div
+        v-if="isMobile"
+        class="caption pa-2 text--disabled todo-card__caption"
+      >
+        <span v-if="customTodoFolder" class="mr-4">
+          {{ customTodoFolder.title }}
+        </span>
+        <span v-if="todo.dueDate" class="mr-4">{{ formattedDate }}</span>
+        <span v-if="todo.important">Important</span>
+      </div>
+      <v-card-actions v-else>
         <v-menu bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -113,7 +118,7 @@
           :text="todo.dueDate != null"
           @click="addDueDate()"
           :color="isOverdue ? 'red' : ''"
-          title="Add due date"
+          title="Due date"
         >
           <v-icon>{{ dueDateIcon }}</v-icon>
           <span v-if="todo.dueDate" class="ml-1">
@@ -173,6 +178,20 @@ export default class TodoCard extends Vue {
   // data
   private expanded = false;
   private swipeoutRightButtons = [
+    {
+      text: "Choose folder",
+      color: this.customTodoFolder ? this.customTodoFolder.color : "#399EF4",
+      onPress: () => {
+        this.chooseFolder();
+      },
+    },
+    {
+      text: "Due date",
+      color: "#399EF4",
+      onPress: () => {
+        this.addDueDate();
+      },
+    },
     {
       text: "Important",
       color: "#FF9800",
@@ -283,6 +302,10 @@ export default class TodoCard extends Vue {
       todoId: this.todo.id,
       customFolderId,
     });
+  }
+
+  private chooseFolder() {
+    console.log("swipeout choose folder");
   }
 }
 </script>

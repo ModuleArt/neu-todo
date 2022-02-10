@@ -1,0 +1,17 @@
+.swipeout {
+  /deep/ .v-swipeout-actions {
+    width: 100%;
+  }
+
+  /deep/ .v-swipeout-btn {
+    width: 50%;
+  }
+
+  /deep/ .v-swipeout-btn-text {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1rem;
+    white-space: break-spaces;
+    text-align: center;
+  }
+}
