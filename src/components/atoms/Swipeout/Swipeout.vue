@@ -1,7 +1,35 @@
 <template>
-  <VSwipeout v-if="enable" :right="right" class="swipeout" auto-close>
+  <SwipeOut v-if="enable" class="swipeout">
+    <template v-slot:left="{}">
+      <div
+        v-for="(action, actionIndex) in leftActions"
+        :key="`swipeout-action-left--${actionIndex}`"
+      >
+        <v-btn
+          :color="action.color"
+          class="swipeout__action swipeout__action--left"
+          @click.stop.prevent="action.onClick"
+        >
+          <v-icon>{{ action.icon }}</v-icon>
+        </v-btn>
+      </div>
+    </template>
     <slot />
-  </VSwipeout>
+    <template v-slot:right="{}">
+      <div
+        v-for="(action, actionIndex) in rightActions"
+        :key="`swipeout-action-right--${actionIndex}`"
+         @click.stop.prevent="action.onClick"
+      >
+        <v-btn
+          :color="action.color"
+          class="swipeout__action swipeout__action--right"
+        >
+          <v-icon>{{ action.icon }}</v-icon>
+        </v-btn>
+      </div>
+    </template>
+  </SwipeOut>
   <div v-else>
     <slot />
   </div>
@@ -12,38 +40,30 @@
 import { Vue, Component, Prop } from "@/utils/vue-imports";
 
 // components
-import VSwipeout from "v-swipeout";
+import { SwipeOut } from "vue-swipe-actions";
+
+// styles
+import "vue-swipe-actions/dist/vue-swipe-actions.css";
 
 // interfaces
 interface SwipeoutButton {
-  text: string;
+  icon: string;
   color: string;
-  onPress: void;
+  onClick: void;
 }
 
 // component
 @Component({
   name: "Swipeout",
   components: {
-    VSwipeout,
+    SwipeOut,
   },
 })
 export default class Swipeout extends Vue {
   // props
   @Prop() readonly enable!: boolean;
-  @Prop() readonly rightButtons!: SwipeoutButton[];
-
-  // data
-  private right = this.rightButtons.map((item) => {
-    return {
-      text: item.text,
-      onPress: item.onPress,
-      style: {
-        backgroundColor: item.color,
-        color: "white",
-      },
-    };
-  });
+  @Prop() readonly leftActions!: SwipeoutButton[];
+  @Prop() readonly rightActions!: SwipeoutButton[];
 }
 </script>
 

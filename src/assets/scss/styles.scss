@@ -9,7 +9,8 @@ html {
   overflow: hidden;
 }
 
-input {
+input,
+textarea {
   user-select: initial;
 }
 

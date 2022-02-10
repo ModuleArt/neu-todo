@@ -1,6 +1,7 @@
 <template>
   <Swipeout
-    :right-buttons="swipeoutRightButtons"
+    :left-actions="swipeoutLeftActions"
+    :right-actions="swipeoutRightActions"
     :enable="isMobile"
     :class="{
       'todo-card': true,
@@ -51,13 +52,19 @@
       </v-expand-transition>
       <div
         v-if="isMobile"
-        class="caption pa-2 text--disabled todo-card__caption"
+        class="caption py-1 px-2 text--disabled todo-card__caption"
       >
-        <span v-if="customTodoFolder" class="mr-4">
-          {{ customTodoFolder.title }}
-        </span>
-        <span v-if="todo.dueDate" class="mr-4">{{ formattedDate }}</span>
-        <span v-if="todo.important">Important</span>
+        <div v-if="customTodoFolder" class="mr-4">
+          <v-icon x-small class="mr-1">mdi-folder-outline</v-icon>
+          <span>{{ customTodoFolder.title }}</span>
+        </div>
+        <div v-if="todo.dueDate" class="mr-4">
+          <v-icon x-small class="mr-1">mdi-calendar-blank</v-icon>
+          <span>{{ formattedDate }}</span>
+        </div>
+        <div v-if="todo.important">
+          <v-icon x-small color="orange">mdi-alert-octagram</v-icon>
+        </div>
       </div>
       <v-card-actions v-else>
         <v-menu bottom>
@@ -177,32 +184,35 @@ export default class TodoCard extends Vue {
 
   // data
   private expanded = false;
-  private swipeoutRightButtons = [
+  private swipeoutLeftActions = [
     {
-      text: "Choose folder",
-      color: this.customTodoFolder ? this.customTodoFolder.color : "#399EF4",
-      onPress: () => {
+      icon: "mdi-folder-outline",
+      color: "primary",
+      onClick: () => {
         this.chooseFolder();
       },
     },
     {
-      text: "Due date",
-      color: "#399EF4",
-      onPress: () => {
+      icon: "mdi-calendar-blank",
+      color: "red",
+      onClick: () => {
         this.addDueDate();
       },
     },
+  ];
+  private swipeoutRightActions = [
     {
-      text: "Important",
-      color: "#FF9800",
-      onPress: () => {
+      icon: "mdi-octagram-outline",
+      color: "orange",
+      onClick: () => {
+        console.log("imp");
         this.toggleImportant();
       },
     },
     {
-      text: "Delete",
-      color: "#F44336",
-      onPress: () => {
+      icon: "mdi-delete-outline",
+      color: "red",
+      onClick: () => {
         this.removeTodo();
       },
     },

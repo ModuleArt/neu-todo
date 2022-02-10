@@ -5,14 +5,6 @@
     opacity: $opacity-secondary;
   }
 
-  /deep/ .v-swipeout-content {
-    background: #121212;
-  }
-
-  /deep/ .v-swipeout-actions {
-    border-radius: 4px;
-  }
-
   &__checkbox {
     padding: 0 6px;
 
@@ -34,13 +26,22 @@
   }
 
   &__caption {
-    span {
-      max-width: calc(33% - 8px);
+    vertical-align: middle;
+
+    div {
+      display: inline-block;
+      max-width: calc(50% - 22px);
+      vertical-align: top;
       white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
+    }
+
+    span {
       display: inline-block;
       vertical-align: middle;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      width: calc(100% - 8px);
     }
   }
 }
