@@ -30,7 +30,7 @@
 
     div {
       display: inline-block;
-      max-width: calc(50% - 22px);
+      max-width: calc(50% - 24px);
       vertical-align: top;
       white-space: nowrap;
     }
@@ -41,7 +41,7 @@
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
-      width: calc(100% - 8px);
+      width: calc(100% - 16px);
     }
   }
 }

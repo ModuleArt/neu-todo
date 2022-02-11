@@ -9,7 +9,7 @@
     }"
   >
     <v-card>
-      <div class="pa-2 pb-0 d-flex align-center">
+      <div class="pa-2 d-flex align-center">
         <v-simple-checkbox
           :value="todo.checked"
           @input="toggleChecked()"
@@ -26,7 +26,7 @@
           outlined
           :color="(customTodoFolder && customTodoFolder.color) || 'primary'"
           ref="taskTitleInput"
-          class="todo-card__title-input mx-2"
+          class="todo-card__title-input mx-1"
           @blur="setTitle($event.target.value)"
         />
         <v-btn icon @click="toggleExpandedTodo()">
@@ -42,28 +42,30 @@
             placeholder="Description"
             no-resize
             hide-details
-            class="px-2"
+            class="px-1"
             flat
             solo
             @blur="setBody($event.target.value)"
           />
-          <v-divider />
         </div>
       </v-expand-transition>
+      <v-divider />
       <div
         v-if="isMobile"
-        class="caption py-1 px-2 text--disabled todo-card__caption"
+        class="caption py-1 px-2 text--disabled todo-card__caption text-right"
       >
         <div v-if="customTodoFolder" class="mr-4">
-          <v-icon x-small class="mr-1">mdi-folder-outline</v-icon>
+          <v-icon disabled small class="mr-1 text-left">
+            mdi-folder-outline
+          </v-icon>
           <span>{{ customTodoFolder.title }}</span>
         </div>
-        <div v-if="todo.dueDate" class="mr-4">
-          <v-icon x-small class="mr-1">mdi-calendar-blank</v-icon>
+        <div v-if="todo.dueDate" class="mr-4 text-left">
+          <v-icon disabled small class="mr-1">mdi-calendar-blank</v-icon>
           <span>{{ formattedDate }}</span>
         </div>
         <div v-if="todo.important">
-          <v-icon x-small color="orange">mdi-alert-octagram</v-icon>
+          <v-icon small color="orange">mdi-alert-octagram</v-icon>
         </div>
       </div>
       <v-card-actions v-else>

@@ -1,6 +1,8 @@
 <template>
   <div class="todo-list">
-    <h1 class="mb-4">{{ currentFolder && currentFolder.title }}</h1>
+    <h1 class="mb-4 todo-list__title">
+      {{ currentFolder && currentFolder.title }}
+    </h1>
     <div class="todo-list__todos d-flex">
       <v-layout wrap row class="pa-2 todo-list__list">
         <v-flex

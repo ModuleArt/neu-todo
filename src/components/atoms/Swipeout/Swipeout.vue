@@ -1,5 +1,5 @@
 <template>
-  <SwipeOut v-if="enable" class="swipeout">
+  <SwipeOut v-if="enable" class="swipeout" ref="swipeOut">
     <template v-slot:left="{}">
       <div
         v-for="(action, actionIndex) in leftActions"
@@ -14,12 +14,14 @@
         </v-btn>
       </div>
     </template>
-    <slot />
+    <div @click="closeActions()">
+      <slot />
+    </div>
     <template v-slot:right="{}">
       <div
         v-for="(action, actionIndex) in rightActions"
         :key="`swipeout-action-right--${actionIndex}`"
-         @click.stop.prevent="action.onClick"
+        @click.stop.prevent="action.onClick"
       >
         <v-btn
           :color="action.color"
@@ -60,10 +62,20 @@ interface SwipeoutButton {
   },
 })
 export default class Swipeout extends Vue {
+  // refs
+  public $refs!: {
+    swipeOut: typeof SwipeOut;
+  };
+
   // props
   @Prop() readonly enable!: boolean;
   @Prop() readonly leftActions!: SwipeoutButton[];
   @Prop() readonly rightActions!: SwipeoutButton[];
+
+  // methods
+  private closeActions() {
+    this.$refs.swipeOut.closeActions();
+  }
 }
 </script>
 

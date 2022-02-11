@@ -1,4 +1,8 @@
 .todo-list {
+  &__title {
+    margin-top: 48px;
+  }
+
   @media screen and (max-width: 940px) {
     &__list {
       flex-flow: column;
@@ -7,6 +11,10 @@
 
     &__item {
       max-width: none !important;
+    }
+
+    &__title {
+      margin-top: 16px;
     }
   }
 }

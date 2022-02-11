@@ -5,7 +5,7 @@
       <Sidebar />
       <v-flex class="pt-14 main-page__content">
         <div class="main-page__scroll">
-          <v-container class="py-12 mb-10">
+          <v-container class="mb-12">
             <TodoList />
           </v-container>
         </div>
