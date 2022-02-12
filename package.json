@@ -1,14 +1,13 @@
 {
   "name": "neu-todo",
-  "version": "0.0.1",
-  "license": "GPL-3.0",
+  "version": "0.0.2",
   "scripts": {
-    "dev": "vue-cli-service serve --host localhost --port 8090",
     "build": "vue-cli-service build",
-    "build-github": "NODE_ENV=github vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "update": "npx @neutralinojs/neu update",
-    "desktop": "npx @neutralinojs/neu build && npx @neutralinojs/neu run"
+    "build-github": "NODE_ENV=github vue-cli-service build",
+    "desktop": "npx @neutralinojs/neu build && npx @neutralinojs/neu run",
+    "dev": "vue-cli-service serve --host localhost --port 8090",
+    "update": "npx @neutralinojs/neu update"
   },
   "dependencies": {
     "axios": "^0.25.0",
@@ -16,6 +15,7 @@
     "is-mobile": "^3.0.0",
     "moment": "^2.29.1",
     "nanoid": "^3.2.0",
+    "register-service-worker": "^1.7.1",
     "vue": "2.6.11",
     "vue-router": "3.3.4",
     "vue-swipe-actions": "^2.0.0-beta.20",
@@ -30,7 +30,7 @@
     "@typescript-eslint/parser": "2.34.0",
     "@vue/cli-plugin-babel": "4.4.6",
     "@vue/cli-plugin-eslint": "4.4.6",
-    "@vue/cli-plugin-pwa": "4.4.6",
+    "@vue/cli-plugin-pwa": "~4.5.0",
     "@vue/cli-plugin-router": "4.4.6",
     "@vue/cli-plugin-typescript": "4.4.6",
     "@vue/cli-plugin-vuex": "4.4.6",
@@ -49,5 +49,6 @@
     "vue-class-component": "7.2.3",
     "vue-property-decorator": "8.5.0",
     "vue-template-compiler": "2.6.11"
-  }
+  },
+  "license": "GPL-3.0"
 }

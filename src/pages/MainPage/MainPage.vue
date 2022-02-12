@@ -1,5 +1,6 @@
 <template>
   <div class="main-page">
+    <PwaBar />
     <Header />
     <div class="d-flex">
       <Sidebar />
@@ -22,6 +23,7 @@ import { Vue, Component } from "@/utils/vue-imports";
 import Header from "@/components/organisms/Header/Header.vue";
 import Sidebar from "@/components/organisms/Sidebar/Sidebar.vue";
 import TodoList from "@/components/molecules/TodoList/TodoList.vue";
+import PwaBar from "@/components/organisms/PwaBar/PwaBar.vue";
 
 // component
 @Component({
@@ -30,6 +32,7 @@ import TodoList from "@/components/molecules/TodoList/TodoList.vue";
     Header,
     Sidebar,
     TodoList,
+    PwaBar,
   },
 })
 export default class MainPage extends Vue {}
