@@ -9,7 +9,13 @@
     }"
   >
     <v-card>
-      <div class="pa-2 d-flex align-center">
+      <div
+        :class="{
+          'd-flex align-center': true,
+          'pa-2': !isMobile,
+          'pa-1': isMobile,
+        }"
+      >
         <v-simple-checkbox
           :value="todo.checked"
           @input="toggleChecked()"
@@ -42,33 +48,38 @@
             placeholder="Description"
             no-resize
             hide-details
-            class="px-1"
+            :class="isMobile ? '' : 'px-1'"
             flat
             solo
             @blur="setBody($event.target.value)"
           />
         </div>
       </v-expand-transition>
-      <v-divider />
+      <v-divider
+        v-if="
+          (isMobile && (customTodoFolder || todo.dueDate || todo.important)) ||
+          !isMobile
+        "
+      />
       <div
-        v-if="isMobile"
+        v-if="isMobile && (customTodoFolder || todo.dueDate || todo.important)"
         class="caption py-1 px-2 text--disabled todo-card__caption text-right"
       >
-        <div v-if="customTodoFolder" class="mr-4">
+        <div v-if="customTodoFolder">
           <v-icon disabled small class="mr-1 text-left">
             mdi-folder-outline
           </v-icon>
           <span>{{ customTodoFolder.title }}</span>
         </div>
-        <div v-if="todo.dueDate" class="mr-4 text-left">
+        <div v-if="todo.dueDate" class="ml-4 text-left">
           <v-icon disabled small class="mr-1">mdi-calendar-blank</v-icon>
           <span>{{ formattedDate }}</span>
         </div>
-        <div v-if="todo.important">
+        <div v-if="todo.important" class="ml-4">
           <v-icon small color="orange">mdi-alert-octagram</v-icon>
         </div>
       </div>
-      <v-card-actions v-else>
+      <v-card-actions v-if="!isMobile">
         <v-menu bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
