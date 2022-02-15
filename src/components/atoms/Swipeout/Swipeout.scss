@@ -1,6 +1,7 @@
 .swipeout {
   &__action {
     height: 100% !important;
+    width: 80px;
 
     &--left {
       margin-right: 8px;
@@ -8,6 +9,13 @@
 
     &--right {
       margin-left: 8px;
+    }
+
+    /deep/ .v-btn__content {
+      display: flex;
+      flex-direction: column;
+      text-transform: initial;
+      width: 100%;
     }
   }
 }

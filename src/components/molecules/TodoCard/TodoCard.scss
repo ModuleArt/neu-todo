@@ -30,9 +30,18 @@
 
     div {
       display: inline-block;
-      max-width: calc(50% - 24px);
       vertical-align: top;
       white-space: nowrap;
+    }
+
+    &--folder {
+      max-width: calc(60% - 24px);
+      width: 100%;
+    }
+
+    &--due-date {
+      max-width: calc(40% - 24px);
+      width: 100%;
     }
 
     span {
@@ -41,7 +50,7 @@
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
-      width: calc(100% - 16px);
+      max-width: calc(100% - 16px);
     }
   }
 }

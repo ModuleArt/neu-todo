@@ -65,17 +65,23 @@
         v-if="isMobile && (customTodoFolder || todo.dueDate || todo.important)"
         class="caption py-1 px-2 text--disabled todo-card__caption text-right"
       >
-        <div v-if="customTodoFolder">
-          <v-icon disabled small class="mr-1 text-left">
+        <div
+          v-if="customTodoFolder"
+          class="todo-card__caption--folder text-left mr-4"
+        >
+          <v-icon disabled small class="mr-1">
             mdi-folder-outline
           </v-icon>
           <span>{{ customTodoFolder.title }}</span>
         </div>
-        <div v-if="todo.dueDate" class="ml-4 text-left">
+        <div
+          v-if="todo.dueDate"
+          class="text-right todo-card__caption--due-date"
+        >
           <v-icon disabled small class="mr-1">mdi-calendar-blank</v-icon>
           <span>{{ formattedDate }}</span>
         </div>
-        <div v-if="todo.important" class="ml-4">
+        <div v-if="todo.important" class="ml-4 todo-card__caption--important">
           <v-icon small color="orange">mdi-alert-octagram</v-icon>
         </div>
       </div>
@@ -176,6 +182,9 @@ import Folder from "@/interfaces/entities/folder";
 // store modules
 import { todosModule, foldersModule } from "@/store";
 
+// interfaces
+import SwipeoutButton from "@/interfaces/logic/swipeoutButton";
+
 // components
 import Swipeout from "@/components/atoms/Swipeout/Swipeout.vue";
 
@@ -197,9 +206,10 @@ export default class TodoCard extends Vue {
 
   // data
   private expanded = false;
-  private swipeoutLeftActions = [
+  private swipeoutLeftActions: SwipeoutButton[] = [
     {
       icon: "mdi-folder-outline",
+      text: "Folder",
       color: "primary",
       onClick: () => {
         this.chooseFolder();
@@ -207,23 +217,25 @@ export default class TodoCard extends Vue {
     },
     {
       icon: "mdi-calendar-blank",
+      text: "Due date",
       color: "red",
       onClick: () => {
         this.addDueDate();
       },
     },
   ];
-  private swipeoutRightActions = [
+  private swipeoutRightActions: SwipeoutButton[] = [
     {
       icon: "mdi-octagram-outline",
+      text: "Important",
       color: "orange",
       onClick: () => {
-        console.log("imp");
         this.toggleImportant();
       },
     },
     {
       icon: "mdi-delete-outline",
+      text: "Delete",
       color: "red",
       onClick: () => {
         this.removeTodo();

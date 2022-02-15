@@ -1,5 +1,10 @@
 <template>
-  <SwipeOut v-if="enable" class="swipeout" ref="swipeOut">
+  <SwipeOut
+    v-if="enable"
+    class="swipeout"
+    ref="swipeOut"
+    v-click-outside="closeActions"
+  >
     <template v-slot:left="{}">
       <div
         v-for="(action, actionIndex) in leftActions"
@@ -7,10 +12,11 @@
       >
         <v-btn
           :color="action.color"
-          class="swipeout__action swipeout__action--left"
+          class="swipeout__action swipeout__action--left pa-2"
           @click.stop.prevent="action.onClick"
         >
           <v-icon>{{ action.icon }}</v-icon>
+          <span class="mt-1 caption">{{ action.text }}</span>
         </v-btn>
       </div>
     </template>
@@ -25,9 +31,10 @@
       >
         <v-btn
           :color="action.color"
-          class="swipeout__action swipeout__action--right"
+          class="swipeout__action swipeout__action--right pa-2"
         >
           <v-icon>{{ action.icon }}</v-icon>
+          <span class="mt-1 caption">{{ action.text }}</span>
         </v-btn>
       </div>
     </template>
@@ -48,11 +55,7 @@ import { SwipeOut } from "vue-swipe-actions";
 import "vue-swipe-actions/dist/vue-swipe-actions.css";
 
 // interfaces
-interface SwipeoutButton {
-  icon: string;
-  color: string;
-  onClick: void;
-}
+import SwipeoutButton from "@/interfaces/logic/swipeoutButton";
 
 // component
 @Component({
