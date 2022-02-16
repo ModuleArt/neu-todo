@@ -13,28 +13,28 @@
         <v-btn
           :color="action.color"
           class="swipeout__action swipeout__action--left pa-2"
-          @click.stop.prevent="action.onClick"
+          @click.stop.prevent="callAction(action.onClick)"
         >
-          <v-icon>{{ action.icon }}</v-icon>
-          <span class="mt-1 caption">{{ action.text }}</span>
+          <v-icon class="mt-1" small>{{ action.icon }}</v-icon>
+          <span class="caption">{{ action.text }}</span>
         </v-btn>
       </div>
     </template>
-    <div @click="closeActions()">
+    <div @click="closeActions">
       <slot />
     </div>
     <template v-slot:right="{}">
       <div
         v-for="(action, actionIndex) in rightActions"
         :key="`swipeout-action-right--${actionIndex}`"
-        @click.stop.prevent="action.onClick"
       >
         <v-btn
           :color="action.color"
           class="swipeout__action swipeout__action--right pa-2"
+          @click.stop.prevent="callAction(action.onClick)"
         >
-          <v-icon>{{ action.icon }}</v-icon>
-          <span class="mt-1 caption">{{ action.text }}</span>
+          <v-icon class="mt-1" small>{{ action.icon }}</v-icon>
+          <span class="caption">{{ action.text }}</span>
         </v-btn>
       </div>
     </template>
@@ -77,7 +77,16 @@ export default class Swipeout extends Vue {
 
   // methods
   private closeActions() {
-    this.$refs.swipeOut.closeActions();
+    if (this.$refs.swipeOut) {
+      setTimeout(() => {
+        this.$refs.swipeOut.closeActions();
+      }, 0);
+    }
+  }
+
+  private callAction(action: () => {}) {
+    action();
+    this.closeActions();
   }
 }
 </script>

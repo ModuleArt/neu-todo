@@ -86,58 +86,7 @@
         </div>
       </div>
       <v-card-actions v-if="!isMobile">
-        <v-menu bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              v-bind="attrs"
-              v-on="on"
-              :color="customTodoFolder && customTodoFolder.color"
-              :icon="!customTodoFolder"
-              :text="customTodoFolder != null"
-              :title="
-                customTodoFolder ? customTodoFolder.title : 'Choose folder'
-              "
-            >
-              <v-icon>
-                {{
-                  customTodoFolder
-                    ? customTodoFolder.icon
-                    : "mdi-folder-outline"
-                }}
-              </v-icon>
-              <span
-                v-if="customTodoFolder"
-                class="ml-1 todo-card__folder-title"
-              >
-                {{ customTodoFolder.title }}
-              </span>
-            </v-btn>
-          </template>
-          <v-list dense>
-            <v-list-item link @click="setCustomFolderId(null)">
-              <v-list-item-icon class="mr-4">
-                <v-icon>mdi-close</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                No folder
-              </v-list-item-title>
-            </v-list-item>
-            <v-divider v-if="foldersToChoose.length" class="my-2" />
-            <v-list-item
-              v-for="(item, index) in foldersToChoose"
-              :key="index"
-              link
-              @click="setCustomFolderId(item.id)"
-              :input-value="customTodoFolder && customTodoFolder.id == item.id"
-              :color="(customTodoFolder && customTodoFolder.color) || ''"
-            >
-              <v-list-item-icon class="mr-4">
-                <v-icon>{{ item.icon }}</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+        <ChooseFolderMenu :todo="todo" :button="true" />
         <v-spacer />
         <v-btn
           :icon="!todo.dueDate"
@@ -165,6 +114,7 @@
           <v-icon>mdi-delete-outline</v-icon>
         </v-btn>
       </v-card-actions>
+      <ChooseFolderMenu v-else :todo="todo" ref="chooseFolderMenu" />
     </v-card>
   </Swipeout>
 </template>
@@ -187,18 +137,21 @@ import SwipeoutButton from "@/interfaces/logic/swipeoutButton";
 
 // components
 import Swipeout from "@/components/atoms/Swipeout/Swipeout.vue";
+import ChooseFolderMenu from "@/components/menus/ChooseFolderMenu/ChooseFolderMenu.vue";
 
 // component
 @Component({
   name: "TodoCard",
   components: {
     Swipeout,
+    ChooseFolderMenu,
   },
 })
 export default class TodoCard extends Vue {
   // refs
   public $refs!: {
     taskTitleInput: HTMLInputElement;
+    chooseFolderMenu: ChooseFolderMenu;
   };
 
   // props
@@ -212,7 +165,7 @@ export default class TodoCard extends Vue {
       text: "Folder",
       color: "primary",
       onClick: () => {
-        this.chooseFolder();
+        this.$refs.chooseFolderMenu.show();
       },
     },
     {
@@ -258,10 +211,6 @@ export default class TodoCard extends Vue {
         (folder: Folder) => folder.id === this.todo.customFolderId
       ) || null
     );
-  }
-
-  get foldersToChoose(): Folder[] {
-    return foldersModule.folders.filter((folder) => folder.custom);
   }
 
   get dueDateIcon(): string {
@@ -330,17 +279,6 @@ export default class TodoCard extends Vue {
       todoId: this.todo.id,
       body,
     });
-  }
-
-  private setCustomFolderId(customFolderId: string | null) {
-    todosModule.setCustomFolderId({
-      todoId: this.todo.id,
-      customFolderId,
-    });
-  }
-
-  private chooseFolder() {
-    console.log("swipeout choose folder");
   }
 }
 </script>

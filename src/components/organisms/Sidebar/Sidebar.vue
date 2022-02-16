@@ -59,7 +59,7 @@
         <v-list nav dense class="pt-0">
           <v-divider class="mb-2" />
           <v-list-item link @click="addNewFolder()">
-            <v-list-item-icon>
+            <v-list-item-icon class="mr-4">
               <v-icon>mdi-folder-plus-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-title>New folder</v-list-item-title>

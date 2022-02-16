@@ -14,7 +14,7 @@
     </v-list-item-content>
     <v-list-item-action class="my-0 mr-1 justify-end">
       <v-list-item-action-text>
-        {{ getFolderTodosCount(folder) }}
+        {{ folderTodosCount }}
       </v-list-item-action-text>
     </v-list-item-action>
   </v-list-item>
@@ -39,23 +39,24 @@ export default class FolderListItem extends Vue {
   // props
   @Prop() readonly folder!: Folder;
 
-  // private methods
-  private getFolderTodosCount(folder: Folder): number | string {
+  // computed
+  get folderTodosCount(): number | string {
     return (
       todosModule.todos.filter((todo) => {
         if (todo.checked) {
           return false;
         } else {
-          if (folder.filter) {
-            return folder.filter(todo);
+          if (this.folder.filter) {
+            return this.folder.filter(todo);
           } else {
-            return folder.id === todo.customFolderId;
+            return this.folder.id === todo.customFolderId;
           }
         }
       }).length || ""
     );
   }
 
+  // private methods
   private rightClick(e: MouseEvent) {
     if (!isMobile()) {
       this.$emit("contextmenu", { x: e.clientX, y: e.clientY });
