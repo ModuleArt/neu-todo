@@ -1,17 +1,18 @@
 <template>
   <div class="main-page">
     <PwaBar />
-    <Header />
+    <!-- <Header /> -->
     <div class="d-flex">
       <Sidebar />
-      <v-flex class="pt-14 main-page__content">
+      <v-flex class="main-page__content">
         <div class="main-page__scroll">
-          <v-container class="mb-12">
+          <v-container>
             <TodoList />
           </v-container>
         </div>
       </v-flex>
     </div>
+    <!-- <Footer /> -->
   </div>
 </template>
 

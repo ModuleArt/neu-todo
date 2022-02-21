@@ -5,6 +5,7 @@
     :enable="isMobile"
     :class="{
       'todo-card': true,
+      rounded: true,
       'todo-card--checked': todo.checked,
     }"
   >
@@ -69,17 +70,23 @@
           v-if="customTodoFolder"
           class="todo-card__caption--folder text-left mr-4"
         >
-          <v-icon disabled small class="mr-1">
+          <v-icon :color="customTodoFolder.color" small class="mr-1">
             mdi-folder-outline
           </v-icon>
-          <span>{{ customTodoFolder.title }}</span>
+          <span :class="`${customTodoFolder.color}--text`">
+            {{ customTodoFolder.title }}
+          </span>
         </div>
         <div
           v-if="todo.dueDate"
           class="text-right todo-card__caption--due-date"
         >
-          <v-icon disabled small class="mr-1">mdi-calendar-blank</v-icon>
-          <span>{{ formattedDate }}</span>
+          <v-icon :disabled="!isOverdue" small class="mr-1" color="red">
+            mdi-calendar-blank
+          </v-icon>
+          <span :class="{ 'red--text': isOverdue }">
+            {{ formattedDate }}
+          </span>
         </div>
         <div v-if="todo.important" class="ml-4 todo-card__caption--important">
           <v-icon small color="orange">mdi-alert-octagram</v-icon>
@@ -123,7 +130,6 @@
 // utils
 import { Vue, Component, Prop } from "@/utils/vue-imports";
 import dateUtils from "@/utils/date";
-import mobile from "is-mobile";
 
 // interfaces
 import Todo from "@/interfaces/entities/todo";
@@ -229,7 +235,7 @@ export default class TodoCard extends Vue {
   }
 
   get isMobile(): boolean {
-    return mobile();
+    return !this.$screen.md;
   }
 
   // lifecycle

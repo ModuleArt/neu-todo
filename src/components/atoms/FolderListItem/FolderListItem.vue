@@ -23,7 +23,6 @@
 <script lang="ts">
 // utils
 import { Vue, Component, Prop } from "@/utils/vue-imports";
-import isMobile from "is-mobile";
 
 // interfaces
 import Folder from "@/interfaces/entities/folder";
@@ -56,15 +55,19 @@ export default class FolderListItem extends Vue {
     );
   }
 
+  get isMobile(): boolean {
+    return !this.$screen.md;
+  }
+
   // private methods
   private rightClick(e: MouseEvent) {
-    if (!isMobile()) {
+    if (!this.isMobile) {
       this.$emit("contextmenu", { x: e.clientX, y: e.clientY });
     }
   }
 
   private touchHold(e: MouseEvent) {
-    if (isMobile()) {
+    if (this.isMobile) {
       const p = (e.target as HTMLElement).getBoundingClientRect();
       this.$emit("contextmenu", { x: p.x, y: p.y + p.height - 8 });
     }

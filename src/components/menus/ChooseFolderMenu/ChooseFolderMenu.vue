@@ -12,7 +12,10 @@
         <v-icon>
           {{ customTodoFolder ? customTodoFolder.icon : "mdi-folder-outline" }}
         </v-icon>
-        <span v-if="customTodoFolder" class="ml-1 todo-card__folder-title">
+        <span
+          v-if="customTodoFolder"
+          class="ml-1 choose-folder-menu__folder-title"
+        >
           {{ customTodoFolder.title }}
         </span>
       </v-btn>
@@ -59,7 +62,7 @@ import { todosModule, foldersModule } from "@/store";
 
 // component
 @Component({
-  name: "FolderContextMenu",
+  name: "ChooseFolderMenu",
 })
 export default class FolderListItem extends Vue {
   // props
@@ -98,3 +101,7 @@ export default class FolderListItem extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "./ChooseFolderMenu.scss";
+</style>

@@ -1,8 +1,9 @@
 <template>
   <div class="todo-list">
-    <div class="d-flex align-center mb-4 todo-list__title">
+    <div class="d-flex align-center todo-list__title">
       <h1>{{ currentFolder && currentFolder.title }}</h1>
     </div>
+    <AddTodoField class="my-2" />
     <div class="todo-list__todos d-flex">
       <v-layout wrap row class="pa-2 todo-list__list">
         <v-flex
@@ -20,18 +21,9 @@
           />
         </v-flex>
         <div v-if="!filteredTodos.length && currentFolder" class="px-1">
-          <span>There are no tasks in this folder.</span>
-          <span v-if="currentFolder.transform || currentFolder.custom">
-            Try to
-            <a
-              @click="addTodo()"
-              :class="{
-                [`${currentFolder.color}--text`]: currentFolder.color,
-              }"
-            >
-              create one
-            </a>
-          </span>
+          <v-subheader class="pa-0">
+            There are no tasks in this folder. Try to create one.
+          </v-subheader>
         </div>
       </v-layout>
     </div>
@@ -66,6 +58,7 @@ import { todosModule, foldersModule } from "@/store";
 // components
 import TodoCard from "@/components/molecules/TodoCard/TodoCard.vue";
 import DueDateDialog from "@/components/dialogs/DueDateDialog/DueDateDialog.vue";
+import AddTodoField from "@/components/molecules/AddTodoField/AddTodoField.vue";
 
 // component
 @Component({
@@ -73,6 +66,7 @@ import DueDateDialog from "@/components/dialogs/DueDateDialog/DueDateDialog.vue"
   components: {
     TodoCard,
     DueDateDialog,
+    AddTodoField,
   },
 })
 export default class TodoList extends Vue {

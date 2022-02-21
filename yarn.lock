@@ -5240,11 +5240,6 @@ is-glob@^4.0.0, is-glob@^4.0.1, is-glob@~4.0.1:
   dependencies:
     is-extglob "^2.1.1"
 
-is-mobile@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/is-mobile/-/is-mobile-3.0.0.tgz#683005f3a40adbc0ca5867e1d5e75d7bbf66d764"
-  integrity sha512-UruBjgykgDJ5zRpJ8Zgh9ZUe4jQaHD8klX9FlkOt0oPyu3FpwJpxHvKg4+lhJOWGxSrMKsRuPFk60xeltvyliQ==
-
 is-number@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/is-number/-/is-number-3.0.0.tgz#24fd6201a4782cf50561c810276afc7d12d71195"
@@ -9271,6 +9266,11 @@ vue-router@3.3.4:
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.3.4.tgz#4e38abc34a11c41b6c3d8244449a2e363ba6250b"
   integrity sha512-SdKRBeoXUjaZ9R/8AyxsdTqkOfMcI5tWxPZOUX5Ie1BTL5rPSZ0O++pbiZCeYeythiZIdLEfkDiQPKIaWk5hDg==
+
+vue-screen@^1.5.6:
+  version "1.5.6"
+  resolved "https://registry.yarnpkg.com/vue-screen/-/vue-screen-1.5.6.tgz#63da5a0b2be91b23326c7bedfbc45f707065f512"
+  integrity sha512-UL+5RLDUQw6OlvAkBWgDi56pvlWS3cx1rQ8zrQGN9oRMNtrOXEx9bUkS/+/zKs/z4py9lJDILLSd+h4ruoUhQg==
 
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.2"

@@ -1,11 +1,14 @@
 <template>
-  <div class="sidebar pl-14">
+  <div
+    :class="{
+      sidebar: true,
+      'pl-14': isMobile,
+    }"
+  >
     <v-navigation-drawer
       permanent
-      fixed
-      app
+      :app="isMobile"
       stateless
-      :expand-on-hover="!isMobile && !showFolderContextMenu"
       :mini-variant="isMobile && !expandDrawer"
       v-click-outside="drawerClickOutside"
     >
@@ -33,14 +36,14 @@
           </v-list-item>
         </v-list>
       </div>
-      <v-divider class="mb-1" />
-      <v-list nav dense class="py-1 pb-16 mb-6">
+      <v-list nav dense class="pt-0 pb-1 pb-16 mb-6">
         <v-list-item-group
           :value="selectedItem"
           :color="(currentFolder && currentFolder.color) || 'primary'"
           @change="selectedItemChanged($event)"
           mandatory
         >
+          <v-divider class="mb-2" />
           <FolderListItem
             v-for="folder in systemFolders"
             :key="`folder--${folder.id}`"
@@ -80,7 +83,6 @@
 <script lang="ts">
 // utils
 import { Vue, Component } from "@/utils/vue-imports";
-import mobile from "is-mobile";
 
 // interfaces
 import Folder from "@/interfaces/entities/folder";
@@ -134,7 +136,7 @@ export default class Sidebar extends Vue {
   }
 
   get isMobile(): boolean {
-    return mobile();
+    return !this.$screen.md;
   }
 
   // private methods
