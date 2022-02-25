@@ -1,0 +1,9 @@
+.add-todo-field {
+  /deep/ .v-input__slot {
+    padding: 12px 14px !important;
+  }
+
+  /deep/ .v-input__prepend-inner {
+    margin-right: 18px !important;
+  }
+}

@@ -2,7 +2,7 @@
   <Swipeout
     :left-actions="swipeoutLeftActions"
     :right-actions="swipeoutRightActions"
-    :enable="isMobile"
+    :enable="$isMobile"
     :class="{
       'todo-card': true,
       rounded: true,
@@ -13,8 +13,8 @@
       <div
         :class="{
           'd-flex align-center': true,
-          'pa-2': !isMobile,
-          'pa-1': isMobile,
+          'pa-2': !$isMobile,
+          'pa-1': $isMobile,
         }"
       >
         <v-simple-checkbox
@@ -49,26 +49,26 @@
             placeholder="Description"
             no-resize
             hide-details
-            :class="isMobile ? '' : 'px-1'"
+            :class="$isMobile ? '' : 'px-1'"
             flat
             solo
             @blur="setBody($event.target.value)"
           />
         </div>
       </v-expand-transition>
-      <v-divider
-        v-if="
-          (isMobile && (customTodoFolder || todo.dueDate || todo.important)) ||
-          !isMobile
-        "
-      />
       <div
-        v-if="isMobile && (customTodoFolder || todo.dueDate || todo.important)"
-        class="caption py-1 px-2 text--disabled todo-card__caption text-right"
+        v-if="customTodoFolder || todo.dueDate || todo.important"
+        :class="{
+          'caption text--disabled todo-card__caption text-right d-flex': true,
+          'justify-space-between': customTodoFolder,
+          'justify-end': !customTodoFolder,
+          'px-4 pb-2': !$isMobile,
+          'px-3 pb-1': $isMobile,
+        }"
       >
         <div
           v-if="customTodoFolder"
-          class="todo-card__caption--folder text-left mr-4"
+          class="todo-card__caption--folder mr-4 text-left"
         >
           <v-icon :color="customTodoFolder.color" small class="mr-1">
             mdi-folder-outline
@@ -92,7 +92,7 @@
           <v-icon small color="orange">mdi-alert-octagram</v-icon>
         </div>
       </div>
-      <v-card-actions v-if="!isMobile">
+      <!-- <v-card-actions v-if="!isMobile">
         <ChooseFolderMenu :todo="todo" :button="true" />
         <v-spacer />
         <v-btn
@@ -120,7 +120,7 @@
         <v-btn icon @click="removeTodo()" title="Delete task" class="ma-0">
           <v-icon>mdi-delete-outline</v-icon>
         </v-btn>
-      </v-card-actions>
+      </v-card-actions> -->
       <ChooseFolderMenu v-else :todo="todo" ref="chooseFolderMenu" />
     </v-card>
   </Swipeout>
@@ -128,7 +128,7 @@
 
 <script lang="ts">
 // utils
-import { Vue, Component, Prop } from "@/utils/vue-imports";
+import { Mixins, Component, Prop } from "@/utils/vue-imports";
 import dateUtils from "@/utils/date";
 
 // interfaces
@@ -137,6 +137,9 @@ import Folder from "@/interfaces/entities/folder";
 
 // store modules
 import { todosModule, foldersModule } from "@/store";
+
+// mixins
+import isMobileMixin from "@/mixins/isMobile";
 
 // interfaces
 import SwipeoutButton from "@/interfaces/logic/swipeoutButton";
@@ -153,7 +156,7 @@ import ChooseFolderMenu from "@/components/menus/ChooseFolderMenu/ChooseFolderMe
     ChooseFolderMenu,
   },
 })
-export default class TodoCard extends Vue {
+export default class TodoCard extends Mixins(isMobileMixin) {
   // refs
   public $refs!: {
     taskTitleInput: HTMLInputElement;
@@ -162,9 +165,9 @@ export default class TodoCard extends Vue {
 
   // props
   @Prop() readonly todo!: Todo;
+  @Prop() readonly expanded!: boolean;
 
   // data
-  private expanded = false;
   private swipeoutLeftActions: SwipeoutButton[] = [
     {
       icon: "mdi-folder-outline",
@@ -234,18 +237,6 @@ export default class TodoCard extends Vue {
     }
   }
 
-  get isMobile(): boolean {
-    return !this.$screen.md;
-  }
-
-  // lifecycle
-  mounted() {
-    if (this.todo.lastAdded) {
-      this.$refs.taskTitleInput.focus();
-      this.todo.lastAdded = false;
-    }
-  }
-
   // private methods
   private toggleChecked() {
     todosModule.setChecked({
@@ -255,7 +246,7 @@ export default class TodoCard extends Vue {
   }
 
   private toggleExpandedTodo() {
-    this.expanded = !this.expanded;
+    this.$emit("expandToggled");
   }
 
   private addDueDate() {

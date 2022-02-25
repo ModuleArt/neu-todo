@@ -2,18 +2,18 @@
   <div
     :class="{
       sidebar: true,
-      'pl-14': isMobile,
+      'pl-14': $isMobile,
     }"
   >
     <v-navigation-drawer
       permanent
-      :app="isMobile"
+      :app="$isMobile"
       stateless
-      :mini-variant="isMobile && !expandDrawer"
+      :mini-variant="$isMobile && !expandDrawer"
       v-click-outside="drawerClickOutside"
     >
       <div class="d-flex">
-        <div v-if="isMobile" class="sidebar__menu-button">
+        <div v-if="$isMobile" class="sidebar__menu-button">
           <v-btn icon @click="expandDrawer = !expandDrawer">
             <v-icon>mdi-menu</v-icon>
           </v-btn>
@@ -82,13 +82,16 @@
 
 <script lang="ts">
 // utils
-import { Vue, Component } from "@/utils/vue-imports";
+import { Mixins, Component } from "@/utils/vue-imports";
 
 // interfaces
 import Folder from "@/interfaces/entities/folder";
 
 // store modules
 import { foldersModule, todosModule } from "@/store";
+
+// mixins
+import isMobileMixin from "@/mixins/isMobile";
 
 // components
 import FolderListItem from "@/components/atoms/FolderListItem/FolderListItem.vue";
@@ -100,7 +103,7 @@ import FolderContextMenu from "@/components/menus/FolderContextMenu/FolderContex
   name: "Sidebar",
   components: { FolderListItem, EditFolderDialog, FolderContextMenu },
 })
-export default class Sidebar extends Vue {
+export default class Sidebar extends Mixins(isMobileMixin) {
   // refs
   public $refs!: {
     editFolderDialog: EditFolderDialog;
@@ -133,10 +136,6 @@ export default class Sidebar extends Vue {
     return this.folders.findIndex(
       (folder: Folder) => folder.id === foldersModule.currentFolderId
     );
-  }
-
-  get isMobile(): boolean {
-    return !this.$screen.md;
   }
 
   // private methods

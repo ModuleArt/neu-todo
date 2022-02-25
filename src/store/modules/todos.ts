@@ -119,7 +119,6 @@ class TodosModule extends VuexModule {
         important: false,
         dueDate: null,
         customFolderId: null,
-        lastAdded: true,
       };
     }
     if (transform) {

@@ -7,7 +7,11 @@
       <v-flex class="main-page__content">
         <div class="main-page__scroll">
           <v-container>
-            <TodoList />
+            <v-row justify="center">
+              <v-col cols="8">
+                <TodoList />
+              </v-col>
+            </v-row>
           </v-container>
         </div>
       </v-flex>

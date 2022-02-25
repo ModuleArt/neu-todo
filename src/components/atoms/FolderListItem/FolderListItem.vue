@@ -22,7 +22,7 @@
 
 <script lang="ts">
 // utils
-import { Vue, Component, Prop } from "@/utils/vue-imports";
+import { Mixins, Component, Prop } from "@/utils/vue-imports";
 
 // interfaces
 import Folder from "@/interfaces/entities/folder";
@@ -30,11 +30,14 @@ import Folder from "@/interfaces/entities/folder";
 // store modules
 import { todosModule } from "@/store";
 
+// mixins
+import isMobileMixin from "@/mixins/isMobile";
+
 // component
 @Component({
   name: "FolderListItem",
 })
-export default class FolderListItem extends Vue {
+export default class FolderListItem extends Mixins(isMobileMixin) {
   // props
   @Prop() readonly folder!: Folder;
 
@@ -55,19 +58,15 @@ export default class FolderListItem extends Vue {
     );
   }
 
-  get isMobile(): boolean {
-    return !this.$screen.md;
-  }
-
   // private methods
   private rightClick(e: MouseEvent) {
-    if (!this.isMobile) {
+    if (!this.$isMobile) {
       this.$emit("contextmenu", { x: e.clientX, y: e.clientY });
     }
   }
 
   private touchHold(e: MouseEvent) {
-    if (this.isMobile) {
+    if (this.$isMobile) {
       const p = (e.target as HTMLElement).getBoundingClientRect();
       this.$emit("contextmenu", { x: p.x, y: p.y + p.height - 8 });
     }

@@ -1,5 +1,5 @@
 <template>
-  <div class="add-todo-button">
+  <div class="add-todo-field">
     <v-text-field
       dense
       label="Add a task"
@@ -8,6 +8,7 @@
       placeholder="Task title"
       prepend-inner-icon="mdi-plus"
       :color="currentFolder.color || 'primary'"
+      outlined
     />
   </div>
 </template>
@@ -43,3 +44,7 @@ export default class Header extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "./AddTodoField.scss";
+</style>
