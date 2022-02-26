@@ -52,6 +52,20 @@ const dateUtils = {
         return moment(date).format("ddd, MMM D");
     }
   },
+  toIcon(date: number): string {
+    if (!date) {
+      return "mdi-calendar-blank";
+    } else {
+      const code = this.numberToCode(date);
+      if (code == "today") {
+        return "mdi-calendar-today";
+      } else if (this.isOverdue(date)) {
+        return "mdi-calendar-arrow-left";
+      } else {
+        return "mdi-calendar-arrow-right";
+      }
+    }
+  },
 };
 
 export default dateUtils;

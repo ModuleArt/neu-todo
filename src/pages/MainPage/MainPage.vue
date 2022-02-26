@@ -4,19 +4,18 @@
     <!-- <Header /> -->
     <div class="d-flex">
       <Sidebar />
-      <v-flex class="main-page__content">
-        <div class="main-page__scroll">
-          <v-container>
-            <v-row justify="center">
-              <v-col cols="8">
-                <TodoList />
-              </v-col>
-            </v-row>
-          </v-container>
-        </div>
-      </v-flex>
+      <!-- <v-flex class="main-page__content"> -->
+      <div class="main-page__scroll d-flex justify-center">
+        <v-container>
+          <v-row justify="center" class="main-page__row">
+            <v-col cols="8" class="main-page__col">
+              <TodoList />
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
+      <!-- </v-flex> -->
     </div>
-    <!-- <Footer /> -->
   </div>
 </template>
 

@@ -14,6 +14,17 @@
     }
   }
 
+  &__title {
+    flex: 1;
+  }
+
+  &__title-text {
+    cursor: text;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+
   &__title-input {
     /deep/ fieldset {
       border-color: transparent;
@@ -22,6 +33,10 @@
 
   &__caption {
     vertical-align: middle;
+
+    & > * {
+      pointer-events: none;
+    }
 
     div {
       display: inline-block;

@@ -9,6 +9,7 @@
       prepend-inner-icon="mdi-plus"
       :color="currentFolder.color || 'primary'"
       outlined
+      @contextmenu.stop
     />
   </div>
 </template>

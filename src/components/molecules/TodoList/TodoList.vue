@@ -15,8 +15,8 @@
       <div v-for="(todo, todoIndex) in filteredTodos" :key="`todo--${todo.id}`">
         <TodoCard
           :todo="todo"
-          @addDueDateClicked="addDueDate"
-          @removeTodoClicked="removeTodo"
+          @addDueDate="addDueDate"
+          @removeTodo="removeTodo"
           :expanded="selectedTodoIndex == todoIndex"
           @expandToggled="expandToggled(todoIndex)"
           class="mt-2"
@@ -25,7 +25,7 @@
       </div>
       <div v-if="!filteredTodos.length && currentFolder">
         <v-subheader class="pa-0">
-          There are no tasks in this folder. Try to create one.
+          There are no tasks here.
         </v-subheader>
       </div>
     </div>
@@ -41,6 +41,14 @@
         </v-btn>
       </template>
     </v-snackbar>
+    <TodoContextMenu
+      ref="todoContextMenu"
+      v-model="showTodoContextMenu"
+      :todo="selectedTodo"
+      @removeTodo="removeTodo(selectedTodo)"
+      @addDueDate="addDueDate(selectedTodo, $event)"
+      @toggleImportant="toggleImportant(selectedTodo)"
+    />
     <DueDateDialog ref="dueDateDialog" :selected-todo="selectedTodo" />
   </div>
 </template>
@@ -73,6 +81,7 @@ import TodoContextMenu from "@/components/menus/TodoContextMenu/TodoContextMenu.
     TodoCard,
     DueDateDialog,
     AddTodoField,
+    TodoContextMenu,
   },
 })
 export default class TodoList extends Mixins(isMobileMixin) {
@@ -91,7 +100,6 @@ export default class TodoList extends Mixins(isMobileMixin) {
   private removeSnackbarTempTodo: Todo | null = null;
 
   private showTodoContextMenu = false;
-  private todoWithContextMenu: Todo | null = null;
 
   // computed
   get currentFolder(): Folder | null {
@@ -139,9 +147,23 @@ export default class TodoList extends Mixins(isMobileMixin) {
     }
   }
 
-  private addDueDate(todo: Todo) {
+  private addDueDate(todo: Todo, date: number | null) {
     this.selectedTodo = todo;
-    this.$refs.dueDateDialog.setDialogOpened(true);
+    if (date) {
+      todosModule.setDueDate({
+        todoId: todo.id,
+        dueDate: date,
+      });
+    } else {
+      this.$refs.dueDateDialog.setDialogOpened(true);
+    }
+  }
+
+  private toggleImportant(todo: Todo) {
+    todosModule.setImportant({
+      todoId: todo.id,
+      important: !todo.important,
+    });
   }
 
   private addTodo(todo?: Todo) {
@@ -156,7 +178,7 @@ export default class TodoList extends Mixins(isMobileMixin) {
   }
 
   private setTodoContextMenuOpened(e: { x: number; y: number }, todo: Todo) {
-    this.todoWithContextMenu = todo;
+    this.selectedTodo = todo;
     this.$refs.todoContextMenu.setCoordinates(e.x, e.y);
     this.showTodoContextMenu = true;
   }

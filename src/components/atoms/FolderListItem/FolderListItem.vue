@@ -60,9 +60,7 @@ export default class FolderListItem extends Mixins(isMobileMixin) {
 
   // private methods
   private rightClick(e: MouseEvent) {
-    if (!this.$isMobile) {
-      this.$emit("contextmenu", { x: e.clientX, y: e.clientY });
-    }
+    this.$emit("contextmenu", { x: e.clientX, y: e.clientY });
   }
 
   private touchHold(e: MouseEvent) {
