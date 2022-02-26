@@ -11,63 +11,68 @@
       stateless
       :mini-variant="$isMobile && !expandDrawer"
       v-click-outside="drawerClickOutside"
+      class="sidebar__drawer"
     >
-      <div class="d-flex">
-        <div v-if="$isMobile" class="sidebar__menu-button">
-          <v-btn icon @click="expandDrawer = !expandDrawer">
-            <v-icon>mdi-menu</v-icon>
-          </v-btn>
+      <div class="d-flex flex-column sidebar__content">
+        <div class="d-flex">
+          <div v-if="$isMobile" class="sidebar__menu-button">
+            <v-btn icon @click="expandDrawer = !expandDrawer">
+              <v-icon>mdi-menu</v-icon>
+            </v-btn>
+          </div>
+          <v-list class="py-1">
+            <v-list-item class="px-3">
+              <v-list-item-avatar class="my-0" size="32">
+                <v-img
+                  src="https://avatars.githubusercontent.com/u/40366303?s=64"
+                />
+              </v-list-item-avatar>
+              <v-list-item-content class="py-0">
+                <v-list-item-title>
+                  NeuTodo
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  v0.0.1 (dev)
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
         </div>
-        <v-list class="py-1">
-          <v-list-item class="px-3">
-            <v-list-item-avatar class="my-0" size="32">
-              <v-img
-                src="https://avatars.githubusercontent.com/u/40366303?s=64"
+        <v-divider />
+        <div class="sidebar__scroll">
+          <v-list nav dense>
+            <v-list-item-group
+              :value="selectedItem"
+              :color="(currentFolder && currentFolder.color) || 'primary'"
+              @change="selectedItemChanged($event)"
+              mandatory
+            >
+              <FolderListItem
+                v-for="folder in systemFolders"
+                :key="`folder--${folder.id}`"
+                :folder="folder"
               />
-            </v-list-item-avatar>
-            <v-list-item-content class="py-0">
-              <v-list-item-title>
-                NeuTodo
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                v0.0.1 (dev)
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </div>
-      <v-list nav dense class="pt-0 pb-1 pb-16 mb-6">
-        <v-list-item-group
-          :value="selectedItem"
-          :color="(currentFolder && currentFolder.color) || 'primary'"
-          @change="selectedItemChanged($event)"
-          mandatory
-        >
-          <v-divider class="mb-2" />
-          <FolderListItem
-            v-for="folder in systemFolders"
-            :key="`folder--${folder.id}`"
-            :folder="folder"
-          />
-          <v-divider v-if="customFolders.length" class="my-2" />
-          <FolderListItem
-            v-for="folder in customFolders"
-            :key="`folder--${folder.id}`"
-            :folder="folder"
-            @contextmenu="setFolderContextMenuOpened($event, folder)"
-          />
-        </v-list-item-group>
-      </v-list>
-      <div class="sidebar__new-folder">
-        <v-list nav dense class="pt-0">
-          <v-divider class="mb-2" />
-          <v-list-item link @click="addNewFolder()">
-            <v-list-item-icon class="mr-4">
-              <v-icon>mdi-folder-plus-outline</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>New folder</v-list-item-title>
-          </v-list-item>
-        </v-list>
+              <v-divider v-if="customFolders.length" class="ma-2" />
+              <FolderListItem
+                v-for="folder in customFolders"
+                :key="`folder--${folder.id}`"
+                :folder="folder"
+                @contextmenu="setFolderContextMenuOpened($event, folder)"
+              />
+            </v-list-item-group>
+          </v-list>
+        </div>
+        <v-divider />
+        <div class="sidebar__new-folder">
+          <v-list nav dense>
+            <v-list-item link @click="addNewFolder()">
+              <v-list-item-icon class="mr-4">
+                <v-icon>mdi-folder-plus-outline</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>New folder</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </div>
       </div>
     </v-navigation-drawer>
     <FolderContextMenu

@@ -7,10 +7,10 @@
     }"
     v-if="currentFolder"
   >
-    <div class="d-flex align-center todo-list__title">
+    <div class="d-flex align-center todo-list__title mb-4">
       <h1>{{ currentFolder.title }}</h1>
     </div>
-    <AddTodoField class="mt-4" />
+    <AddTodoField v-if="currentFolder.transform || currentFolder.custom" />
     <div class="todo-list__todos">
       <div v-for="(todo, todoIndex) in filteredTodos" :key="`todo--${todo.id}`">
         <TodoCard
@@ -20,6 +20,7 @@
           :expanded="selectedTodoIndex == todoIndex"
           @expandToggled="expandToggled(todoIndex)"
           class="mt-2"
+          @contextmenu="setTodoContextMenuOpened($event, todo)"
         />
       </div>
       <div v-if="!filteredTodos.length && currentFolder">
@@ -63,6 +64,7 @@ import isMobileMixin from "@/mixins/isMobile";
 import TodoCard from "@/components/molecules/TodoCard/TodoCard.vue";
 import DueDateDialog from "@/components/dialogs/DueDateDialog/DueDateDialog.vue";
 import AddTodoField from "@/components/molecules/AddTodoField/AddTodoField.vue";
+import TodoContextMenu from "@/components/menus/TodoContextMenu/TodoContextMenu.vue";
 
 // component
 @Component({
@@ -77,6 +79,7 @@ export default class TodoList extends Mixins(isMobileMixin) {
   // refs
   public $refs!: {
     dueDateDialog: DueDateDialog;
+    todoContextMenu: TodoContextMenu;
   };
 
   // data
@@ -86,6 +89,9 @@ export default class TodoList extends Mixins(isMobileMixin) {
   private showRemoveSnackbar = false;
   private removeSnackbarTimeout = config.delays.notificationDelay;
   private removeSnackbarTempTodo: Todo | null = null;
+
+  private showTodoContextMenu = false;
+  private todoWithContextMenu: Todo | null = null;
 
   // computed
   get currentFolder(): Folder | null {
@@ -147,6 +153,12 @@ export default class TodoList extends Mixins(isMobileMixin) {
         customFolderId: this.currentFolder.id,
       });
     }
+  }
+
+  private setTodoContextMenuOpened(e: { x: number; y: number }, todo: Todo) {
+    this.todoWithContextMenu = todo;
+    this.$refs.todoContextMenu.setCoordinates(e.x, e.y);
+    this.showTodoContextMenu = true;
   }
 }
 </script>

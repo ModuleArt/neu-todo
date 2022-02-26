@@ -9,14 +9,8 @@
       'todo-card--checked': todo.checked,
     }"
   >
-    <v-card>
-      <div
-        :class="{
-          'd-flex align-center': true,
-          'pa-2': !$isMobile,
-          'pa-1': $isMobile,
-        }"
-      >
+    <v-card outlined>
+      <div class="d-flex align-center pa-1">
         <v-simple-checkbox
           :value="todo.checked"
           @input="toggleChecked()"
@@ -43,28 +37,57 @@
         </v-btn>
       </div>
       <v-expand-transition>
-        <div v-show="expanded">
+        <div v-show="expanded" class="todo-card__body">
+          <v-divider />
           <v-textarea
             v-model="todo.body"
             placeholder="Description"
             no-resize
             hide-details
-            :class="$isMobile ? '' : 'px-1'"
             flat
             solo
             @blur="setBody($event.target.value)"
           />
+          <!-- <v-card-actions v-if="!isMobile" class="pa-1">
+            <ChooseFolderMenu :todo="todo" :button="true" />
+            <v-spacer />
+            <v-btn
+              :icon="!todo.dueDate"
+              :text="todo.dueDate != null"
+              @click="addDueDate()"
+              :color="isOverdue ? 'red' : ''"
+              title="Due date"
+            >
+              <v-icon>{{ dueDateIcon }}</v-icon>
+              <span v-if="todo.dueDate" class="ml-1">
+                {{ formattedDate }}
+              </span>
+            </v-btn>
+            <v-btn
+              icon
+              @click="toggleImportant()"
+              :color="todo.important ? 'orange' : ''"
+              title="Important"
+              class="ma-0"
+            >
+              <v-icon v-if="todo.important">mdi-alert-octagram</v-icon>
+              <v-icon v-else>mdi-octagram-outline</v-icon>
+            </v-btn>
+            <v-btn icon @click="removeTodo()" title="Delete task" class="ma-0">
+              <v-icon>mdi-delete-outline</v-icon>
+            </v-btn>
+          </v-card-actions> -->
         </div>
       </v-expand-transition>
+      <v-divider v-if="customTodoFolder || todo.dueDate || todo.important" />
       <div
         v-if="customTodoFolder || todo.dueDate || todo.important"
         :class="{
-          'caption text--disabled todo-card__caption text-right d-flex': true,
+          'caption text--disabled todo-card__caption text-right d-flex py-1 px-3': true,
           'justify-space-between': customTodoFolder,
           'justify-end': !customTodoFolder,
-          'px-4 pb-2': !$isMobile,
-          'px-3 pb-1': $isMobile,
         }"
+        @click="rightClick"
       >
         <div
           v-if="customTodoFolder"
@@ -92,35 +115,6 @@
           <v-icon small color="orange">mdi-alert-octagram</v-icon>
         </div>
       </div>
-      <!-- <v-card-actions v-if="!isMobile">
-        <ChooseFolderMenu :todo="todo" :button="true" />
-        <v-spacer />
-        <v-btn
-          :icon="!todo.dueDate"
-          :text="todo.dueDate != null"
-          @click="addDueDate()"
-          :color="isOverdue ? 'red' : ''"
-          title="Due date"
-        >
-          <v-icon>{{ dueDateIcon }}</v-icon>
-          <span v-if="todo.dueDate" class="ml-1">
-            {{ formattedDate }}
-          </span>
-        </v-btn>
-        <v-btn
-          icon
-          @click="toggleImportant()"
-          :color="todo.important ? 'orange' : ''"
-          title="Important"
-          class="ma-0"
-        >
-          <v-icon v-if="todo.important">mdi-alert-octagram</v-icon>
-          <v-icon v-else>mdi-octagram-outline</v-icon>
-        </v-btn>
-        <v-btn icon @click="removeTodo()" title="Delete task" class="ma-0">
-          <v-icon>mdi-delete-outline</v-icon>
-        </v-btn>
-      </v-card-actions> -->
       <ChooseFolderMenu v-else :todo="todo" ref="chooseFolderMenu" />
     </v-card>
   </Swipeout>
@@ -276,6 +270,19 @@ export default class TodoCard extends Mixins(isMobileMixin) {
       todoId: this.todo.id,
       body,
     });
+  }
+
+  private rightClick(e: MouseEvent) {
+    if (!this.$isMobile) {
+      this.$emit("contextmenu", { x: e.clientX, y: e.clientY });
+    }
+  }
+
+  private touchHold(e: MouseEvent) {
+    if (this.$isMobile) {
+      const p = (e.target as HTMLElement).getBoundingClientRect();
+      this.$emit("contextmenu", { x: p.x, y: p.y + p.height - 8 });
+    }
   }
 }
 </script>
