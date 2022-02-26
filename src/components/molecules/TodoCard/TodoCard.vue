@@ -2,39 +2,50 @@
   <Swipeout
     :left-actions="swipeoutLeftActions"
     :right-actions="swipeoutRightActions"
-    :enable="isMobile"
+    :enable="$isMobile"
     :class="{
       'todo-card': true,
+      rounded: true,
       'todo-card--checked': todo.checked,
     }"
   >
-    <v-card>
-      <div
-        :class="{
-          'd-flex align-center': true,
-          'pa-2': !isMobile,
-          'pa-1': isMobile,
-        }"
-      >
+    <v-card
+      outlined
+      @contextmenu.prevent="rightClick"
+      v-touch:touchhold="touchHold"
+    >
+      <div class="d-flex align-center pa-1">
         <v-simple-checkbox
           :value="todo.checked"
           @input="toggleChecked()"
           :color="(customTodoFolder && customTodoFolder.color) || 'primary'"
           class="todo-card__checkbox"
         />
-        <v-text-field
-          v-model="todo.title"
-          flat
-          solo
-          hide-details
-          dense
-          placeholder="Task title"
-          outlined
-          :color="(customTodoFolder && customTodoFolder.color) || 'primary'"
-          ref="taskTitleInput"
-          class="todo-card__title-input mx-1"
-          @blur="setTitle($event.target.value)"
-        />
+        <div class="todo-card__title mx-1">
+          <v-text-field
+            v-if="titleInEdit"
+            v-model="tempTitleValue"
+            flat
+            solo
+            hide-details
+            dense
+            placeholder="Task title"
+            outlined
+            :color="(customTodoFolder && customTodoFolder.color) || 'primary'"
+            ref="taskTitleInput"
+            class="todo-card__title-input"
+            @blur="setTitle"
+            @contextmenu.stop
+            @keypress.enter="unfocus"
+          />
+          <div
+            v-else
+            class="py-1 px-3 todo-card__title-text"
+            @click="editTitle"
+          >
+            {{ todo.title }}
+          </div>
+        </div>
         <v-btn icon @click="toggleExpandedTodo()">
           <v-icon>
             {{ expanded ? "mdi-chevron-up" : "mdi-chevron-down" }}
@@ -42,78 +53,55 @@
         </v-btn>
       </div>
       <v-expand-transition>
-        <div v-show="expanded">
+        <div v-show="expanded" class="todo-card__body">
+          <v-divider />
           <v-textarea
             v-model="todo.body"
             placeholder="Description"
             no-resize
             hide-details
-            :class="isMobile ? '' : 'px-1'"
             flat
             solo
             @blur="setBody($event.target.value)"
+            @contextmenu.stop
           />
         </div>
       </v-expand-transition>
-      <v-divider
-        v-if="
-          (isMobile && (customTodoFolder || todo.dueDate || todo.important)) ||
-          !isMobile
-        "
-      />
+      <v-divider v-if="customTodoFolder || todo.dueDate || todo.important" />
       <div
-        v-if="isMobile && (customTodoFolder || todo.dueDate || todo.important)"
-        class="caption py-1 px-2 text--disabled todo-card__caption text-right"
+        v-if="customTodoFolder || todo.dueDate || todo.important"
+        :class="{
+          'caption text--disabled todo-card__caption text-right d-flex py-1 px-3': true,
+          'justify-space-between': customTodoFolder,
+          'justify-end': !customTodoFolder,
+        }"
       >
         <div
           v-if="customTodoFolder"
-          class="todo-card__caption--folder text-left mr-4"
+          class="todo-card__caption--folder mr-3 text-left"
         >
-          <v-icon disabled small class="mr-1">
+          <v-icon :color="customTodoFolder.color" small class="mr-1">
             mdi-folder-outline
           </v-icon>
-          <span>{{ customTodoFolder.title }}</span>
+          <span :class="`${customTodoFolder.color}--text`">
+            {{ customTodoFolder.title }}
+          </span>
         </div>
         <div
           v-if="todo.dueDate"
           class="text-right todo-card__caption--due-date"
         >
-          <v-icon disabled small class="mr-1">mdi-calendar-blank</v-icon>
-          <span>{{ formattedDate }}</span>
+          <v-icon :disabled="!isOverdue" small class="mr-1" color="red">
+            mdi-calendar-blank
+          </v-icon>
+          <span :class="{ 'red--text': isOverdue }">
+            {{ formattedDate }}
+          </span>
         </div>
-        <div v-if="todo.important" class="ml-4 todo-card__caption--important">
+        <div v-if="todo.important" class="ml-3 todo-card__caption--important">
           <v-icon small color="orange">mdi-alert-octagram</v-icon>
         </div>
       </div>
-      <v-card-actions v-if="!isMobile">
-        <ChooseFolderMenu :todo="todo" :button="true" />
-        <v-spacer />
-        <v-btn
-          :icon="!todo.dueDate"
-          :text="todo.dueDate != null"
-          @click="addDueDate()"
-          :color="isOverdue ? 'red' : ''"
-          title="Due date"
-        >
-          <v-icon>{{ dueDateIcon }}</v-icon>
-          <span v-if="todo.dueDate" class="ml-1">
-            {{ formattedDate }}
-          </span>
-        </v-btn>
-        <v-btn
-          icon
-          @click="toggleImportant()"
-          :color="todo.important ? 'orange' : ''"
-          title="Important"
-          class="ma-0"
-        >
-          <v-icon v-if="todo.important">mdi-alert-octagram</v-icon>
-          <v-icon v-else>mdi-octagram-outline</v-icon>
-        </v-btn>
-        <v-btn icon @click="removeTodo()" title="Delete task" class="ma-0">
-          <v-icon>mdi-delete-outline</v-icon>
-        </v-btn>
-      </v-card-actions>
       <ChooseFolderMenu v-else :todo="todo" ref="chooseFolderMenu" />
     </v-card>
   </Swipeout>
@@ -121,9 +109,8 @@
 
 <script lang="ts">
 // utils
-import { Vue, Component, Prop } from "@/utils/vue-imports";
+import { Mixins, Component, Prop } from "@/utils/vue-imports";
 import dateUtils from "@/utils/date";
-import mobile from "is-mobile";
 
 // interfaces
 import Todo from "@/interfaces/entities/todo";
@@ -131,6 +118,9 @@ import Folder from "@/interfaces/entities/folder";
 
 // store modules
 import { todosModule, foldersModule } from "@/store";
+
+// mixins
+import isMobileMixin from "@/mixins/isMobile";
 
 // interfaces
 import SwipeoutButton from "@/interfaces/logic/swipeoutButton";
@@ -147,7 +137,7 @@ import ChooseFolderMenu from "@/components/menus/ChooseFolderMenu/ChooseFolderMe
     ChooseFolderMenu,
   },
 })
-export default class TodoCard extends Vue {
+export default class TodoCard extends Mixins(isMobileMixin) {
   // refs
   public $refs!: {
     taskTitleInput: HTMLInputElement;
@@ -156,9 +146,11 @@ export default class TodoCard extends Vue {
 
   // props
   @Prop() readonly todo!: Todo;
+  @Prop() readonly expanded!: boolean;
 
   // data
-  private expanded = false;
+  private titleInEdit = false;
+  private tempTitleValue = "";
   private swipeoutLeftActions: SwipeoutButton[] = [
     {
       icon: "mdi-folder-outline",
@@ -213,33 +205,6 @@ export default class TodoCard extends Vue {
     );
   }
 
-  get dueDateIcon(): string {
-    if (!this.todo.dueDate) {
-      return "mdi-calendar-blank";
-    } else {
-      const code = dateUtils.numberToCode(this.todo.dueDate);
-      if (code == "today") {
-        return "mdi-calendar-today";
-      } else if (dateUtils.isOverdue(this.todo.dueDate)) {
-        return "mdi-calendar-arrow-left";
-      } else {
-        return "mdi-calendar-arrow-right";
-      }
-    }
-  }
-
-  get isMobile(): boolean {
-    return mobile();
-  }
-
-  // lifecycle
-  mounted() {
-    if (this.todo.lastAdded) {
-      this.$refs.taskTitleInput.focus();
-      this.todo.lastAdded = false;
-    }
-  }
-
   // private methods
   private toggleChecked() {
     todosModule.setChecked({
@@ -249,11 +214,11 @@ export default class TodoCard extends Vue {
   }
 
   private toggleExpandedTodo() {
-    this.expanded = !this.expanded;
+    this.$emit("expandToggled");
   }
 
   private addDueDate() {
-    this.$emit("addDueDateClicked", this.todo);
+    this.$emit("addDueDate", this.todo);
   }
 
   private toggleImportant() {
@@ -264,14 +229,30 @@ export default class TodoCard extends Vue {
   }
 
   private removeTodo() {
-    this.$emit("removeTodoClicked", this.todo);
+    this.$emit("removeTodo", this.todo);
   }
 
-  private setTitle(title: string) {
-    todosModule.setTitle({
-      todoId: this.todo.id,
-      title,
-    });
+  private editTitle() {
+    this.tempTitleValue = this.todo.title;
+    this.titleInEdit = true;
+    setTimeout(() => {
+      this.$refs.taskTitleInput.focus();
+    }, 0);
+  }
+
+  private setTitle() {
+    this.titleInEdit = false;
+    if (this.tempTitleValue.length && this.tempTitleValue !== this.todo.title) {
+      todosModule.setTitle({
+        todoId: this.todo.id,
+        title: this.tempTitleValue,
+      });
+    }
+    this.tempTitleValue = "";
+  }
+
+  private unfocus() {
+    (document.activeElement as HTMLElement).blur();
   }
 
   private setBody(body: string) {
@@ -279,6 +260,17 @@ export default class TodoCard extends Vue {
       todoId: this.todo.id,
       body,
     });
+  }
+
+  private rightClick(e: MouseEvent) {
+    this.$emit("contextmenu", { x: e.clientX, y: e.clientY });
+  }
+
+  private touchHold(e: MouseEvent) {
+    if (this.$isMobile) {
+      const p = (e.target as HTMLElement).getBoundingClientRect();
+      this.$emit("contextmenu", { x: p.x, y: p.y + p.height - 8 });
+    }
   }
 }
 </script>

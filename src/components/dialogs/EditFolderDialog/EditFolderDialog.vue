@@ -14,6 +14,7 @@
             :color="folderColor"
             ref="folderTitleInput"
             @keypress.enter="apply()"
+            @contextmenu.stop
           />
           <v-subheader class="pa-0 mt-2">Color</v-subheader>
           <v-card class="d-flex justify-center flex-wrap px-2 py-3" outlined>

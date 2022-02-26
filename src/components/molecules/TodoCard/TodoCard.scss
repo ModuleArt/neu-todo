@@ -1,4 +1,5 @@
 @import "@/assets/scss/variables.scss";
+@import "@/assets/scss/mixins/scrollbar.scss";
 
 .todo-card {
   &--checked {
@@ -13,20 +14,29 @@
     }
   }
 
+  &__title {
+    flex: 1;
+  }
+
+  &__title-text {
+    cursor: text;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+
   &__title-input {
     /deep/ fieldset {
       border-color: transparent;
     }
   }
 
-  &__folder-title {
-    max-width: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
   &__caption {
     vertical-align: middle;
+
+    & > * {
+      pointer-events: none;
+    }
 
     div {
       display: inline-block;
@@ -37,6 +47,7 @@
     &--folder {
       max-width: calc(50% - 24px);
       width: 100%;
+      flex: 1;
     }
 
     &--due-date {
@@ -53,4 +64,15 @@
       max-width: calc(100% - 16px);
     }
   }
+
+  &__body {
+    /deep/ textarea {
+      margin: 0 !important;
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+  }
+
+  // scrollbar
+  @include scrollbar(#1e1e1e);
 }

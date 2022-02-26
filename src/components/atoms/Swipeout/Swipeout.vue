@@ -1,7 +1,7 @@
 <template>
   <SwipeOut
     v-if="enable"
-    class="swipeout"
+    class="swipeout elevation-2"
     ref="swipeOut"
     v-click-outside="closeActions"
   >

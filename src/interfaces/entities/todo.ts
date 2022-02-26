@@ -6,7 +6,6 @@ interface Todo {
   important: boolean;
   dueDate: number | null;
   customFolderId: string | null;
-  lastAdded: boolean;
 }
 
 export default Todo;

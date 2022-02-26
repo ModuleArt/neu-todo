@@ -1,39 +1,33 @@
 <template>
-  <div class="todo-list">
-    <div class="d-flex align-center mb-4 todo-list__title">
-      <h1>{{ currentFolder && currentFolder.title }}</h1>
+  <div
+    :class="{
+      'todo-list': true,
+      'py-12': !$isMobile,
+      'py-4': $isMobile,
+    }"
+    v-if="currentFolder"
+  >
+    <div class="d-flex align-center todo-list__title mb-4">
+      <h1>{{ currentFolder.title }}</h1>
     </div>
-    <div class="todo-list__todos d-flex">
-      <v-layout wrap row class="pa-2 todo-list__list">
-        <v-flex
-          v-for="todo in filteredTodos"
-          :key="`todo--${todo.id}`"
-          grow
-          xs6
-          shrink
-          class="pa-1 todo-list__item"
-        >
-          <TodoCard
-            :todo="todo"
-            @addDueDateClicked="addDueDate"
-            @removeTodoClicked="removeTodo"
-          />
-        </v-flex>
-        <div v-if="!filteredTodos.length && currentFolder" class="px-1">
-          <span>There are no tasks in this folder.</span>
-          <span v-if="currentFolder.transform || currentFolder.custom">
-            Try to
-            <a
-              @click="addTodo()"
-              :class="{
-                [`${currentFolder.color}--text`]: currentFolder.color,
-              }"
-            >
-              create one
-            </a>
-          </span>
-        </div>
-      </v-layout>
+    <AddTodoField v-if="currentFolder.transform || currentFolder.custom" />
+    <div class="todo-list__todos">
+      <div v-for="(todo, todoIndex) in filteredTodos" :key="`todo--${todo.id}`">
+        <TodoCard
+          :todo="todo"
+          @addDueDate="addDueDate"
+          @removeTodo="removeTodo"
+          :expanded="selectedTodoIndex == todoIndex"
+          @expandToggled="expandToggled(todoIndex)"
+          class="mt-2"
+          @contextmenu="setTodoContextMenuOpened($event, todo)"
+        />
+      </div>
+      <div v-if="!filteredTodos.length && currentFolder">
+        <v-subheader class="pa-0">
+          There are no tasks here.
+        </v-subheader>
+      </div>
     </div>
     <v-snackbar v-model="showRemoveSnackbar" :timeout="removeSnackbarTimeout">
       Task
@@ -47,13 +41,21 @@
         </v-btn>
       </template>
     </v-snackbar>
-    <DueDateDialog ref="dueDateDialog" :selectedTodo="selectedTodo" />
+    <TodoContextMenu
+      ref="todoContextMenu"
+      v-model="showTodoContextMenu"
+      :todo="selectedTodo"
+      @removeTodo="removeTodo(selectedTodo)"
+      @addDueDate="addDueDate(selectedTodo, $event)"
+      @toggleImportant="toggleImportant(selectedTodo)"
+    />
+    <DueDateDialog ref="dueDateDialog" :selected-todo="selectedTodo" />
   </div>
 </template>
 
 <script lang="ts">
 // utils
-import { Vue, Component } from "@/utils/vue-imports";
+import { Mixins, Component, Watch } from "@/utils/vue-imports";
 import config from "@/config";
 
 // interfaces
@@ -63,9 +65,14 @@ import Folder from "@/interfaces/entities/folder";
 // store modules
 import { todosModule, foldersModule } from "@/store";
 
+// mixins
+import isMobileMixin from "@/mixins/isMobile";
+
 // components
 import TodoCard from "@/components/molecules/TodoCard/TodoCard.vue";
 import DueDateDialog from "@/components/dialogs/DueDateDialog/DueDateDialog.vue";
+import AddTodoField from "@/components/molecules/AddTodoField/AddTodoField.vue";
+import TodoContextMenu from "@/components/menus/TodoContextMenu/TodoContextMenu.vue";
 
 // component
 @Component({
@@ -73,20 +80,26 @@ import DueDateDialog from "@/components/dialogs/DueDateDialog/DueDateDialog.vue"
   components: {
     TodoCard,
     DueDateDialog,
+    AddTodoField,
+    TodoContextMenu,
   },
 })
-export default class TodoList extends Vue {
+export default class TodoList extends Mixins(isMobileMixin) {
   // refs
   public $refs!: {
     dueDateDialog: DueDateDialog;
+    todoContextMenu: TodoContextMenu;
   };
 
   // data
+  private selectedTodoIndex = -1;
   private selectedTodo: Todo | null = null;
 
   private showRemoveSnackbar = false;
   private removeSnackbarTimeout = config.delays.notificationDelay;
   private removeSnackbarTempTodo: Todo | null = null;
+
+  private showTodoContextMenu = false;
 
   // computed
   get currentFolder(): Folder | null {
@@ -94,22 +107,32 @@ export default class TodoList extends Vue {
   }
 
   get filteredTodos(): Todo[] {
-    if (this.currentFolder) {
-      return todosModule.todos.filter((todo) => {
-        if (this.currentFolder) {
-          if (this.currentFolder.filter) {
-            return this.currentFolder.filter(todo);
-          } else {
-            return this.currentFolder.id === todo.customFolderId;
-          }
+    return todosModule.todos.filter((todo) => {
+      if (this.currentFolder) {
+        if (this.currentFolder.filter) {
+          return this.currentFolder.filter(todo);
+        } else {
+          return this.currentFolder.id === todo.customFolderId;
         }
-      });
-    } else {
-      return todosModule.todos;
-    }
+      }
+    });
+  }
+
+  // watchers
+  @Watch("currentFolder")
+  onCurrentFolderChanged() {
+    this.selectedTodoIndex = -1;
   }
 
   // private methods
+  private expandToggled(todoIndex: number) {
+    if (this.selectedTodoIndex == todoIndex) {
+      this.selectedTodoIndex = -1;
+    } else {
+      this.selectedTodoIndex = todoIndex;
+    }
+  }
+
   private removeTodo(todo: Todo) {
     this.removeSnackbarTempTodo = todo;
     this.showRemoveSnackbar = true;
@@ -124,9 +147,23 @@ export default class TodoList extends Vue {
     }
   }
 
-  private addDueDate(todo: Todo) {
+  private addDueDate(todo: Todo, date: number | null) {
     this.selectedTodo = todo;
-    this.$refs.dueDateDialog.setDialogOpened(true);
+    if (date) {
+      todosModule.setDueDate({
+        todoId: todo.id,
+        dueDate: date,
+      });
+    } else {
+      this.$refs.dueDateDialog.setDialogOpened(true);
+    }
+  }
+
+  private toggleImportant(todo: Todo) {
+    todosModule.setImportant({
+      todoId: todo.id,
+      important: !todo.important,
+    });
   }
 
   private addTodo(todo?: Todo) {
@@ -139,9 +176,11 @@ export default class TodoList extends Vue {
       });
     }
   }
+
+  private setTodoContextMenuOpened(e: { x: number; y: number }, todo: Todo) {
+    this.selectedTodo = todo;
+    this.$refs.todoContextMenu.setCoordinates(e.x, e.y);
+    this.showTodoContextMenu = true;
+  }
 }
 </script>
-
-<style lang="scss" scoped>
-@import "./TodoList.scss";
-</style>

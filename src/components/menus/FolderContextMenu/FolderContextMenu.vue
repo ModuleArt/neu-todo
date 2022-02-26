@@ -6,15 +6,15 @@
     :position-y="folderContextMenuY"
     absolute
     offset-y
+    :transition="false"
   >
-    <v-list dense>
+    <v-list dense outlined class="rounded">
       <v-list-item link @click="editFolder()">
         <v-list-item-icon class="mr-4">
           <v-icon>mdi-pencil-outline</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>Edit folder</v-list-item-title>
+        <v-list-item-title>Edit folder ...</v-list-item-title>
       </v-list-item>
-      <v-divider class="my-2" />
       <v-list-item link @click="removeFolder()">
         <v-list-item-icon class="mr-4">
           <v-icon color="red">mdi-delete-outline</v-icon>
