@@ -102,7 +102,6 @@
           <v-icon small color="orange">mdi-alert-octagram</v-icon>
         </div>
       </div>
-      <ChooseFolderMenu v-else :todo="todo" ref="chooseFolderMenu" />
     </v-card>
   </Swipeout>
 </template>
@@ -127,21 +126,18 @@ import SwipeoutButton from "@/interfaces/logic/swipeoutButton";
 
 // components
 import Swipeout from "@/components/atoms/Swipeout/Swipeout.vue";
-import ChooseFolderMenu from "@/components/menus/ChooseFolderMenu/ChooseFolderMenu.vue";
 
 // component
 @Component({
   name: "TodoCard",
   components: {
     Swipeout,
-    ChooseFolderMenu,
   },
 })
 export default class TodoCard extends Mixins(isMobileMixin) {
   // refs
   public $refs!: {
     taskTitleInput: HTMLInputElement;
-    chooseFolderMenu: ChooseFolderMenu;
   };
 
   // props
@@ -157,7 +153,7 @@ export default class TodoCard extends Mixins(isMobileMixin) {
       text: "Folder",
       color: "primary",
       onClick: () => {
-        this.$refs.chooseFolderMenu.show();
+        this.chooseFolder();
       },
     },
     {
@@ -215,6 +211,10 @@ export default class TodoCard extends Mixins(isMobileMixin) {
 
   private toggleExpandedTodo() {
     this.$emit("expandToggled");
+  }
+
+  private chooseFolder() {
+    this.$emit("chooseFolder");
   }
 
   private addDueDate() {

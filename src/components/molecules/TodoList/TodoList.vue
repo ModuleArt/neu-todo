@@ -21,6 +21,7 @@
           @expandToggled="expandToggled(todoIndex)"
           class="mt-2"
           @contextmenu="setTodoContextMenuOpened($event, todo)"
+          @chooseFolder="chooseFolder"
         />
       </div>
       <div v-if="!filteredTodos.length && currentFolder">
@@ -45,11 +46,13 @@
       ref="todoContextMenu"
       v-model="showTodoContextMenu"
       :todo="selectedTodo"
-      @removeTodo="removeTodo(selectedTodo)"
-      @addDueDate="addDueDate(selectedTodo, $event)"
-      @toggleImportant="toggleImportant(selectedTodo)"
+      @removeTodo="removeTodo"
+      @addDueDate="addDueDate"
+      @toggleImportant="toggleImportant"
+      @chooseFolder="chooseFolder"
     />
-    <DueDateDialog ref="dueDateDialog" :selected-todo="selectedTodo" />
+    <ChooseFolderDialog ref="chooseFolderDialog" :todo="selectedTodo" />
+    <DueDateDialog ref="dueDateDialog" :todo="selectedTodo" />
   </div>
 </template>
 
@@ -70,6 +73,7 @@ import isMobileMixin from "@/mixins/isMobile";
 
 // components
 import TodoCard from "@/components/molecules/TodoCard/TodoCard.vue";
+import ChooseFolderDialog from "@/components/dialogs/ChooseFolderDialog/ChooseFolderDialog.vue";
 import DueDateDialog from "@/components/dialogs/DueDateDialog/DueDateDialog.vue";
 import AddTodoField from "@/components/molecules/AddTodoField/AddTodoField.vue";
 import TodoContextMenu from "@/components/menus/TodoContextMenu/TodoContextMenu.vue";
@@ -79,6 +83,7 @@ import TodoContextMenu from "@/components/menus/TodoContextMenu/TodoContextMenu.
   name: "TodoList",
   components: {
     TodoCard,
+    ChooseFolderDialog,
     DueDateDialog,
     AddTodoField,
     TodoContextMenu,
@@ -87,6 +92,7 @@ import TodoContextMenu from "@/components/menus/TodoContextMenu/TodoContextMenu.
 export default class TodoList extends Mixins(isMobileMixin) {
   // refs
   public $refs!: {
+    chooseFolderDialog: ChooseFolderDialog;
     dueDateDialog: DueDateDialog;
     todoContextMenu: TodoContextMenu;
   };
@@ -164,6 +170,10 @@ export default class TodoList extends Mixins(isMobileMixin) {
       todoId: todo.id,
       important: !todo.important,
     });
+  }
+
+  private chooseFolder() {
+    this.$refs.chooseFolderDialog.setDialogOpened(true);
   }
 
   private addTodo(todo?: Todo) {

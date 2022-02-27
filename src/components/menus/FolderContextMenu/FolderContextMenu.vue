@@ -8,7 +8,7 @@
     offset-y
     :transition="false"
   >
-    <v-list dense outlined class="rounded">
+    <v-list dense outlined class="rounded py-1">
       <v-list-item link @click="editFolder()">
         <v-list-item-icon class="mr-4">
           <v-icon>mdi-pencil-outline</v-icon>

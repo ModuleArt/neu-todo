@@ -1,12 +1,12 @@
 <template>
   <div class="due-date-dialog">
     <v-dialog v-model="showDialog" max-width="320">
-      <v-card v-if="selectedTodo">
+      <v-card v-if="todo">
         <v-date-picker
           color="primary"
           full-width
           flat
-          :value="numberToCode(selectedTodo.dueTime)"
+          :value="numberToCode(todo.dueTime)"
           @change="setDueDate($event)"
           class="rounded-0 due-date-dialog__due-date-picker"
         />
@@ -30,16 +30,11 @@
         </div>
         <v-divider />
         <v-card-actions class="pa-2">
-          <v-btn
-            v-if="selectedTodo.dueDate"
-            text
-            @click="clearDueDate()"
-            color="red"
-          >
+          <v-btn v-if="todo.dueDate" text @click="clearDueDate()" color="red">
             Remove due date
           </v-btn>
           <v-spacer />
-          <v-btn text @click="showDialog = false" color="primary">
+          <v-btn text @click="showDialog = false">
             OK
           </v-btn>
         </v-card-actions>
@@ -66,7 +61,7 @@ import { todosModule } from "@/store";
 export default class DueDateDialog extends Vue {
   // props
 
-  @Prop() readonly selectedTodo!: Todo;
+  @Prop() readonly todo!: Todo;
 
   // data
   private showDialog = false;
@@ -78,37 +73,31 @@ export default class DueDateDialog extends Vue {
 
   // private methods
   private isDueToDate(code: string): boolean {
-    if (this.selectedTodo && this.selectedTodo.dueDate) {
-      return code === dateUtils.numberToCode(this.selectedTodo.dueDate);
+    if (this.todo.dueDate) {
+      return code === dateUtils.numberToCode(this.todo.dueDate);
     } else {
       return false;
     }
   }
 
   private numberToCode(): string {
-    if (this.selectedTodo)
-      return dateUtils.numberToCode(this.selectedTodo.dueDate, true);
-    else return "";
+    return dateUtils.numberToCode(this.todo.dueDate, true);
   }
 
   setDueDate(code: string) {
-    if (this.selectedTodo) {
-      todosModule.setDueDate({
-        todoId: this.selectedTodo.id,
-        dueDate: dateUtils.codeToNumber(code),
-      });
-      this.showDialog = false;
-    }
+    todosModule.setDueDate({
+      todoId: this.todo.id,
+      dueDate: dateUtils.codeToNumber(code),
+    });
+    this.showDialog = false;
   }
 
   private clearDueDate() {
-    if (this.selectedTodo) {
-      todosModule.setDueDate({
-        todoId: this.selectedTodo.id,
-        dueDate: null,
-      });
-      this.showDialog = false;
-    }
+    todosModule.setDueDate({
+      todoId: this.todo.id,
+      dueDate: null,
+    });
+    this.showDialog = false;
   }
 }
 </script>

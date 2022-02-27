@@ -8,7 +8,7 @@
     offset-y
     :transition="false"
   >
-    <v-list dense outlined class="rounded" v-if="todo">
+    <v-list dense outlined class="rounded py-1" v-if="todo">
       <v-list-item link @click="toggleImportant">
         <v-list-item-icon class="mr-4">
           <v-icon v-if="todo.important" color="orange">
@@ -23,7 +23,7 @@
           Mark as important
         </v-list-item-title>
       </v-list-item>
-      <v-divider class="my-2" />
+      <v-divider class="my-1" />
       <v-list-item link @click="addDueDate('today')">
         <v-list-item-icon class="mr-4">
           <v-icon>mdi-calendar-today</v-icon>
@@ -42,7 +42,26 @@
         </v-list-item-icon>
         <v-list-item-title>Pick a date ...</v-list-item-title>
       </v-list-item>
-      <v-divider class="my-2" />
+      <v-list-item v-if="todo.dueDate" link @click="clearDueDate()">
+        <v-list-item-icon class="mr-4">
+          <v-icon color="red">mdi-calendar-remove</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title class="red--text">Remove due date</v-list-item-title>
+      </v-list-item>
+      <v-divider class="my-1" />
+      <v-list-item link @click="chooseFolder()">
+        <v-list-item-icon class="mr-4">
+          <v-icon>mdi-folder-outline</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Choose folder ...</v-list-item-title>
+      </v-list-item>
+      <v-list-item v-if="todo.customFolderId" link @click="clearFolder()">
+        <v-list-item-icon class="mr-4">
+          <v-icon color="red">mdi-folder-remove-outline</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title class="red--text">No folder</v-list-item-title>
+      </v-list-item>
+      <v-divider class="my-1" />
       <v-list-item link @click="removeTodo()">
         <v-list-item-icon class="mr-4">
           <v-icon color="red">mdi-delete-outline</v-icon>
@@ -61,13 +80,16 @@ import dateUtils from "@/utils/date";
 // interfaces
 import Todo from "@/interfaces/entities/todo";
 
+// store modules
+import { todosModule } from "@/store";
+
 // component
 @Component({
   name: "TodoContextMenu",
 })
 export default class TodoListItem extends Vue {
   // props
-  @Prop() readonly todo!: Todo | null;
+  @Prop() readonly todo!: Todo;
 
   // model
   @Model("showChanged", { type: Boolean }) show!: boolean;
@@ -90,15 +112,37 @@ export default class TodoListItem extends Vue {
 
   // private methods
   private toggleImportant() {
-    this.$emit("toggleImportant");
+    this.$emit("toggleImportant", this.todo);
   }
 
   private addDueDate(code: string | null) {
-    this.$emit("addDueDate", code ? dateUtils.codeToNumber(code) : null);
+    this.$emit(
+      "addDueDate",
+      this.todo,
+      code ? dateUtils.codeToNumber(code) : null
+    );
+  }
+
+  private clearDueDate() {
+    todosModule.setDueDate({
+      todoId: this.todo.id,
+      dueDate: null,
+    });
+  }
+
+  private chooseFolder() {
+    this.$emit("chooseFolder", this.todo);
+  }
+
+  private clearFolder() {
+    todosModule.setCustomFolderId({
+      todoId: this.todo.id,
+      customFolderId: null,
+    });
   }
 
   private removeTodo() {
-    this.$emit("removeTodo");
+    this.$emit("removeTodo", this.todo);
   }
 
   // public methods
