@@ -10,6 +10,8 @@
       :color="currentFolder.color || 'primary'"
       outlined
       @contextmenu.stop
+      v-model="tempStepTitle"
+      @keypress.enter="addTodo"
     />
   </div>
 </template>
@@ -29,6 +31,9 @@ import { todosModule, foldersModule } from "@/store";
   name: "AddTodoField",
 })
 export default class Header extends Vue {
+  // data
+  private tempStepTitle = "";
+
   // computed
   get currentFolder(): Folder | null {
     return foldersModule.getCurrentFolder;
@@ -36,11 +41,13 @@ export default class Header extends Vue {
 
   // methods
   private addTodo() {
-    if (this.currentFolder) {
+    if (this.currentFolder && this.tempStepTitle.length) {
       todosModule.addTodo({
+        title: this.tempStepTitle,
         transform: this.currentFolder.transform,
         customFolderId: this.currentFolder.id,
       });
+      this.tempStepTitle = "";
     }
   }
 }

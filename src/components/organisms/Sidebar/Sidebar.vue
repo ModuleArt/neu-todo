@@ -34,13 +34,13 @@
                     NeuTodo
                   </v-list-item-title>
                   <v-list-item-subtitle>
-                    v0.0.1 (dev)
+                    v0.0.2 (dev)
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
           </div>
-          <v-text-field
+          <!-- <v-text-field
             placeholder="Search"
             outlined
             filled
@@ -50,7 +50,7 @@
             class="pa-2 pt-0 sidebar__search"
             :rounded="$isMobile && !expandDrawer"
             @focus="expandDrawer = true"
-          />
+          /> -->
         </div>
         <v-divider />
         <div class="sidebar__scroll">

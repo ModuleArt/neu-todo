@@ -54,6 +54,53 @@
       </div>
       <v-expand-transition>
         <div v-show="expanded" class="todo-card__body">
+          <div class="todo-card__steps px-8 pt-2 pb-4">
+            <v-card
+              v-for="(step, stepIndex) in todo.steps"
+              :key="`step--${stepIndex}`"
+              :class="{
+                'todo-card__step d-flex mb-1 align-center': true,
+                'todo-card__step--checked': step.checked,
+              }"
+              outlined
+              flat
+            >
+              <v-simple-checkbox
+                v-model="step.checked"
+                :color="
+                  (customTodoFolder && customTodoFolder.color) || 'primary'
+                "
+              />
+              <v-text-field
+                v-model="step.title"
+                solo
+                flat
+                dense
+                hide-details
+                :placeholder="`Step ${stepIndex}`"
+              />
+              <v-btn
+                icon
+                @click="removeStep(stepIndex)"
+                class="todo-card__remove-step"
+              >
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-card>
+            <v-text-field
+              class="todo-card__add-step"
+              prepend-inner-icon="mdi-plus"
+              :color="(customTodoFolder && customTodoFolder.color) || 'primary'"
+              solo
+              flat
+              outlined
+              dense
+              hide-details
+              :placeholder="todo.steps.length ? 'Next step' : 'Add step'"
+              v-model="tempStepValue"
+              @keypress.enter="addStep"
+            />
+          </div>
           <v-divider />
           <v-textarea
             v-model="todo.body"
@@ -147,6 +194,7 @@ export default class TodoCard extends Mixins(isMobileMixin) {
   // data
   private titleInEdit = false;
   private tempTitleValue = "";
+  private tempStepValue = "";
   private swipeoutLeftActions: SwipeoutButton[] = [
     {
       icon: "mdi-folder-outline",
@@ -271,6 +319,23 @@ export default class TodoCard extends Mixins(isMobileMixin) {
       const p = (e.target as HTMLElement).getBoundingClientRect();
       this.$emit("contextmenu", { x: p.x, y: p.y + p.height - 8 });
     }
+  }
+
+  private addStep() {
+    if (this.tempStepValue.length) {
+      todosModule.addStep({
+        todoId: this.todo.id,
+        stepTitle: this.tempStepValue,
+      });
+      this.tempStepValue = "";
+    }
+  }
+
+  private removeStep(stepIndex: number) {
+    todosModule.removeStepByIndex({
+      todoId: this.todo.id,
+      stepIndex,
+    });
   }
 }
 </script>

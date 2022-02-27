@@ -12,6 +12,13 @@ class TodosModule extends VuexModule {
 
   // private mutations
   @Mutation
+  private mutationInitState({ todos }: { todos: Todo[] }) {
+    if (todos) {
+      this.todos = todos;
+    }
+  }
+
+  @Mutation
   private mutationAddTodo(todo: Todo) {
     this.todos.unshift(todo);
   }
@@ -93,19 +100,44 @@ class TodosModule extends VuexModule {
   }
 
   @Mutation
-  private mutationInitState({ todos }: { todos: Todo[] }) {
-    if (todos) {
-      this.todos = todos;
+  public mutationAddStep({
+    todoId,
+    stepTitle,
+  }: {
+    todoId: string;
+    stepTitle: string;
+  }) {
+    const todo = this.todos.find((todo) => todo.id === todoId);
+    if (todo)
+      todo.steps.push({
+        title: stepTitle,
+        checked: false,
+      });
+  }
+
+  @Mutation
+  public mutationRemoveStepByIndex({
+    todoId,
+    stepIndex,
+  }: {
+    todoId: string;
+    stepIndex: number;
+  }) {
+    const todo = this.todos.find((todo) => todo.id === todoId);
+    if (todo) {
+      todo.steps = todo.steps.filter((step, index) => index != stepIndex);
     }
   }
 
   // public actions
   @Action
   public addTodo({
+    title = "",
     todo,
     transform,
     customFolderId,
   }: {
+    title?: string;
     todo?: Todo;
     transform?(todo: Todo): Todo;
     customFolderId?: string;
@@ -114,11 +146,12 @@ class TodosModule extends VuexModule {
       todo = {
         id: nanoid(),
         checked: false,
-        title: "",
+        title,
         body: "",
         important: false,
         dueDate: null,
         customFolderId: null,
+        steps: [],
       };
     }
     if (transform) {
@@ -185,6 +218,22 @@ class TodosModule extends VuexModule {
   @Action
   public removeTodosByCustomFolderId(folderId: string) {
     this.mutationRemoveTodosByCustomFolderId(folderId);
+  }
+
+  @Action
+  public addStep({ todoId, stepTitle }: { todoId: string; stepTitle: string }) {
+    this.mutationAddStep({ todoId, stepTitle });
+  }
+
+  @Action
+  public removeStepByIndex({
+    todoId,
+    stepIndex,
+  }: {
+    todoId: string;
+    stepIndex: number;
+  }) {
+    this.mutationRemoveStepByIndex({ todoId, stepIndex });
   }
 
   @Action

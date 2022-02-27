@@ -73,6 +73,48 @@
     }
   }
 
+  &__remove-step {
+    display: none;
+  }
+
+  &__step:hover &__remove-step {
+    display: block;
+  }
+
+  &__step {
+    padding: 0 1px 0 11px;
+
+    &--checked {
+      opacity: $opacity-secondary;
+    }
+
+    /deep/ .v-input--selection-controls__input {
+      margin-right: 0
+    }
+
+    /deep/ .v-text-field__slot input {
+      padding: 0 !important;
+    }
+
+    /deep/ .v-input__slot {
+      padding-right: 0 !important;
+      background: none !important;
+    }
+  }
+
+  &__add-step {
+    /deep/ .v-input__prepend-inner {
+      padding: 0 !important;
+      margin-right: 12px !important;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    &__remove-step {
+      display: block
+    }
+  }
+
   // scrollbar
   @include scrollbar(#1e1e1e);
 }
