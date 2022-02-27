@@ -75,6 +75,7 @@
 
   &__remove-step {
     display: none;
+    margin: 0 1px 0 4px;
   }
 
   &__step:hover &__remove-step {
@@ -82,7 +83,7 @@
   }
 
   &__step {
-    padding: 0 1px 0 11px;
+    padding: 0 0 0 10px;
 
     &--checked {
       opacity: $opacity-secondary;
@@ -105,13 +106,7 @@
   &__add-step {
     /deep/ .v-input__prepend-inner {
       padding: 0 !important;
-      margin-right: 12px !important;
-    }
-  }
-
-  @media screen and (max-width: 768px) {
-    &__remove-step {
-      display: block
+      margin-right: 11px !important;
     }
   }
 

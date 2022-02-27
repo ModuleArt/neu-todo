@@ -54,7 +54,14 @@
       </div>
       <v-expand-transition>
         <div v-show="expanded" class="todo-card__body">
-          <div class="todo-card__steps px-8 pt-2 pb-4">
+          <v-divider v-if="$isMobile" />
+          <div
+            :class="{
+              'todo-card__steps': true,
+              'px-8 pb-4 pt-2': !$isMobile,
+              'py-1': $isMobile,
+            }"
+          >
             <v-card
               v-for="(step, stepIndex) in todo.steps"
               :key="`step--${stepIndex}`"
@@ -62,7 +69,7 @@
                 'todo-card__step d-flex mb-1 align-center': true,
                 'todo-card__step--checked': step.checked,
               }"
-              outlined
+              :outlined="!$isMobile"
               flat
             >
               <v-simple-checkbox
@@ -93,7 +100,7 @@
               :color="(customTodoFolder && customTodoFolder.color) || 'primary'"
               solo
               flat
-              outlined
+              :outlined="!$isMobile"
               dense
               hide-details
               :placeholder="todo.steps.length ? 'Next step' : 'Add step'"
