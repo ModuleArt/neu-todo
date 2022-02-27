@@ -3,6 +3,7 @@
     :class="{
       sidebar: true,
       'pl-14': $isMobile,
+      'sidebar--expanded': expandDrawer,
     }"
   >
     <v-navigation-drawer
@@ -14,29 +15,42 @@
       class="sidebar__drawer"
     >
       <div class="d-flex flex-column sidebar__content">
-        <div class="d-flex">
-          <div v-if="$isMobile" class="sidebar__menu-button">
-            <v-btn icon @click="expandDrawer = !expandDrawer">
-              <v-icon>mdi-menu</v-icon>
-            </v-btn>
+        <div>
+          <div class="d-flex">
+            <div v-if="$isMobile" class="sidebar__menu-button">
+              <v-btn icon @click="expandDrawer = !expandDrawer">
+                <v-icon>mdi-menu</v-icon>
+              </v-btn>
+            </div>
+            <v-list class="py-1">
+              <v-list-item class="px-3">
+                <v-list-item-avatar class="my-0" size="32">
+                  <v-img
+                    src="https://avatars.githubusercontent.com/u/40366303?s=64"
+                  />
+                </v-list-item-avatar>
+                <v-list-item-content class="py-0">
+                  <v-list-item-title>
+                    NeuTodo
+                  </v-list-item-title>
+                  <v-list-item-subtitle>
+                    v0.0.1 (dev)
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
           </div>
-          <v-list class="py-1">
-            <v-list-item class="px-3">
-              <v-list-item-avatar class="my-0" size="32">
-                <v-img
-                  src="https://avatars.githubusercontent.com/u/40366303?s=64"
-                />
-              </v-list-item-avatar>
-              <v-list-item-content class="py-0">
-                <v-list-item-title>
-                  NeuTodo
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                  v0.0.1 (dev)
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
+          <v-text-field
+            placeholder="Search"
+            outlined
+            filled
+            hide-details
+            dense
+            prepend-inner-icon="mdi-magnify"
+            class="pa-2 pt-0 sidebar__search"
+            :rounded="$isMobile && !expandDrawer"
+            @focus="expandDrawer = true"
+          />
         </div>
         <v-divider />
         <div class="sidebar__scroll">

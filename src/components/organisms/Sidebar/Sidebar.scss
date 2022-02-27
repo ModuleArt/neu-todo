@@ -1,5 +1,13 @@
 .sidebar {
-  &__drawer{
+  &--expanded {
+    &__search {
+      /deep/ .v-input__prepend-inner {
+        margin-right: 16px !important;
+      }
+    }
+  }
+
+  &__drawer {
     background: #121212 !important;
   }
 
@@ -15,5 +23,16 @@
     flex: 1;
     overflow-x: hidden;
     overflow-y: auto;
+  }
+
+  &__search {
+    /deep/ .v-input__slot {
+      padding: 0 8px !important;
+    }
+
+    /deep/ .v-input__prepend-inner {
+      padding: 0 !important;
+      margin-right: 0 !important;
+    }
   }
 }
