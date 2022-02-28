@@ -66,6 +66,7 @@
 
 <script lang="ts">
 // utils
+import EventBus from "@/main";
 import { Vue, Component, Watch } from "@/utils/vue-imports";
 
 // interfaces
@@ -144,6 +145,15 @@ export default class EditFolderDialog extends Vue {
     if (value.length <= 64) {
       this.titleErrors = [];
     }
+  }
+
+  // lifecycle
+  private created() {
+    setTimeout(() => {
+      EventBus.$on("openEditFolderDialog", (folder: Folder) => {
+        this.setDialogOpened(true, folder);
+      });
+    }, 0);
   }
 
   // public methods

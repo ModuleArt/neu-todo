@@ -16,7 +16,7 @@ import "@/assets/scss/styles.scss";
 Vue.prototype.$mapFields = Vue;
 Vue.config.productionTip = false;
 
-new Vue({
+const EventBus = new Vue({
   router,
   store,
   vuetify,
@@ -25,3 +25,5 @@ new Vue({
     store.dispatch("initStore");
   },
 }).$mount("#app");
+
+export default EventBus;

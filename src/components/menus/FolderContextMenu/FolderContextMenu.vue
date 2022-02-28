@@ -4,11 +4,16 @@
     v-model="showMenu"
     :position-x="folderContextMenuX"
     :position-y="folderContextMenuY"
-    absolute
+    :absolute="!button"
     offset-y
     :transition="false"
   >
-    <v-list dense outlined class="rounded py-1">
+    <template v-if="button" v-slot:activator="{ on, attrs }">
+      <v-btn icon v-bind="attrs" v-on="on">
+        <v-icon>mdi-dots-horizontal-circle-outline</v-icon>
+      </v-btn>
+    </template>
+    <v-list dense outlined class="rounded py-1" v-if="folder">
       <v-list-item link @click="editFolder()">
         <v-list-item-icon class="mr-4">
           <v-icon>mdi-pencil-outline</v-icon>
@@ -27,7 +32,14 @@
 
 <script lang="ts">
 // utils
-import { Vue, Component, Model, Watch } from "@/utils/vue-imports";
+import EventBus from "@/main";
+import { Vue, Component, Model, Watch, Prop } from "@/utils/vue-imports";
+
+// interfaces
+import Folder from "@/interfaces/entities/folder";
+
+// store modules
+import { foldersModule, todosModule } from "@/store";
 
 // component
 @Component({
@@ -36,6 +48,10 @@ import { Vue, Component, Model, Watch } from "@/utils/vue-imports";
 export default class FolderListItem extends Vue {
   // model
   @Model("showChanged", { type: Boolean }) show!: boolean;
+
+  // props
+  @Prop() readonly folder!: Folder;
+  @Prop() readonly button!: boolean;
 
   // data
   private showMenu = false;
@@ -55,11 +71,12 @@ export default class FolderListItem extends Vue {
 
   // private methods
   private removeFolder() {
-    this.$emit("removeFolder");
+    todosModule.removeTodosByCustomFolderId(this.folder.id);
+    foldersModule.removeFolder(this.folder.id);
   }
 
   private editFolder() {
-    this.$emit("editFolder");
+    EventBus.$emit("openEditFolderDialog", this.folder);
   }
 
   // public methods

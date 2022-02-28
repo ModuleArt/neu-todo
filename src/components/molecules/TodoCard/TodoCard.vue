@@ -46,7 +46,7 @@
             {{ todo.title }}
           </div>
         </div>
-        <v-btn icon @click="toggleExpandedTodo()">
+        <v-btn icon @click="toggleExpandedTodo">
           <v-icon>
             {{ expanded ? "mdi-chevron-up" : "mdi-chevron-down" }}
           </v-icon>
@@ -284,7 +284,7 @@ export default class TodoCard extends Mixins(isMobileMixin) {
   }
 
   private removeTodo() {
-    this.$emit("removeTodo", this.todo);
+    todosModule.removeTodo(this.todo.id);
   }
 
   private editTitle() {
