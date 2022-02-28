@@ -7,8 +7,16 @@
     }"
     v-if="currentFolder"
   >
-    <div class="d-flex align-center todo-list__title mb-4">
-      <h1>{{ currentFolder.title }}</h1>
+    <div
+      class="d-flex align-center todo-list__title mb-4 justify-space-between"
+    >
+      <h2 v-if="$isMobileExtra">{{ currentFolder.title }}</h2>
+      <h1 v-else>{{ currentFolder.title }}</h1>
+      <FolderContextMenu
+        v-if="currentFolder.custom"
+        :folder="currentFolder"
+        :button="true"
+      />
     </div>
     <AddTodoField v-if="currentFolder.transform || currentFolder.custom" />
     <div class="todo-list__todos">
@@ -16,8 +24,7 @@
         <TodoCard
           :todo="todo"
           @addDueDate="addDueDate"
-          @removeTodo="removeTodo"
-          :expanded="selectedTodoIndex == todoIndex"
+          :expanded="expandedIndex == todoIndex"
           @expandToggled="expandToggled(todoIndex)"
           class="mt-2"
           @contextmenu="setTodoContextMenuOpened($event, todo)"
@@ -30,25 +37,11 @@
         </v-subheader>
       </div>
     </div>
-    <v-snackbar v-model="showRemoveSnackbar" :timeout="removeSnackbarTimeout">
-      Task
-      <span v-if="removeSnackbarTempTodo">
-        <b>{{ removeSnackbarTempTodo.title }}</b>
-      </span>
-      has been deleted
-      <template v-slot:action="{ attrs }">
-        <v-btn color="primary" text v-bind="attrs" @click="bringTodoBack()">
-          Undo
-        </v-btn>
-      </template>
-    </v-snackbar>
     <TodoContextMenu
       ref="todoContextMenu"
       v-model="showTodoContextMenu"
       :todo="selectedTodo"
-      @removeTodo="removeTodo"
       @addDueDate="addDueDate"
-      @toggleImportant="toggleImportant"
       @chooseFolder="chooseFolder"
     />
     <ChooseFolderDialog ref="chooseFolderDialog" :todo="selectedTodo" />
@@ -58,8 +51,8 @@
 
 <script lang="ts">
 // utils
+import EventBus from "@/main";
 import { Mixins, Component, Watch } from "@/utils/vue-imports";
-import config from "@/config";
 
 // interfaces
 import Todo from "@/interfaces/entities/todo";
@@ -77,6 +70,7 @@ import ChooseFolderDialog from "@/components/dialogs/ChooseFolderDialog/ChooseFo
 import DueDateDialog from "@/components/dialogs/DueDateDialog/DueDateDialog.vue";
 import AddTodoField from "@/components/molecules/AddTodoField/AddTodoField.vue";
 import TodoContextMenu from "@/components/menus/TodoContextMenu/TodoContextMenu.vue";
+import FolderContextMenu from "@/components/menus/FolderContextMenu/FolderContextMenu.vue";
 
 // component
 @Component({
@@ -87,6 +81,7 @@ import TodoContextMenu from "@/components/menus/TodoContextMenu/TodoContextMenu.
     DueDateDialog,
     AddTodoField,
     TodoContextMenu,
+    FolderContextMenu,
   },
 })
 export default class TodoList extends Mixins(isMobileMixin) {
@@ -98,12 +93,8 @@ export default class TodoList extends Mixins(isMobileMixin) {
   };
 
   // data
-  private selectedTodoIndex = -1;
+  private expandedIndex = -1;
   private selectedTodo: Todo | null = null;
-
-  private showRemoveSnackbar = false;
-  private removeSnackbarTimeout = config.delays.notificationDelay;
-  private removeSnackbarTempTodo: Todo | null = null;
 
   private showTodoContextMenu = false;
 
@@ -127,29 +118,27 @@ export default class TodoList extends Mixins(isMobileMixin) {
   // watchers
   @Watch("currentFolder")
   onCurrentFolderChanged() {
-    this.selectedTodoIndex = -1;
+    this.expandedIndex = -1;
+  }
+
+  // lifecycle
+  private created() {
+    setTimeout(() => {
+      EventBus.$on("mutationAddTodo", () => {
+        this.expandedIndex = 0;
+      });
+      EventBus.$on("mutationRemoveTodo", () => {
+        this.expandedIndex = -1;
+      });
+    }, 0);
   }
 
   // private methods
   private expandToggled(todoIndex: number) {
-    if (this.selectedTodoIndex == todoIndex) {
-      this.selectedTodoIndex = -1;
+    if (this.expandedIndex == todoIndex) {
+      this.expandedIndex = -1;
     } else {
-      this.selectedTodoIndex = todoIndex;
-    }
-  }
-
-  private removeTodo(todo: Todo) {
-    this.removeSnackbarTempTodo = todo;
-    this.showRemoveSnackbar = true;
-    todosModule.removeTodo(todo.id);
-  }
-
-  private bringTodoBack() {
-    this.showRemoveSnackbar = false;
-    if (this.removeSnackbarTempTodo) {
-      this.addTodo(this.removeSnackbarTempTodo);
-      this.removeSnackbarTempTodo = null;
+      this.expandedIndex = todoIndex;
     }
   }
 
@@ -165,26 +154,8 @@ export default class TodoList extends Mixins(isMobileMixin) {
     }
   }
 
-  private toggleImportant(todo: Todo) {
-    todosModule.setImportant({
-      todoId: todo.id,
-      important: !todo.important,
-    });
-  }
-
   private chooseFolder() {
     this.$refs.chooseFolderDialog.setDialogOpened(true);
-  }
-
-  private addTodo(todo?: Todo) {
-    if (todo) {
-      todosModule.addTodo({ todo });
-    } else if (this.currentFolder) {
-      todosModule.addTodo({
-        transform: this.currentFolder.transform,
-        customFolderId: this.currentFolder.id,
-      });
-    }
   }
 
   private setTodoContextMenuOpened(e: { x: number; y: number }, todo: Todo) {

@@ -7,4 +7,8 @@ export default class IsMobileMixin extends Vue {
   get $isMobile(): boolean {
     return !this.$screen.md;
   }
+
+  get $isMobileExtra(): boolean {
+    return !this.$screen.sm;
+  }
 }

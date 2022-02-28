@@ -92,7 +92,7 @@ export default class TodoListItem extends Vue {
   @Prop() readonly todo!: Todo;
 
   // model
-  @Model("showChanged", { type: Boolean }) show!: boolean;
+  @Model("showChanged") show!: boolean;
 
   // data
   private showMenu = false;
@@ -112,7 +112,10 @@ export default class TodoListItem extends Vue {
 
   // private methods
   private toggleImportant() {
-    this.$emit("toggleImportant", this.todo);
+    todosModule.setImportant({
+      todoId: this.todo.id,
+      important: !this.todo.important,
+    });
   }
 
   private addDueDate(code: string | null) {
@@ -142,7 +145,7 @@ export default class TodoListItem extends Vue {
   }
 
   private removeTodo() {
-    this.$emit("removeTodo", this.todo);
+    todosModule.removeTodo(this.todo.id);
   }
 
   // public methods

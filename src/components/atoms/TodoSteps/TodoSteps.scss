@@ -1,0 +1,49 @@
+@import "@/assets/scss/variables.scss";
+
+.todo-steps {
+  &__list {
+    max-height: 260px;
+    overflow-y: auto;
+  }
+
+  &__remove-step {
+    display: none;
+    margin: 0 1px 0 4px;
+  }
+
+  &__step:hover &__remove-step {
+    display: block;
+  }
+
+  &__step {
+    padding: 0 0 0 10px;
+
+    &:last-child {
+      margin-bottom: 0 !important;
+    }
+
+    &--checked {
+      opacity: $opacity-secondary;
+    }
+
+    /deep/ .v-input--selection-controls__input {
+      margin-right: 0;
+    }
+
+    /deep/ .v-text-field__slot input {
+      padding: 0 !important;
+    }
+
+    /deep/ .v-input__slot {
+      padding-right: 0 !important;
+      background: none !important;
+    }
+  }
+
+  &__add-step {
+    /deep/ .v-input__prepend-inner {
+      padding: 0 !important;
+      margin-right: 11px !important;
+    }
+  }
+}

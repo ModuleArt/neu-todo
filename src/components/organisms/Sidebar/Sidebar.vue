@@ -34,7 +34,7 @@
                     NeuTodo
                   </v-list-item-title>
                   <v-list-item-subtitle>
-                    v0.0.2 (dev)
+                    Dev v0.0.3
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -92,10 +92,8 @@
     <FolderContextMenu
       ref="folderContextMenu"
       v-model="showFolderContextMenu"
-      @removeFolder="removeFolder"
-      @editFolder="editFolder"
+      :folder="folderWithContextMenu"
     />
-    <EditFolderDialog ref="editFolderDialog" />
   </div>
 </template>
 
@@ -107,25 +105,23 @@ import { Mixins, Component } from "@/utils/vue-imports";
 import Folder from "@/interfaces/entities/folder";
 
 // store modules
-import { foldersModule, todosModule } from "@/store";
+import { foldersModule } from "@/store";
 
 // mixins
 import isMobileMixin from "@/mixins/isMobile";
 
 // components
 import FolderListItem from "@/components/atoms/FolderListItem/FolderListItem.vue";
-import EditFolderDialog from "@/components/dialogs/EditFolderDialog/EditFolderDialog.vue";
 import FolderContextMenu from "@/components/menus/FolderContextMenu/FolderContextMenu.vue";
 
 // component
 @Component({
   name: "Sidebar",
-  components: { FolderListItem, EditFolderDialog, FolderContextMenu },
+  components: { FolderListItem, FolderContextMenu },
 })
 export default class Sidebar extends Mixins(isMobileMixin) {
   // refs
   public $refs!: {
-    editFolderDialog: EditFolderDialog;
     folderContextMenu: FolderContextMenu;
   };
 
@@ -174,20 +170,6 @@ export default class Sidebar extends Mixins(isMobileMixin) {
     this.folderWithContextMenu = folder;
     this.$refs.folderContextMenu.setCoordinates(e.x, e.y);
     this.showFolderContextMenu = true;
-  }
-
-  private removeFolder() {
-    if (this.folderWithContextMenu) {
-      todosModule.removeTodosByCustomFolderId(this.folderWithContextMenu.id);
-      foldersModule.removeFolder(this.folderWithContextMenu.id);
-    }
-  }
-
-  private editFolder() {
-    this.$refs.editFolderDialog.setDialogOpened(
-      true,
-      this.folderWithContextMenu
-    );
   }
 
   private drawerClickOutside() {

@@ -5,6 +5,7 @@
       label="Add a task"
       hide-details
       solo
+      flat
       placeholder="Task title"
       prepend-inner-icon="mdi-plus"
       :color="currentFolder.color || 'primary'"

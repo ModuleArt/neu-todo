@@ -1,3 +1,4 @@
+import EventBus from "@/main";
 import todosApi from "@/api/todos";
 import { nanoid } from "nanoid";
 
@@ -21,10 +22,13 @@ class TodosModule extends VuexModule {
   @Mutation
   private mutationAddTodo(todo: Todo) {
     this.todos.unshift(todo);
+    EventBus.$emit("mutationAddTodo", { todo });
   }
 
   @Mutation
   private mutationRemoveTodo(todoId: string) {
+    const todo = this.todos.find((todo) => todo.id === todoId);
+    EventBus.$emit("mutationRemoveTodo", todo);
     this.todos = this.todos.filter((todo) => todo.id !== todoId);
   }
 
