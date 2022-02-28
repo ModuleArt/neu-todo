@@ -8,7 +8,7 @@
     v-if="currentFolder"
   >
     <div
-      class="d-flex align-center todo-list__title mb-4 d-flex justify-space-between align-center"
+      class="d-flex align-center todo-list__title mb-4 justify-space-between"
     >
       <h2 v-if="$isMobileExtra">{{ currentFolder.title }}</h2>
       <h1 v-else>{{ currentFolder.title }}</h1>
@@ -126,6 +126,9 @@ export default class TodoList extends Mixins(isMobileMixin) {
     setTimeout(() => {
       EventBus.$on("mutationAddTodo", () => {
         this.expandedIndex = 0;
+      });
+      EventBus.$on("mutationRemoveTodo", () => {
+        this.expandedIndex = -1;
       });
     }, 0);
   }

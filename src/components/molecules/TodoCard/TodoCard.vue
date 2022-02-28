@@ -7,6 +7,7 @@
       'todo-card': true,
       rounded: true,
       'todo-card--checked': todo.checked,
+      'todo-card--important': todo.important,
     }"
   >
     <v-card
@@ -55,59 +56,11 @@
       <v-expand-transition>
         <div v-show="expanded" class="todo-card__body">
           <v-divider v-if="$isMobile" />
-          <div
-            :class="{
-              'todo-card__steps': true,
-              'px-8 pb-4 pt-2': !$isMobile,
-              'py-1': $isMobile,
-            }"
-          >
-            <v-card
-              v-for="(step, stepIndex) in todo.steps"
-              :key="`step--${stepIndex}`"
-              :class="{
-                'todo-card__step d-flex mb-1 align-center': true,
-                'todo-card__step--checked': step.checked,
-              }"
-              :outlined="!$isMobile"
-              flat
-            >
-              <v-simple-checkbox
-                v-model="step.checked"
-                :color="
-                  (customTodoFolder && customTodoFolder.color) || 'primary'
-                "
-              />
-              <v-text-field
-                v-model="step.title"
-                solo
-                flat
-                dense
-                hide-details
-                :placeholder="`Step ${stepIndex}`"
-              />
-              <v-btn
-                icon
-                @click="removeStep(stepIndex)"
-                class="todo-card__remove-step"
-              >
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-            </v-card>
-            <v-text-field
-              class="todo-card__add-step"
-              prepend-inner-icon="mdi-plus"
-              :color="(customTodoFolder && customTodoFolder.color) || 'primary'"
-              solo
-              flat
-              :outlined="!$isMobile"
-              dense
-              hide-details
-              :placeholder="todo.steps.length ? 'Next step' : 'Add step'"
-              v-model="tempStepValue"
-              @keypress.enter="addStep"
-            />
-          </div>
+          <TodoSteps
+            v-model="todo.steps"
+            :color="(customTodoFolder && customTodoFolder.color) || 'primary'"
+            :todo-id="todo.id"
+          />
           <v-divider />
           <v-textarea
             v-model="todo.body"
@@ -125,7 +78,7 @@
       <div
         v-if="customTodoFolder || todo.dueDate || todo.important"
         :class="{
-          'caption text--disabled todo-card__caption text-right d-flex py-1 px-3': true,
+          'caption text--disabled todo-card__caption text-right d-flex py-2 px-3': true,
           'justify-space-between': customTodoFolder,
           'justify-end': !customTodoFolder,
         }"
@@ -135,7 +88,7 @@
           class="todo-card__caption--folder mr-3 text-left"
         >
           <v-icon :color="customTodoFolder.color" small class="mr-1">
-            mdi-folder-outline
+            {{ customTodoFolder.icon }}
           </v-icon>
           <span :class="`${customTodoFolder.color}--text`">
             {{ customTodoFolder.title }}
@@ -180,12 +133,14 @@ import SwipeoutButton from "@/interfaces/logic/swipeoutButton";
 
 // components
 import Swipeout from "@/components/atoms/Swipeout/Swipeout.vue";
+import TodoSteps from "@/components/atoms/TodoSteps/TodoSteps.vue";
 
 // component
 @Component({
   name: "TodoCard",
   components: {
     Swipeout,
+    TodoSteps,
   },
 })
 export default class TodoCard extends Mixins(isMobileMixin) {
@@ -201,7 +156,6 @@ export default class TodoCard extends Mixins(isMobileMixin) {
   // data
   private titleInEdit = false;
   private tempTitleValue = "";
-  private tempStepValue = "";
   private swipeoutLeftActions: SwipeoutButton[] = [
     {
       icon: "mdi-folder-outline",
@@ -326,23 +280,6 @@ export default class TodoCard extends Mixins(isMobileMixin) {
       const p = (e.target as HTMLElement).getBoundingClientRect();
       this.$emit("contextmenu", { x: p.x, y: p.y + p.height - 8 });
     }
-  }
-
-  private addStep() {
-    if (this.tempStepValue.length) {
-      todosModule.addStep({
-        todoId: this.todo.id,
-        stepTitle: this.tempStepValue,
-      });
-      this.tempStepValue = "";
-    }
-  }
-
-  private removeStep(stepIndex: number) {
-    todosModule.removeStepByIndex({
-      todoId: this.todo.id,
-      stepIndex,
-    });
   }
 }
 </script>

@@ -9,7 +9,7 @@
     :transition="false"
   >
     <template v-if="button" v-slot:activator="{ on, attrs }">
-      <v-btn icon v-bind="attrs" v-on="on">
+      <v-btn icon v-bind="attrs" v-on="on" title="Folder options">
         <v-icon>mdi-dots-horizontal-circle-outline</v-icon>
       </v-btn>
     </template>
@@ -47,7 +47,7 @@ import { foldersModule, todosModule } from "@/store";
 })
 export default class FolderListItem extends Vue {
   // model
-  @Model("showChanged", { type: Boolean }) show!: boolean;
+  @Model("showChanged") show!: boolean;
 
   // props
   @Prop() readonly folder!: Folder;

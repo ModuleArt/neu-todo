@@ -92,7 +92,7 @@ export default class TodoListItem extends Vue {
   @Prop() readonly todo!: Todo;
 
   // model
-  @Model("showChanged", { type: Boolean }) show!: boolean;
+  @Model("showChanged") show!: boolean;
 
   // data
   private showMenu = false;

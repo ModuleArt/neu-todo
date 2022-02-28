@@ -6,6 +6,13 @@
     opacity: $opacity-secondary;
   }
 
+  &--important {
+    /deep/ .v-card {
+      outline: 2px solid #ff9800;
+      outline-offset: -1px;
+    }
+  }
+
   &__checkbox {
     padding: 0 6px;
 
@@ -70,43 +77,6 @@
       margin: 0 !important;
       padding-top: 8px;
       padding-bottom: 8px;
-    }
-  }
-
-  &__remove-step {
-    display: none;
-    margin: 0 1px 0 4px;
-  }
-
-  &__step:hover &__remove-step {
-    display: block;
-  }
-
-  &__step {
-    padding: 0 0 0 10px;
-
-    &--checked {
-      opacity: $opacity-secondary;
-    }
-
-    /deep/ .v-input--selection-controls__input {
-      margin-right: 0
-    }
-
-    /deep/ .v-text-field__slot input {
-      padding: 0 !important;
-    }
-
-    /deep/ .v-input__slot {
-      padding-right: 0 !important;
-      background: none !important;
-    }
-  }
-
-  &__add-step {
-    /deep/ .v-input__prepend-inner {
-      padding: 0 !important;
-      margin-right: 11px !important;
     }
   }
 
