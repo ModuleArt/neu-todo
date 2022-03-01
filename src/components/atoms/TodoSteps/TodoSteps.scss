@@ -17,6 +17,7 @@
 
   &__step {
     padding: 0 0 0 10px;
+    background: none !important;
 
     &:last-child {
       margin-bottom: 0 !important;
@@ -44,6 +45,10 @@
     /deep/ .v-input__prepend-inner {
       padding: 0 !important;
       margin-right: 11px !important;
+    }
+
+    /deep/ .v-input__slot {
+      background: none !important;
     }
   }
 }

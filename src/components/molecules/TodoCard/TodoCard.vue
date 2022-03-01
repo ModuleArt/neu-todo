@@ -14,6 +14,7 @@
       outlined
       @contextmenu.prevent="rightClick"
       v-touch:touchhold="touchHold"
+      class="todo-card__card"
     >
       <div class="d-flex align-center pa-1">
         <v-simple-checkbox
@@ -39,13 +40,13 @@
             @contextmenu.stop
             @keypress.enter="unfocus"
           />
-          <div
+          <button
             v-else
             class="py-1 px-3 todo-card__title-text"
             @click="editTitle"
           >
             {{ todo.title }}
-          </div>
+          </button>
         </div>
         <v-btn icon @click="toggleExpandedTodo">
           <v-icon>
@@ -71,6 +72,7 @@
             solo
             @blur="setBody($event.target.value)"
             @contextmenu.stop
+            class="todo-card__description"
           />
         </div>
       </v-expand-transition>

@@ -2,11 +2,15 @@
   <div
     :class="{
       'todo-steps': true,
-      'px-11 pb-4 pt-2': !$isMobile,
+      'px-11 pb-4': !$isMobile,
       'py-1': $isMobile,
     }"
   >
-    <div class="todo-steps__list" ref="todoStepsList">
+    <div
+      class="todo-steps__list mb-1"
+      ref="todoStepsList"
+      v-if="steps.length > 0"
+    >
       <v-card
         v-for="(step, stepIndex) in steps"
         :key="`step--${stepIndex}`"
@@ -40,7 +44,7 @@
       </v-card>
     </div>
     <v-text-field
-      class="todo-steps__add-step mt-1"
+      class="todo-steps__add-step"
       prepend-inner-icon="mdi-plus"
       :color="color"
       solo
@@ -51,6 +55,7 @@
       :placeholder="steps.length ? 'Next step' : 'Add step'"
       v-model="tempStepValue"
       @keypress.enter="addStep"
+      @contextmenu.stop
     />
   </div>
 </template>
