@@ -23,6 +23,17 @@
           Mark as important
         </v-list-item-title>
       </v-list-item>
+      <v-list-item link @click="toggleChecked">
+        <v-list-item-icon class="mr-4">
+          <v-icon>mdi-checkbox-marked-outline</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title v-if="todo.checked">
+          Mark as not completed
+        </v-list-item-title>
+        <v-list-item-title v-else>
+          Mark as completed
+        </v-list-item-title>
+      </v-list-item>
       <v-divider class="my-1" />
       <v-list-item link @click="addDueDate('today')">
         <v-list-item-icon class="mr-4">
@@ -115,6 +126,13 @@ export default class TodoListItem extends Vue {
     todosModule.setImportant({
       todoId: this.todo.id,
       important: !this.todo.important,
+    });
+  }
+
+  private toggleChecked() {
+    todosModule.setChecked({
+      todoId: this.todo.id,
+      checked: !this.todo.checked,
     });
   }
 
