@@ -77,40 +77,10 @@
         </div>
       </v-expand-transition>
       <v-divider v-if="customTodoFolder || todo.dueDate || todo.important" />
-      <div
+      <TodoCaption
         v-if="customTodoFolder || todo.dueDate || todo.important"
-        :class="{
-          'caption text--disabled todo-card__caption text-right d-flex py-2 px-3': true,
-          'justify-space-between': customTodoFolder,
-          'justify-end': !customTodoFolder,
-        }"
-      >
-        <div
-          v-if="customTodoFolder"
-          class="todo-card__caption--folder mr-3 text-left"
-        >
-          <v-icon :color="customTodoFolder.color" small class="mr-1">
-            {{ customTodoFolder.icon }}
-          </v-icon>
-          <span :class="`${customTodoFolder.color}--text`">
-            {{ customTodoFolder.title }}
-          </span>
-        </div>
-        <div
-          v-if="todo.dueDate"
-          class="text-right todo-card__caption--due-date"
-        >
-          <v-icon :disabled="!isOverdue" small class="mr-1" color="red">
-            mdi-calendar-blank
-          </v-icon>
-          <span :class="{ 'red--text': isOverdue }">
-            {{ formattedDate }}
-          </span>
-        </div>
-        <div v-if="todo.important" class="ml-3 todo-card__caption--important">
-          <v-icon small color="orange">mdi-alert-octagram</v-icon>
-        </div>
-      </div>
+        :todo="todo"
+      />
     </v-card>
   </Swipeout>
 </template>
@@ -118,7 +88,6 @@
 <script lang="ts">
 // utils
 import { Mixins, Component, Prop } from "@/utils/vue-imports";
-import dateUtils from "@/utils/date";
 
 // interfaces
 import Todo from "@/interfaces/entities/todo";
@@ -131,11 +100,12 @@ import { todosModule, foldersModule } from "@/store";
 import isMobileMixin from "@/mixins/isMobile";
 
 // interfaces
-import SwipeoutButton from "@/interfaces/logic/swipeoutButton";
+import SwipeoutAction from "@/interfaces/logic/swipeoutAction";
 
 // components
 import Swipeout from "@/components/atoms/Swipeout/Swipeout.vue";
 import TodoSteps from "@/components/atoms/TodoSteps/TodoSteps.vue";
+import TodoCaption from "@/components/atoms/TodoCaption/TodoCaption.vue";
 
 // component
 @Component({
@@ -143,6 +113,7 @@ import TodoSteps from "@/components/atoms/TodoSteps/TodoSteps.vue";
   components: {
     Swipeout,
     TodoSteps,
+    TodoCaption,
   },
 })
 export default class TodoCard extends Mixins(isMobileMixin) {
@@ -158,7 +129,7 @@ export default class TodoCard extends Mixins(isMobileMixin) {
   // data
   private titleInEdit = false;
   private tempTitleValue = "";
-  private swipeoutLeftActions: SwipeoutButton[] = [
+  private swipeoutLeftActions: SwipeoutAction[] = [
     {
       icon: "mdi-folder-outline",
       text: "Folder",
@@ -176,7 +147,7 @@ export default class TodoCard extends Mixins(isMobileMixin) {
       },
     },
   ];
-  private swipeoutRightActions: SwipeoutButton[] = [
+  private swipeoutRightActions: SwipeoutAction[] = [
     {
       icon: "mdi-octagram-outline",
       text: "Important",
@@ -196,14 +167,6 @@ export default class TodoCard extends Mixins(isMobileMixin) {
   ];
 
   // computed
-  get formattedDate(): string {
-    return dateUtils.toDisplay(this.todo.dueDate || 0);
-  }
-
-  get isOverdue(): boolean {
-    return dateUtils.isOverdue(this.todo.dueDate);
-  }
-
   get customTodoFolder(): Folder | null {
     return (
       foldersModule.folders.find(

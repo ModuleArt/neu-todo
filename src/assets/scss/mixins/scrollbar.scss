@@ -1,6 +1,7 @@
 @mixin scrollbar($bg: #121212) {
   ::-webkit-scrollbar {
     width: 15px;
+    background: $bg;
   }
   ::-webkit-scrollbar-track {
     background: $bg;

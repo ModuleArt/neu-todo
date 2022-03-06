@@ -55,7 +55,7 @@ import { SwipeOut } from "vue-swipe-actions";
 import "vue-swipe-actions/dist/vue-swipe-actions.css";
 
 // interfaces
-import SwipeoutButton from "@/interfaces/logic/swipeoutButton";
+import SwipeoutAction from "@/interfaces/logic/swipeoutAction";
 
 // component
 @Component({
@@ -72,8 +72,8 @@ export default class Swipeout extends Vue {
 
   // props
   @Prop() readonly enable!: boolean;
-  @Prop() readonly leftActions!: SwipeoutButton[];
-  @Prop() readonly rightActions!: SwipeoutButton[];
+  @Prop() readonly leftActions!: SwipeoutAction[];
+  @Prop() readonly rightActions!: SwipeoutAction[];
 
   // methods
   private closeActions() {

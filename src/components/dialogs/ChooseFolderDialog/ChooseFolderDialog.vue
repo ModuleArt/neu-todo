@@ -1,40 +1,30 @@
 <template>
-  <div class="due-date-dialog">
-    <v-dialog v-model="showDialog" max-width="320">
-      <v-card v-if="todo">
-        <v-list dense class="py-1">
-          <v-list-item
-            v-for="(item, index) in foldersToChoose"
-            :key="index"
-            link
-            @click="setCustomFolderId(item.id)"
-            :input-value="customTodoFolder && customTodoFolder.id == item.id"
-            :color="(customTodoFolder && customTodoFolder.color) || ''"
-          >
-            <v-list-item-icon class="mr-4">
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-        <v-divider />
-        <v-card-actions class="pa-2">
-          <v-btn
-            v-if="todo.customFolderId"
-            text
-            @click="setCustomFolderId(null)"
-            color="red"
-          >
-            No folder
-          </v-btn>
-          <v-spacer />
-          <v-btn text @click="showDialog = false">
-            OK
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
+  <BaseDialog
+    class="edit-folder-dialog"
+    v-model="showDialog"
+    :actions="dialogButtons"
+    v-if="todo"
+    no-padding
+  >
+    <v-list dense>
+      <v-list-item
+        v-for="(item, index) in foldersToChoose"
+        :key="index"
+        link
+        @click="setCustomFolderId(item.id)"
+        :input-value="customTodoFolder && customTodoFolder.id == item.id"
+        :color="(customTodoFolder && customTodoFolder.color) || ''"
+        :title="item.title"
+      >
+        <v-list-item-icon class="mr-4">
+          <v-icon>{{ item.icon }}</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+  </BaseDialog>
 </template>
 
 <script lang="ts">
@@ -44,21 +34,43 @@ import { Vue, Component, Prop } from "@/utils/vue-imports";
 // interfaces
 import Todo from "@/interfaces/entities/todo";
 import Folder from "@/interfaces/entities/folder";
+import DialogAction from "@/interfaces/logic/dialogAction";
 
 // store modules
 import { todosModule, foldersModule } from "@/store";
 
+// components
+import BaseDialog from "@/components/bases/BaseDialog.vue";
+
 // component
 @Component({
-  name: "DueDateDialog",
+  name: "ChooseFolderDialog",
+  components: {
+    BaseDialog,
+  },
 })
 export default class DueDateDialog extends Vue {
   // props
-
   @Prop() readonly todo!: Todo;
 
   // data
   private showDialog = false;
+  private dialogButtons: DialogAction[] = [
+    {
+      text: "No folder",
+      onClick: () => {
+        this.setCustomFolderId(null);
+      },
+      color: "red",
+      left: true,
+    },
+    {
+      text: "OK",
+      onClick: () => {
+        this.closeDialog();
+      },
+    },
+  ];
 
   // computed
   get customTodoFolder(): Folder | null {
@@ -79,6 +91,10 @@ export default class DueDateDialog extends Vue {
       todoId: this.todo.id,
       customFolderId,
     });
+    this.showDialog = false;
+  }
+
+  private closeDialog() {
     this.showDialog = false;
   }
 

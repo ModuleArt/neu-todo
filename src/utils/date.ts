@@ -52,7 +52,7 @@ const dateUtils = {
         return moment(date).format("ddd, MMM D");
     }
   },
-  toIcon(date: number): string {
+  getIcon(date: number): string {
     if (!date) {
       return "mdi-calendar-blank";
     } else {

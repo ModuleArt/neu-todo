@@ -1,0 +1,11 @@
+@import "@/assets/scss/mixins/scrollbar.scss";
+
+.base-dialog {
+  &__scroll {
+    overflow-y: auto;
+    max-height: 50vh;
+  }
+}
+
+// scrollbar
+@include scrollbar(#1e1e1e);

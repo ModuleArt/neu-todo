@@ -53,40 +53,6 @@
     }
   }
 
-  &__caption {
-    vertical-align: middle;
-
-    & > * {
-      pointer-events: none;
-    }
-
-    div {
-      display: inline-block;
-      vertical-align: top;
-      white-space: nowrap;
-    }
-
-    &--folder {
-      max-width: calc(50% - 24px);
-      width: 100%;
-      flex: 1;
-    }
-
-    &--due-date {
-      max-width: calc(50% - 24px);
-      width: 100%;
-    }
-
-    span {
-      display: inline-block;
-      vertical-align: middle;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      max-width: calc(100% - 16px);
-    }
-  }
-
   &__body {
     /deep/ textarea {
       margin: 0 !important;
