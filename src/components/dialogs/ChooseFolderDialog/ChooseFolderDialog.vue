@@ -5,6 +5,7 @@
     :actions="dialogButtons"
     v-if="todo"
     no-padding
+    title="Choose folder"
   >
     <v-list dense>
       <v-list-item

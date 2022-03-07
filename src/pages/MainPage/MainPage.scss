@@ -1,3 +1,5 @@
+@import "@/assets/scss/variables.scss";
+
 .main-page {
   &__content {
     height: 100vh;
@@ -9,7 +11,7 @@
     flex: 1;
   }
 
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: $is-tablet) {
     &__row {
       display: block;
     }

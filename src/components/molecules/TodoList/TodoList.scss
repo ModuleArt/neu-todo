@@ -1,3 +1,5 @@
+@import "@/assets/scss/variables.scss";
+
 .todo-list {
   &__heading {
     overflow: hidden;
@@ -5,7 +7,7 @@
     white-space: nowrap;
   }
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: $is-mobile-extra) {
     &__heading {
       font-size: 24px;
     }

@@ -1,11 +1,11 @@
 <template>
   <v-menu class="new-folder-menu" top offset-y min-width="0">
     <template v-slot:activator="{ on, attrs }">
-      <v-list-item link v-bind="attrs" v-on="on">
+      <v-list-item link v-bind="attrs" v-on="on" class="ma-0">
         <v-list-item-icon class="mr-4">
           <v-icon>mdi-plus</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>New</v-list-item-title>
+        <v-list-item-title>Create new</v-list-item-title>
       </v-list-item>
     </template>
     <v-list dense outlined class="rounded py-1">

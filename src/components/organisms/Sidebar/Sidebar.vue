@@ -34,7 +34,7 @@
                     NeuTodo
                   </v-list-item-title>
                   <v-list-item-subtitle>
-                    Dev v0.0.3
+                    Dev v0.0.4
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>

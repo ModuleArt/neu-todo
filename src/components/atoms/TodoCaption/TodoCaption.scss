@@ -8,14 +8,14 @@
 
   &__item {
     display: inline-block;
-    max-width: 33.3%;
+    max-width: calc(33.3% - 8px);
 
     span {
       display: inline-block;
       vertical-align: middle;
       text-overflow: ellipsis;
       overflow: hidden;
-      max-width: calc(100% - 16px);
+      max-width: calc(100% - 12px);
     }
   }
 }

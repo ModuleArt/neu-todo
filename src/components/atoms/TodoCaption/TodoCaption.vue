@@ -1,6 +1,6 @@
 <template>
   <div
-    class="todo-caption caption text--disabled py-1 px-3"
+    class="todo-caption caption text--disabled py-1 pl-3"
     v-if="customTodoFolder || todo.steps.length > 0 || todo.dueDate"
   >
     <span

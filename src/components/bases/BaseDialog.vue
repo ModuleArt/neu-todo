@@ -2,7 +2,7 @@
   <div class="base-dialog">
     <v-dialog :value="showDialog" max-width="340" @input="dialogValueChanged">
       <v-card>
-        <v-card-title v-if="title" class="pa-4">{{ title }}</v-card-title>
+        <v-card-title v-if="title" class="px-4 py-3">{{ title }}</v-card-title>
         <v-divider v-if="title" />
         <div class="base-dialog__scroll">
           <div
