@@ -3,6 +3,6 @@ import { Vue } from "@/utils/vue-imports";
 import VueScreen from "vue-screen";
 
 Vue.use(VueScreen, {
-  sm: 420,
-  md: 768,
+  sm: 450,
+  md: 700,
 });

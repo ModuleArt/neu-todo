@@ -1,5 +1,6 @@
 .todo-caption {
   vertical-align: middle;
+  white-space: nowrap;
 
   & > * {
     pointer-events: none;
@@ -7,27 +8,14 @@
 
   &__item {
     display: inline-block;
-    vertical-align: top;
-    white-space: nowrap;
+    max-width: 33.3%;
 
-    &--folder {
-      max-width: calc(50% - 24px);
-      width: 100%;
-      flex: 1;
+    span {
+      display: inline-block;
+      vertical-align: middle;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: calc(100% - 16px);
     }
-
-    &--due-date {
-      max-width: calc(50% - 24px);
-      width: 100%;
-    }
-  }
-
-  span {
-    display: inline-block;
-    vertical-align: middle;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    max-width: calc(100% - 16px);
   }
 }

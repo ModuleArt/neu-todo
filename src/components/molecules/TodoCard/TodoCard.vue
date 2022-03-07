@@ -20,7 +20,7 @@
         <v-simple-checkbox
           :value="todo.checked"
           @input="toggleChecked()"
-          :color="(customTodoFolder && customTodoFolder.color) || 'primary'"
+          :color="customTodoFolder ? customTodoFolder.color : 'primary'"
           class="todo-card__checkbox"
         />
         <div class="todo-card__title mx-1">
@@ -33,7 +33,7 @@
             dense
             placeholder="Task title"
             outlined
-            :color="(customTodoFolder && customTodoFolder.color) || 'primary'"
+            :color="customTodoFolder ? customTodoFolder.color : 'primary'"
             ref="taskTitleInput"
             class="todo-card__title-input"
             @blur="setTitle"
@@ -59,7 +59,7 @@
           <v-divider v-if="$isMobile" />
           <TodoSteps
             v-model="todo.steps"
-            :color="(customTodoFolder && customTodoFolder.color) || 'primary'"
+            :color="customTodoFolder ? customTodoFolder.color : 'primary'"
             :todo-id="todo.id"
           />
           <v-divider />
@@ -76,11 +76,10 @@
           />
         </div>
       </v-expand-transition>
-      <v-divider v-if="customTodoFolder || todo.dueDate || todo.important" />
-      <TodoCaption
-        v-if="customTodoFolder || todo.dueDate || todo.important"
-        :todo="todo"
+      <v-divider
+        v-if="customTodoFolder || todo.steps.length > 0 || todo.dueDate"
       />
+      <TodoCaption :todo="todo" />
     </v-card>
   </Swipeout>
 </template>

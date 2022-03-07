@@ -6,7 +6,7 @@
     </span>
     has been deleted
     <template v-slot:action="{ attrs }">
-      <v-btn color="primary" text v-bind="attrs" @click="bringTodoBack()">
+      <v-btn text v-bind="attrs" @click="bringTodoBack()">
         Undo
       </v-btn>
     </template>

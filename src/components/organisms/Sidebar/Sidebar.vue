@@ -57,7 +57,7 @@
           <v-list nav dense>
             <v-list-item-group
               :value="selectedItem"
-              :color="(currentFolder && currentFolder.color) || 'primary'"
+              :color="currentFolder ? currentFolder.color : 'primary'"
               @change="selectedItemChanged($event)"
               mandatory
             >

@@ -1,14 +1,11 @@
 <template>
   <div
-    :class="{
-      'todo-caption caption text--disabled text-right d-flex py-2 px-3': true,
-      'justify-space-between': customTodoFolder,
-      'justify-end': !customTodoFolder,
-    }"
+    class="todo-caption caption text--disabled py-1 px-3"
+    v-if="customTodoFolder || todo.steps.length > 0 || todo.dueDate"
   >
-    <div
+    <span
       v-if="customTodoFolder"
-      class="todo-caption__item todo-caption__item--folder mr-3 text-left"
+      class="todo-caption__item todo-caption__item--folder mr-3"
     >
       <v-icon :color="customTodoFolder.color" small class="mr-1">
         {{ customTodoFolder.icon }}
@@ -16,10 +13,21 @@
       <span :class="`${customTodoFolder.color}--text`">
         {{ customTodoFolder.title }}
       </span>
-    </div>
-    <div
+    </span>
+    <span
+      v-if="todo.steps.length > 0"
+      class="todo-caption__item todo-caption__item--steps mr-3"
+    >
+      <v-icon disabled small class="mr-1">
+        {{
+          checkedStepsCount == todo.steps.length ? "mdi-check-all" : "mdi-check"
+        }}
+      </v-icon>
+      <span>{{ checkedStepsCount }} of {{ todo.steps.length }}</span>
+    </span>
+    <span
       v-if="todo.dueDate"
-      class="todo-caption__item text-right todo-caption__item--due-date"
+      class="todo-caption__item todo-caption__item--due-date mr-3"
     >
       <v-icon :disabled="!isOverdue" small class="mr-1" color="red">
         {{ dueDateIcon }}
@@ -27,13 +35,7 @@
       <span :class="{ 'red--text': isOverdue }">
         {{ formattedDate }}
       </span>
-    </div>
-    <div
-      v-if="todo.important"
-      class="todo-caption__item ml-3 todo-caption__item--important"
-    >
-      <v-icon small color="orange">mdi-alert-octagram</v-icon>
-    </div>
+    </span>
   </div>
 </template>
 
@@ -76,6 +78,10 @@ export default class TodoSteps extends Vue {
 
   get dueDateIcon(): string {
     return dateUtils.getIcon(this.todo.dueDate || 0);
+  }
+
+  get checkedStepsCount(): number {
+    return this.todo.steps.filter((step) => step.checked).length;
   }
 }
 </script>

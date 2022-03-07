@@ -40,6 +40,7 @@ const store = new Vuex.Store({
 
 store.subscribe((mutation, state) => {
   localStorage.setItem("store", JSON.stringify(state));
+  console.log("localStorage updated!");
 });
 
 export const todosModule = new TodosModule({ store, name: "todos" });

@@ -17,6 +17,7 @@ class FoldersModule extends VuexModule {
       id: "tasks",
       title: "Tasks",
       icon: "mdi-sticker-check-outline",
+      color: "primary",
       custom: false,
       filter: (todo) => !todo.customFolderId,
       transform: (todo) => {
@@ -40,6 +41,7 @@ class FoldersModule extends VuexModule {
       id: "today",
       title: "Today",
       icon: "mdi-calendar-today",
+      color: "primary",
       custom: false,
       filter: (todo) => dateUtils.numberToCode(todo.dueDate) === "today",
       transform: (todo) => {
@@ -51,6 +53,7 @@ class FoldersModule extends VuexModule {
       id: "tomorrow",
       title: "Tomorrow",
       icon: "mdi-calendar-arrow-right",
+      color: "primary",
       custom: false,
       filter: (todo) => dateUtils.numberToCode(todo.dueDate) === "tomorrow",
       transform: (todo) => {

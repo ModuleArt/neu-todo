@@ -213,8 +213,8 @@ export default class EditFolderDialog extends Vue {
     if (folder) {
       this.folder = folder;
       this.folderTitle = folder.title;
-      this.folderColor = folder.color || "primary";
-      this.folderIcon = folder.icon || "mdi-folder-outline";
+      this.folderColor = folder.color;
+      this.folderIcon = folder.icon;
 
       this.icons.forEach((page, pageIndex) => {
         if (page.includes(folder.icon)) {

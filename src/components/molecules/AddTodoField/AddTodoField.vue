@@ -8,7 +8,7 @@
       flat
       placeholder="Task title"
       prepend-inner-icon="mdi-plus"
-      :color="currentFolder.color || 'primary'"
+      :color="currentFolder.color"
       outlined
       @contextmenu.stop
       v-model="tempStepTitle"

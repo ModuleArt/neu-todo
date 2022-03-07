@@ -21,7 +21,7 @@
         :outlined="!$isMobile"
         flat
       >
-        <v-simple-checkbox v-model="step.checked" :color="color || 'primary'" />
+        <v-simple-checkbox v-model="step.checked" :color="color" />
         <v-text-field
           v-model="step.title"
           solo

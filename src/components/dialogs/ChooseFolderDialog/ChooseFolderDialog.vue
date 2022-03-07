@@ -1,6 +1,6 @@
 <template>
   <BaseDialog
-    class="edit-folder-dialog"
+    class="choose-folder-dialog"
     v-model="showDialog"
     :actions="dialogButtons"
     v-if="todo"
@@ -67,7 +67,7 @@ export default class DueDateDialog extends Vue {
     {
       text: "OK",
       onClick: () => {
-        this.closeDialog();
+        this.setDialogOpened(false);
       },
     },
   ];
@@ -91,10 +91,6 @@ export default class DueDateDialog extends Vue {
       todoId: this.todo.id,
       customFolderId,
     });
-    this.showDialog = false;
-  }
-
-  private closeDialog() {
     this.showDialog = false;
   }
 
