@@ -15,7 +15,7 @@
       class="sidebar__drawer"
     >
       <div class="d-flex flex-column sidebar__content">
-        <div>
+        <div class="sidebar__top">
           <div class="d-flex">
             <div v-if="$isMobile" class="sidebar__menu-button">
               <v-btn icon @click="expandDrawer = !expandDrawer">
@@ -77,14 +77,9 @@
           </v-list>
         </div>
         <v-divider />
-        <div class="sidebar__new-folder">
+        <div class="sidebar__bottom">
           <v-list nav dense>
-            <v-list-item link @click="addNewFolder()">
-              <v-list-item-icon class="mr-4">
-                <v-icon>mdi-folder-plus-outline</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>New folder</v-list-item-title>
-            </v-list-item>
+            <NewFolderMenu />
           </v-list>
         </div>
       </div>
@@ -113,11 +108,12 @@ import isMobileMixin from "@/mixins/isMobile";
 // components
 import FolderListItem from "@/components/atoms/FolderListItem/FolderListItem.vue";
 import FolderContextMenu from "@/components/menus/FolderContextMenu/FolderContextMenu.vue";
+import NewFolderMenu from "@/components/menus/NewFolderMenu/NewFolderMenu.vue";
 
 // component
 @Component({
   name: "Sidebar",
-  components: { FolderListItem, FolderContextMenu },
+  components: { FolderListItem, FolderContextMenu, NewFolderMenu },
 })
 export default class Sidebar extends Mixins(isMobileMixin) {
   // refs
@@ -157,10 +153,6 @@ export default class Sidebar extends Mixins(isMobileMixin) {
   private selectedItemChanged(selectedItem: number) {
     foldersModule.setCurrentFolderId(this.folders[selectedItem || 0].id);
     this.expandDrawer = false;
-  }
-
-  private addNewFolder() {
-    foldersModule.addNewFolder();
   }
 
   private setFolderContextMenuOpened(

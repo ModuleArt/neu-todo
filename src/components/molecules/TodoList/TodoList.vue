@@ -10,8 +10,7 @@
     <div
       class="d-flex align-center todo-list__title mb-4 justify-space-between"
     >
-      <h2 v-if="$isMobileExtra">{{ currentFolder.title }}</h2>
-      <h1 v-else>{{ currentFolder.title }}</h1>
+      <h1 class="todo-list__heading">{{ currentFolder.title }}</h1>
       <FolderContextMenu
         v-if="currentFolder.custom"
         :folder="currentFolder"
@@ -165,3 +164,7 @@ export default class TodoList extends Mixins(isMobileMixin) {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "./TodoList.scss";
+</style>
