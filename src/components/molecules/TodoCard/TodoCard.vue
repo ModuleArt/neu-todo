@@ -2,7 +2,7 @@
   <Swipeout
     :left-actions="swipeoutLeftActions"
     :right-actions="swipeoutRightActions"
-    :enable="$isMobile"
+    :enable="$isMobile && !expanded"
     :class="{
       'todo-card': true,
       rounded: true,
@@ -58,13 +58,13 @@
         <div v-show="expanded" class="todo-card__body">
           <v-divider v-if="$isMobile" />
           <TodoSteps
-            v-model="todo.steps"
+            :steps="todo.steps"
             :color="customTodoFolder ? customTodoFolder.color : 'primary'"
             :todo-id="todo.id"
           />
           <v-divider />
           <v-textarea
-            v-model="todo.body"
+            :value="todo.body"
             placeholder="Description"
             no-resize
             hide-details

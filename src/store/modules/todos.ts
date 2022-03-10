@@ -1,5 +1,5 @@
 import EventBus from "@/main";
-import todosApi from "@/api/todos";
+// import todosApi from "@/api/todos";
 import { nanoid } from "nanoid";
 
 // interfaces
@@ -104,7 +104,7 @@ class TodosModule extends VuexModule {
   }
 
   @Mutation
-  public mutationAddStep({
+  private mutationAddStep({
     todoId,
     stepTitle,
   }: {
@@ -120,7 +120,7 @@ class TodosModule extends VuexModule {
   }
 
   @Mutation
-  public mutationRemoveStepByIndex({
+  private mutationRemoveStepByIndex({
     todoId,
     stepIndex,
   }: {
@@ -130,6 +130,25 @@ class TodosModule extends VuexModule {
     const todo = this.todos.find((todo) => todo.id === todoId);
     if (todo) {
       todo.steps = todo.steps.filter((step, index) => index != stepIndex);
+    }
+  }
+
+  @Mutation
+  private mutationUpdateStepByIndex({
+    todoId,
+    stepIndex,
+    stepChecked,
+    stepTitle,
+  }: {
+    todoId: string;
+    stepIndex: number;
+    stepChecked?: boolean;
+    stepTitle?: string;
+  }) {
+    const todo = this.todos.find((todo) => todo.id === todoId);
+    if (todo) {
+      if (stepChecked != undefined) todo.steps[stepIndex].checked = stepChecked;
+      if (stepTitle != undefined) todo.steps[stepIndex].title = stepTitle;
     }
   }
 
@@ -241,13 +260,33 @@ class TodosModule extends VuexModule {
   }
 
   @Action
-  public async syncTodo(todoId: string) {
-    const todo = this.todos.find((todo) => todo.id === todoId);
-    if (todo) {
-      const response = await todosApi.addTodo(todo);
-      console.log(response);
-    }
+  public updateStepByIndex({
+    todoId,
+    stepIndex,
+    stepChecked,
+    stepTitle,
+  }: {
+    todoId: string;
+    stepIndex: number;
+    stepChecked?: boolean;
+    stepTitle?: string;
+  }) {
+    this.mutationUpdateStepByIndex({
+      todoId,
+      stepIndex,
+      stepChecked,
+      stepTitle,
+    });
   }
+
+  // @Action
+  // public async syncTodo(todoId: string) {
+  //   const todo = this.todos.find((todo) => todo.id === todoId);
+  //   if (todo) {
+  //     const response = await todosApi.addTodo(todo);
+  //     console.log(response);
+  //   }
+  // }
 }
 
 export default TodosModule;
