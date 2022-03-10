@@ -3,14 +3,21 @@ import VueRouter, { RouteConfig } from "vue-router";
 
 // pages
 import MainPage from "@/pages/MainPage/MainPage.vue";
+import SearchPage from "@/pages/SearchPage/SearchPage.vue";
 
 Vue.use(VueRouter);
 
+// routes
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    name: "Main",
+    name: "main",
     component: MainPage,
+  },
+  {
+    path: "/search",
+    name: "search",
+    component: SearchPage,
   },
 ];
 

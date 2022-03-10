@@ -1,0 +1,24 @@
+@import "@/assets/scss/variables.scss";
+
+.search-page {
+  &__search-field {
+    /deep/ .v-input__slot {
+      padding: 9px 11px !important;
+    }
+
+    /deep/ .v-input__prepend-inner {
+      margin-right: 17px !important;
+    }
+  }
+
+  @media screen and (max-width: $is-tablet) {
+    &__row {
+      display: block;
+    }
+
+    &__col {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+}
