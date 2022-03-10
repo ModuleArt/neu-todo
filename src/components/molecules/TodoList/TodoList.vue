@@ -153,7 +153,8 @@ export default class TodoList extends Mixins(isMobileMixin) {
     }
   }
 
-  private chooseFolder() {
+  private chooseFolder(todo: Todo) {
+    this.selectedTodo = todo;
     this.$refs.chooseFolderDialog.setDialogOpened(true);
   }
 

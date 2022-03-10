@@ -29,7 +29,7 @@ class FoldersModule extends VuexModule {
     {
       id: "important",
       title: "Important",
-      icon: "mdi-alert-octagram-outline",
+      icon: "mdi-octagram-outline",
       color: "orange",
       custom: false,
       board: null,

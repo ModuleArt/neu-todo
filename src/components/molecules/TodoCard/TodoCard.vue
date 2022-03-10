@@ -187,7 +187,7 @@ export default class TodoCard extends Mixins(isMobileMixin) {
   }
 
   private chooseFolder() {
-    this.$emit("chooseFolder");
+    this.$emit("chooseFolder", this.todo);
   }
 
   private addDueDate() {

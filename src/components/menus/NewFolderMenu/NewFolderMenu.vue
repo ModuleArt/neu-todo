@@ -36,7 +36,7 @@ import { foldersModule } from "@/store";
 @Component({
   name: "NewFolderMenu",
 })
-export default class FolderListItem extends Vue {
+export default class NewFolderMenu extends Vue {
   // private methods
   private addNewFolder() {
     foldersModule.addNewFolder();

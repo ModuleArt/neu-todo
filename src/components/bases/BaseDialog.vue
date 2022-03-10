@@ -1,6 +1,14 @@
 <template>
   <div class="base-dialog">
-    <v-dialog :value="showDialog" max-width="340" @input="dialogValueChanged">
+    <v-dialog
+      :value="showDialog"
+      max-width="340"
+      @input="dialogValueChanged"
+      :content-class="
+        'base-dialog__dialog ma-4' +
+        (title ? ' base-dialog__dialog--with-title' : '')
+      "
+    >
       <v-card>
         <v-card-title v-if="title" class="px-4 py-3">{{ title }}</v-card-title>
         <v-divider v-if="title" />
@@ -77,6 +85,6 @@ export default class BaseDialog extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "./BaseDialog.scss";
 </style>
