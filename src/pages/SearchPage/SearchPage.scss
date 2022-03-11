@@ -1,6 +1,16 @@
 @import "@/assets/scss/variables.scss";
 
 .search-page {
+  &__content {
+    height: 100vh;
+  }
+
+  &__scroll {
+    overflow: auto;
+    height: 100%;
+    flex: 1;
+  }
+
   &__search-field {
     /deep/ .v-input__slot {
       padding: 9px 11px !important;
