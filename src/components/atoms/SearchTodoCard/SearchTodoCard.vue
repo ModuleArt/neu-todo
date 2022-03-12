@@ -1,6 +1,12 @@
 <template>
-  <div class="search-todo-card">
-    <v-card outlined>
+  <div
+    :class="{
+      'search-todo-card': true,
+      'search-todo-card--checked': todo.checked,
+      'search-todo-card--important': todo.important,
+    }"
+  >
+    <v-card outlined class="search-todo-card__card">
       <div class="d-flex align-center justify-space-between pr-1">
         <v-card-title class="px-3 py-2 search-todo-card__title">
           <v-icon v-if="todo.checked" left>mdi-check</v-icon>

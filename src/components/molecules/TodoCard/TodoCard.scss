@@ -8,7 +8,7 @@
 
   &--important &__card {
     &::after {
-      border-color: #ff9800;
+      border-color: $color-important;
     }
   }
 

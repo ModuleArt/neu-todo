@@ -20,7 +20,9 @@
     >
       <v-icon disabled small class="mr-1">
         {{
-          checkedStepsCount == todo.steps.length ? "mdi-check-all" : "mdi-check"
+          checkedStepsCount == todo.steps.length
+            ? "mdi-checkbox-multiple-marked-circle-outline"
+            : "mdi-checkbox-multiple-blank-circle-outline"
         }}
       </v-icon>
       <span>{{ checkedStepsCount }} of {{ todo.steps.length }}</span>

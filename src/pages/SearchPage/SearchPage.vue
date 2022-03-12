@@ -30,7 +30,7 @@
               :folder="folder"
               :class="folderIndex != folders.length - 1 ? 'mb-2' : ''"
             />
-            <v-subheader v-if="todos.length" class="pa-0">Todos</v-subheader>
+            <v-subheader v-if="todos.length" class="pa-0">Tasks</v-subheader>
             <SearchTodoCard
               v-for="(todo, todoIndex) in todos"
               :key="todo.id"

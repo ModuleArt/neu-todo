@@ -23,12 +23,10 @@
 <script lang="ts">
 // utils
 import { Mixins, Component, Prop } from "@/utils/vue-imports";
+import todoUtils from "@/utils/todo";
 
 // interfaces
 import Folder from "@/interfaces/entities/folder";
-
-// store modules
-import { todosModule } from "@/store";
 
 // mixins
 import isMobileMixin from "@/mixins/isMobile";
@@ -43,19 +41,7 @@ export default class FolderListItem extends Mixins(isMobileMixin) {
 
   // computed
   get folderTodosCount(): number | string {
-    return (
-      todosModule.todos.filter((todo) => {
-        if (todo.checked) {
-          return false;
-        } else {
-          if (this.folder.filter) {
-            return this.folder.filter(todo);
-          } else {
-            return this.folder.id === todo.customFolderId;
-          }
-        }
-      }).length || ""
-    );
+    return todoUtils.getUncheckedTodosByFolder(this.folder).length || "";
   }
 
   // private methods
