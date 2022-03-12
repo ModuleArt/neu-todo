@@ -21,7 +21,7 @@
     }
   }
 
-  @media screen and (max-width: $is-tablet) {
+  @media screen and (max-width: $is-mobile) {
     &__row {
       display: block;
     }

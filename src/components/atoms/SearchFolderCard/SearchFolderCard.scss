@@ -1,0 +1,12 @@
+.search-folder-card {
+  &__title {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    span {
+      vertical-align: middle;
+    }
+  }
+}

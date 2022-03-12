@@ -1,6 +1,7 @@
 .todo-caption {
   vertical-align: middle;
   white-space: nowrap;
+  overflow: hidden;
 
   & > * {
     pointer-events: none;

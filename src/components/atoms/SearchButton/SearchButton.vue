@@ -1,5 +1,5 @@
 <template>
-  <v-list-item link class="ma-0 mt-1" @click="goToSearchPage">
+  <v-list-item link class="ma-0 mt-1" @click="goToSearchPage" title="Search">
     <v-list-item-icon class="mr-4">
       <v-icon>mdi-magnify</v-icon>
     </v-list-item-icon>

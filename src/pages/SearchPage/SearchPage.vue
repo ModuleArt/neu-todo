@@ -17,7 +17,6 @@
               color="primary"
               outlined
               @contextmenu.stop
-              v-model="searchText"
               class="search-page__search-field"
               ref="searchInput"
               @input="search"
@@ -81,16 +80,17 @@ export default class SearchPage extends Vue {
   };
 
   // data
-  private searchText = "";
   private todoSearcher = new FuzzySearch(
     todosModule.todos,
     ["title", "body", "steps.title"],
     {
       caseSensitive: false,
+      sort: true,
     }
   );
   private folderSearcher = new FuzzySearch(foldersModule.folders, ["title"], {
     caseSensitive: false,
+    sort: true,
   });
   private todos: Todo[] = [];
   private folders: Folder[] = [];
@@ -106,7 +106,7 @@ export default class SearchPage extends Vue {
   }
 
   private search(input: string) {
-    if (input.length) {
+    if (input) {
       const todos = this.todoSearcher.search(input);
       const folders = this.folderSearcher.search(input);
       this.todos = todos;
