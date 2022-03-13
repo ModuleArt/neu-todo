@@ -8,13 +8,13 @@ Simple cross-platform todo app, built on top of Typescript, Vue, Vuetify and Neu
 
 Install dependencies:
 
-```console
+```bash
 yarn && yarn update
 ```
 
 Open for development:
 
-```console
+```bash
 yarn dev
 ```
 
@@ -26,19 +26,19 @@ Visit `http://localhost:8090/` to preview.
 
 Build base for all platforms:
 
-```console
+```bash
 yarn build
 ```
 
 Build for web (GitHub pages):
 
-```console
+```bash
 yarn build-github
 ```
 
 Build for desktop (MacOS, Windows, Linux):
 
-```console
+```bash
 yarn build-desktop
 ```
 
@@ -48,12 +48,28 @@ yarn build-desktop
 
 Debug on your system (Neutralino):
 
-```console
+```bash
 yarn open-desktop
 ```
 
 Debug android build (Android Studio):
 
-```console
+```bash
 yarn open-android
 ```
+
+## Contribution guide
+
+
+##### 1. Fork
+##### 2. Create new branch
+
+```bash
+git checkout dev
+git checkout -b *name-of-branch*
+```
+Where `*name-of-branch*` could be `feature/*feature-name*` or `fix/*bug-name*`.
+
+##### 3. Make your changes
+
+##### 4. Create pull request to `dev` branch
