@@ -59,8 +59,8 @@
         </v-list-item-icon>
         <v-list-item-title class="red--text">Remove due date</v-list-item-title>
       </v-list-item>
-      <v-divider v-if="customFolders.length" class="my-1" />
-      <v-list-item v-if="customFolders.length" link @click="chooseFolder()">
+      <v-divider class="my-1" />
+      <v-list-item link @click="chooseFolder()">
         <v-list-item-icon class="mr-4">
           <v-icon>mdi-folder-outline</v-icon>
         </v-list-item-icon>

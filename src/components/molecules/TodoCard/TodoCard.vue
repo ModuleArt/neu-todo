@@ -16,7 +16,7 @@
       v-touch:touchhold="touchHold"
       class="todo-card__card"
     >
-      <div class="d-flex align-center pa-1">
+      <div class="d-flex align-center pa-1 todo-card__header">
         <v-simple-checkbox
           :value="todo.checked"
           @input="toggleChecked()"
@@ -44,6 +44,7 @@
             v-else
             class="py-1 px-3 todo-card__title-text"
             @click="editTitle"
+            v-ripple
           >
             {{ todo.title }}
           </button>

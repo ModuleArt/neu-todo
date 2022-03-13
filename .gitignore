@@ -14,7 +14,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-#lock file
+# lock file
 .yarnclean
 
 # Editor directories and files
@@ -35,3 +35,7 @@ neutralino.js
 .tmp
 .temp
 /temp
+
+# Capacitor
+/android
+/ios
