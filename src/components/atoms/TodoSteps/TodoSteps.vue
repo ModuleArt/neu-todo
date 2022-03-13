@@ -21,15 +21,24 @@
         :outlined="!$isMobile"
         flat
       >
-        <v-simple-checkbox v-model="step.checked" :color="color" />
+        <v-simple-checkbox
+          :value="step.checked"
+          :color="color"
+          @input="
+            updateStep({
+              stepIndex,
+              stepChecked: !step.checked,
+            })
+          "
+        />
         <v-text-field
-          v-model="step.title"
+          :value="step.title"
           solo
           flat
           dense
           hide-details
           :placeholder="`Step ${stepIndex + 1}`"
-          @blur="checkIfEmpty(step.title, stepIndex)"
+          @blur="updateStep({ stepIndex, stepTitle: $event.target.value })"
           @contextmenu.stop
           @keypress.enter="unfocus"
         />
@@ -62,7 +71,7 @@
 
 <script lang="ts">
 // utils
-import { Mixins, Component, Model, Prop } from "@/utils/vue-imports";
+import { Mixins, Component, Prop } from "@/utils/vue-imports";
 
 // interfaces
 import Step from "@/interfaces/entities/step";
@@ -84,11 +93,9 @@ export default class TodoSteps extends Mixins(isMobileMixin) {
   };
 
   // props
+  @Prop() readonly steps!: Step[];
   @Prop() readonly color!: string;
   @Prop() readonly todoId!: string;
-
-  // model
-  @Model("stepsChanged") steps!: Step[];
 
   // data
   private tempStepValue = "";
@@ -114,9 +121,24 @@ export default class TodoSteps extends Mixins(isMobileMixin) {
     });
   }
 
-  private checkIfEmpty(stepTitle: string, stepIndex: number) {
-    if (stepTitle.length == 0) {
+  private updateStep({
+    stepIndex,
+    stepChecked,
+    stepTitle,
+  }: {
+    stepIndex: number;
+    stepChecked?: boolean;
+    stepTitle?: string;
+  }) {
+    if (stepTitle != undefined && stepTitle.length == 0) {
       this.removeStep(stepIndex);
+    } else {
+      todosModule.updateStepByIndex({
+        todoId: this.todoId,
+        stepIndex,
+        stepChecked,
+        stepTitle,
+      });
     }
   }
 

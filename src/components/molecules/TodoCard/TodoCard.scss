@@ -7,13 +7,26 @@
   }
 
   &--important &__card {
-    outline-color: #ff9800;
+    &::after {
+      border-color: $color-important;
+    }
   }
 
   &__card {
-    outline: 2px solid transparent;
-    outline-offset: -2px;
-    transition: outline-color 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: -1px;
+      top: -1px;
+      width: calc(100% + 2px);
+      height: calc(100% + 2px);
+      pointer-events: none;
+      border: 2px solid transparent;
+      transition: border-color 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+      border-radius: 4px;
+    }
   }
 
   &__checkbox {

@@ -5,8 +5,9 @@
     :actions="dialogButtons"
     v-if="todo"
     no-padding
+    title="Choose folder"
   >
-    <v-list dense>
+    <v-list nav dense>
       <v-list-item
         v-for="(item, index) in foldersToChoose"
         :key="index"
@@ -74,11 +75,15 @@ export default class DueDateDialog extends Vue {
 
   // computed
   get customTodoFolder(): Folder | null {
-    return (
-      foldersModule.folders.find(
-        (folder: Folder) => folder.id === this.todo.customFolderId
-      ) || null
-    );
+    if (this.todo) {
+      return (
+        foldersModule.folders.find(
+          (folder: Folder) => folder.id === this.todo.customFolderId
+        ) || null
+      );
+    } else {
+      return null;
+    }
   }
 
   get foldersToChoose(): Folder[] {
@@ -96,6 +101,7 @@ export default class DueDateDialog extends Vue {
 
   // public methods
   public setDialogOpened(open: boolean) {
+    console.log("setDialogOpened");
     this.showDialog = open;
   }
 }

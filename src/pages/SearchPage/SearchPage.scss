@@ -1,6 +1,6 @@
 @import "@/assets/scss/variables.scss";
 
-.main-page {
+.search-page {
   &__content {
     height: 100vh;
   }
@@ -11,7 +11,17 @@
     flex: 1;
   }
 
-  @media screen and (max-width: $is-tablet) {
+  &__search-field {
+    /deep/ .v-input__slot {
+      padding: 9px 11px !important;
+    }
+
+    /deep/ .v-input__prepend-inner {
+      margin-right: 17px !important;
+    }
+  }
+
+  @media screen and (max-width: $is-mobile) {
     &__row {
       display: block;
     }

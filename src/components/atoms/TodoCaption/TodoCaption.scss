@@ -1,6 +1,8 @@
-.todo-caption {
+.todo-caption,
+.folder-caption {
   vertical-align: middle;
   white-space: nowrap;
+  overflow: hidden;
 
   & > * {
     pointer-events: none;
@@ -8,14 +10,14 @@
 
   &__item {
     display: inline-block;
-    max-width: 33.3%;
+    max-width: calc(33.3% - 8px);
 
     span {
       display: inline-block;
       vertical-align: middle;
       text-overflow: ellipsis;
       overflow: hidden;
-      max-width: calc(100% - 16px);
+      max-width: calc(100% - 12px);
     }
   }
 }

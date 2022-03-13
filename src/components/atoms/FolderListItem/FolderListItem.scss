@@ -1,4 +1,6 @@
 .folder-list-item {
+  min-width: 40px;
+
   &__list-item > * {
     pointer-events: none;
   }

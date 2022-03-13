@@ -15,42 +15,16 @@
       class="sidebar__drawer"
     >
       <div class="d-flex flex-column sidebar__content">
-        <div>
-          <div class="d-flex">
-            <div v-if="$isMobile" class="sidebar__menu-button">
-              <v-btn icon @click="expandDrawer = !expandDrawer">
-                <v-icon>mdi-menu</v-icon>
-              </v-btn>
-            </div>
-            <v-list class="py-1">
-              <v-list-item class="px-3">
-                <v-list-item-avatar class="my-0" size="32">
-                  <v-img
-                    src="https://avatars.githubusercontent.com/u/40366303?s=64"
-                  />
-                </v-list-item-avatar>
-                <v-list-item-content class="py-0">
-                  <v-list-item-title>
-                    NeuTodo
-                  </v-list-item-title>
-                  <v-list-item-subtitle>
-                    Dev v0.0.3
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
+        <div class="sidebar__top">
+          <div v-if="$isMobile" class="sidebar__menu-button">
+            <v-btn icon @click="expandDrawer = !expandDrawer">
+              <v-icon>mdi-menu</v-icon>
+            </v-btn>
           </div>
-          <!-- <v-text-field
-            placeholder="Search"
-            outlined
-            filled
-            hide-details
-            dense
-            prepend-inner-icon="mdi-magnify"
-            class="pa-2 pt-0 sidebar__search"
-            :rounded="$isMobile && !expandDrawer"
-            @focus="expandDrawer = true"
-          /> -->
+          <v-list nav dense>
+            <UserMenu />
+            <SearchButton />
+          </v-list>
         </div>
         <v-divider />
         <div class="sidebar__scroll">
@@ -77,14 +51,9 @@
           </v-list>
         </div>
         <v-divider />
-        <div class="sidebar__new-folder">
+        <div class="sidebar__bottom">
           <v-list nav dense>
-            <v-list-item link @click="addNewFolder()">
-              <v-list-item-icon class="mr-4">
-                <v-icon>mdi-folder-plus-outline</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>New folder</v-list-item-title>
-            </v-list-item>
+            <NewFolderMenu />
           </v-list>
         </div>
       </div>
@@ -113,11 +82,20 @@ import isMobileMixin from "@/mixins/isMobile";
 // components
 import FolderListItem from "@/components/atoms/FolderListItem/FolderListItem.vue";
 import FolderContextMenu from "@/components/menus/FolderContextMenu/FolderContextMenu.vue";
+import NewFolderMenu from "@/components/menus/NewFolderMenu/NewFolderMenu.vue";
+import UserMenu from "@/components/menus/UserMenu/UserMenu.vue";
+import SearchButton from "@/components/atoms/SearchButton/SearchButton.vue";
 
 // component
 @Component({
   name: "Sidebar",
-  components: { FolderListItem, FolderContextMenu },
+  components: {
+    FolderListItem,
+    FolderContextMenu,
+    NewFolderMenu,
+    UserMenu,
+    SearchButton,
+  },
 })
 export default class Sidebar extends Mixins(isMobileMixin) {
   // refs
@@ -157,10 +135,6 @@ export default class Sidebar extends Mixins(isMobileMixin) {
   private selectedItemChanged(selectedItem: number) {
     foldersModule.setCurrentFolderId(this.folders[selectedItem || 0].id);
     this.expandDrawer = false;
-  }
-
-  private addNewFolder() {
-    foldersModule.addNewFolder();
   }
 
   private setFolderContextMenuOpened(

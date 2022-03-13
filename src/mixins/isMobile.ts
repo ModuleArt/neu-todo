@@ -5,10 +5,10 @@ import { Vue, Component } from "@/utils/vue-imports";
 export default class IsMobileMixin extends Vue {
   // computed
   get $isMobile(): boolean {
-    return !this.$screen.md;
+    return !this.$screen.mobile;
   }
 
   get $isMobileExtra(): boolean {
-    return !this.$screen.sm;
+    return !this.$screen.mobileExtra;
   }
 }

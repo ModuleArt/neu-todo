@@ -1,6 +1,6 @@
 {
   "name": "neu-todo",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "scripts": {
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.25.0",
     "core-js": "3.6.5",
+    "fuzzy-search": "^3.2.1",
     "moment": "^2.29.1",
     "nanoid": "^3.2.0",
     "register-service-worker": "^1.7.1",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@neutralinojs/neu": "^9.1.1",
+    "@types/fuzzy-search": "^2.1.2",
     "@typescript-eslint/eslint-plugin": "2.34.0",
     "@typescript-eslint/parser": "2.34.0",
     "@vue/cli-plugin-babel": "4.4.6",

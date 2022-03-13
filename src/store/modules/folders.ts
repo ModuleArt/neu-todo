@@ -19,6 +19,7 @@ class FoldersModule extends VuexModule {
       icon: "mdi-sticker-check-outline",
       color: "primary",
       custom: false,
+      board: null,
       filter: (todo) => !todo.customFolderId,
       transform: (todo) => {
         todo.customFolderId = null;
@@ -28,9 +29,10 @@ class FoldersModule extends VuexModule {
     {
       id: "important",
       title: "Important",
-      icon: "mdi-alert-octagram-outline",
+      icon: "mdi-octagram-outline",
       color: "orange",
       custom: false,
+      board: null,
       filter: (todo) => todo.important,
       transform: (todo) => {
         todo.important = true;
@@ -43,6 +45,7 @@ class FoldersModule extends VuexModule {
       icon: "mdi-calendar-today",
       color: "primary",
       custom: false,
+      board: null,
       filter: (todo) => dateUtils.numberToCode(todo.dueDate) === "today",
       transform: (todo) => {
         todo.dueDate = dateUtils.codeToNumber("today");
@@ -55,6 +58,7 @@ class FoldersModule extends VuexModule {
       icon: "mdi-calendar-arrow-right",
       color: "primary",
       custom: false,
+      board: null,
       filter: (todo) => dateUtils.numberToCode(todo.dueDate) === "tomorrow",
       transform: (todo) => {
         todo.dueDate = dateUtils.codeToNumber("tomorrow");
@@ -67,6 +71,7 @@ class FoldersModule extends VuexModule {
       icon: "mdi-calendar-arrow-left",
       color: "red",
       custom: false,
+      board: null,
       filter: (todo) => dateUtils.isOverdue(todo.dueDate),
     },
   ];
@@ -104,6 +109,7 @@ class FoldersModule extends VuexModule {
       icon: "mdi-folder-outline",
       color: "primary",
       custom: true,
+      board: null,
     });
     this.currentFolderId = id;
   }

@@ -10,8 +10,7 @@
     <div
       class="d-flex align-center todo-list__title mb-4 justify-space-between"
     >
-      <h2 v-if="$isMobileExtra">{{ currentFolder.title }}</h2>
-      <h1 v-else>{{ currentFolder.title }}</h1>
+      <h1 class="todo-list__heading">{{ currentFolder.title }}</h1>
       <FolderContextMenu
         v-if="currentFolder.custom"
         :folder="currentFolder"
@@ -95,7 +94,6 @@ export default class TodoList extends Mixins(isMobileMixin) {
   // data
   private expandedIndex = -1;
   private selectedTodo: Todo | null = null;
-
   private showTodoContextMenu = false;
 
   // computed
@@ -154,7 +152,8 @@ export default class TodoList extends Mixins(isMobileMixin) {
     }
   }
 
-  private chooseFolder() {
+  private chooseFolder(todo: Todo) {
+    this.selectedTodo = todo;
     this.$refs.chooseFolderDialog.setDialogOpened(true);
   }
 
@@ -165,3 +164,7 @@ export default class TodoList extends Mixins(isMobileMixin) {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "./TodoList.scss";
+</style>
