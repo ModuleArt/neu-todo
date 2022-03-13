@@ -28,12 +28,17 @@
 
   &__title {
     display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 
     span {
       vertical-align: middle;
     }
+  }
+
+  &__title,
+  &__description,
+  &__step-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

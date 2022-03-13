@@ -94,7 +94,6 @@ export default class TodoList extends Mixins(isMobileMixin) {
   // data
   private expandedIndex = -1;
   private selectedTodo: Todo | null = null;
-
   private showTodoContextMenu = false;
 
   // computed

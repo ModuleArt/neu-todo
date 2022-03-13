@@ -4,43 +4,47 @@
       <v-container class="search-page__content">
         <v-row justify="center" class="search-page__row">
           <v-col cols="8" class="search-page__col">
-            <v-btn icon @click="goBack" class="mb-3">
-              <v-icon>mdi-arrow-left</v-icon>
-            </v-btn>
-            <v-text-field
-              dense
-              hide-details
-              solo
-              flat
-              placeholder="Search for tasks titles, descriptions, etc."
-              prepend-inner-icon="mdi-magnify"
-              color="primary"
-              outlined
-              @contextmenu.stop
-              class="search-page__search-field"
-              ref="searchInput"
-              @input="search"
-            />
-            <v-subheader v-if="folders.length" class="pa-0">
-              Folders
-            </v-subheader>
-            <SearchFolderCard
-              v-for="(folder, folderIndex) in folders"
-              :key="folder.id"
-              :folder="folder"
-              :class="folderIndex != folders.length - 1 ? 'mb-2' : ''"
-            />
-            <v-subheader v-if="todos.length" class="pa-0">Tasks</v-subheader>
-            <SearchTodoCard
-              v-for="(todo, todoIndex) in todos"
-              :key="todo.id"
-              :todo="todo"
-              :class="todoIndex != todos.length - 1 ? 'mb-2' : ''"
-            />
-            <div v-if="!todos.length && !folders.length">
-              <v-subheader class="pa-0">
-                Nothing to show.
+            <div class="search-page__header mb-3">
+              <v-btn icon @click="goBack">
+                <v-icon>mdi-arrow-left</v-icon>
+              </v-btn>
+            </div>
+            <div class="search-page__body pb-12">
+              <v-text-field
+                dense
+                hide-details
+                solo
+                flat
+                placeholder="Search for tasks titles, descriptions, etc."
+                prepend-inner-icon="mdi-magnify"
+                color="primary"
+                outlined
+                @contextmenu.stop
+                class="search-page__search-field"
+                ref="searchInput"
+                @input="search"
+              />
+              <v-subheader v-if="folders.length" class="pa-0">
+                Folders
               </v-subheader>
+              <SearchFolderCard
+                v-for="(folder, folderIndex) in folders"
+                :key="folder.id"
+                :folder="folder"
+                :class="folderIndex != folders.length - 1 ? 'mb-2' : ''"
+              />
+              <v-subheader v-if="todos.length" class="pa-0">Tasks</v-subheader>
+              <SearchTodoCard
+                v-for="(todo, todoIndex) in todos"
+                :key="todo.id"
+                :todo="todo"
+                :class="todoIndex != todos.length - 1 ? 'mb-2' : ''"
+              />
+              <div v-if="!todos.length && !folders.length">
+                <v-subheader class="pa-0">
+                  Nothing to show.
+                </v-subheader>
+              </div>
             </div>
           </v-col>
         </v-row>
