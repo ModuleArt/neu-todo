@@ -41,9 +41,12 @@
     flex: 1;
   }
 
+  &__header {
+    min-height: 48px;
+  }
+
   &__title-text {
     cursor: text;
-    min-height: 40px;
     display: flex;
     align-items: center;
     text-align: left;

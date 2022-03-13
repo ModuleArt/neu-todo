@@ -3,7 +3,6 @@
     class="edit-folder-dialog"
     v-model="showDialog"
     title="Edit folder"
-    :actions="dialogButtons"
     v-if="folder"
   >
     <v-text-field
@@ -72,6 +71,9 @@
         </v-carousel-item>
       </v-carousel>
     </v-card>
+    <template v-slot:right-buttons>
+      <v-btn text @click="apply">Save</v-btn>
+    </template>
   </BaseDialog>
 </template>
 
@@ -82,7 +84,6 @@ import { Vue, Component, Watch } from "@/utils/vue-imports";
 
 // interfaces
 import Folder from "@/interfaces/entities/folder";
-import DialogAction from "@/interfaces/logic/dialogAction";
 
 // store modules
 import { foldersModule } from "@/store";
@@ -181,14 +182,6 @@ export default class EditFolderDialog extends Vue {
   private folderTitle = "";
   private folderColor = "";
   private folderIcon = "";
-  private dialogButtons: DialogAction[] = [
-    {
-      text: "Save",
-      onClick: () => {
-        this.apply();
-      },
-    },
-  ];
 
   // watchers
   @Watch("folderTitle")

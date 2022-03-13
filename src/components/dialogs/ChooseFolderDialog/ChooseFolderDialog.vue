@@ -2,7 +2,6 @@
   <BaseDialog
     class="choose-folder-dialog"
     v-model="showDialog"
-    :actions="dialogButtons"
     v-if="todo"
     no-padding
     title="Choose folder"
@@ -24,7 +23,31 @@
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+      <v-divider v-if="foldersToChoose.length" class="ma-2" />
+      <v-list-item @click="addNewFolder">
+        <v-list-item-icon class="mr-4">
+          <v-icon>mdi-plus</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Create new folder</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
+    <template v-slot:left-buttons>
+      <v-btn
+        v-if="todo.customFolderId"
+        text
+        @click="setCustomFolderId(null)"
+        color="red"
+      >
+        No folder
+      </v-btn>
+    </template>
+    <template v-slot:right-buttons>
+      <v-btn text @click="setDialogOpened(false)">
+        OK
+      </v-btn>
+    </template>
   </BaseDialog>
 </template>
 
@@ -35,7 +58,6 @@ import { Vue, Component, Prop } from "@/utils/vue-imports";
 // interfaces
 import Todo from "@/interfaces/entities/todo";
 import Folder from "@/interfaces/entities/folder";
-import DialogAction from "@/interfaces/logic/dialogAction";
 
 // store modules
 import { todosModule, foldersModule } from "@/store";
@@ -56,22 +78,6 @@ export default class DueDateDialog extends Vue {
 
   // data
   private showDialog = false;
-  private dialogButtons: DialogAction[] = [
-    {
-      text: "No folder",
-      onClick: () => {
-        this.setCustomFolderId(null);
-      },
-      color: "red",
-      left: true,
-    },
-    {
-      text: "OK",
-      onClick: () => {
-        this.setDialogOpened(false);
-      },
-    },
-  ];
 
   // computed
   get customTodoFolder(): Folder | null {
@@ -99,9 +105,12 @@ export default class DueDateDialog extends Vue {
     this.showDialog = false;
   }
 
+  private addNewFolder() {
+    foldersModule.addNewFolder();
+  }
+
   // public methods
   public setDialogOpened(open: boolean) {
-    console.log("setDialogOpened");
     this.showDialog = open;
   }
 }

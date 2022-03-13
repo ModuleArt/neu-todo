@@ -23,26 +23,14 @@
           </div>
         </div>
         <v-divider />
-        <v-card-actions v-if="actions.length" class="pa-2">
-          <v-btn
-            v-for="(action, actionIndex) in leftActions"
-            :key="`right-dialog-action--${actionIndex}`"
-            text
-            @click="action.onClick"
-            :color="action.color"
-          >
-            {{ action.text }}
-          </v-btn>
+        <v-card-actions class="pa-2">
+          <div class="base-dialog__left-buttons">
+            <slot name="left-buttons" />
+          </div>
           <v-spacer />
-          <v-btn
-            v-for="(action, actionIndex) in rightActions"
-            :key="`left-dialog-action--${actionIndex}`"
-            text
-            @click="action.onClick"
-            :color="action.color"
-          >
-            {{ action.text }}
-          </v-btn>
+          <div class="base-dialog__right-buttons">
+            <slot name="right-buttons" />
+          </div>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -53,9 +41,6 @@
 // utils
 import { Vue, Component, Prop, Model } from "@/utils/vue-imports";
 
-// interfaces
-import DialogAction from "@/interfaces/logic/dialogAction";
-
 // component
 @Component({
   name: "BaseDialog",
@@ -63,20 +48,10 @@ import DialogAction from "@/interfaces/logic/dialogAction";
 export default class BaseDialog extends Vue {
   // props
   @Prop() readonly title!: string;
-  @Prop() readonly actions!: DialogAction[];
   @Prop({ type: Boolean }) readonly noPadding: boolean | undefined;
 
   // model
   @Model("showDialogChanged") showDialog!: boolean;
-
-  // computed
-  get leftActions() {
-    return this.actions.filter((action) => action.left);
-  }
-
-  get rightActions() {
-    return this.actions.filter((action) => !action.left);
-  }
 
   // methods
   private dialogValueChanged(value: boolean) {
