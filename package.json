@@ -2,14 +2,17 @@
   "name": "neu-todo",
   "version": "0.0.4",
   "scripts": {
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "build-github": "NODE_ENV=github vue-cli-service build",
-    "desktop": "npx @neutralinojs/neu build && npx @neutralinojs/neu run",
+    "update": "npx @neutralinojs/neu update && npx cap sync",
     "dev": "vue-cli-service serve --host localhost --port 8090",
-    "update": "npx @neutralinojs/neu update"
+    "build": "vue-cli-service build",
+    "build-github": "NODE_ENV=github vue-cli-service build",
+    "build-desktop": "npx @neutralinojs/neu build",
+    "open-desktop": "npx @neutralinojs/neu run",
+    "open-android": "npx cap open android"
   },
   "dependencies": {
+    "@capacitor/android": "^3.4.3",
+    "@capacitor/core": "^3.4.3",
     "axios": "^0.25.0",
     "core-js": "3.6.5",
     "fuzzy-search": "^3.2.1",
@@ -26,6 +29,7 @@
     "vuex-class-modules": "^1.3.0"
   },
   "devDependencies": {
+    "@capacitor/cli": "^3.4.3",
     "@neutralinojs/neu": "^9.1.1",
     "@types/fuzzy-search": "^2.1.2",
     "@typescript-eslint/eslint-plugin": "2.34.0",

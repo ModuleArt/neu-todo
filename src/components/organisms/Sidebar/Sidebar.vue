@@ -5,6 +5,7 @@
       'pl-14': $isMobile,
       'sidebar--expanded': expandDrawer,
     }"
+    v-touch:swipe="sidebarSwipe"
   >
     <v-navigation-drawer
       permanent
@@ -148,6 +149,16 @@ export default class Sidebar extends Mixins(isMobileMixin) {
 
   private drawerClickOutside() {
     this.expandDrawer = false;
+  }
+
+  private sidebarSwipe(direction: string) {
+    if (this.$isMobile) {
+      if (!this.expandDrawer && direction == "right") {
+        this.expandDrawer = true;
+      } else if (this.expandDrawer && direction == "left") {
+        this.expandDrawer = false;
+      }
+    }
   }
 }
 </script>

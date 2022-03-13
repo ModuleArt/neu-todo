@@ -2,7 +2,6 @@
   <BaseDialog
     class="due-date-dialog"
     v-model="showDialog"
-    :actions="dialogButtons"
     v-if="todo"
     no-padding
   >
@@ -32,6 +31,16 @@
         Tomorrow
       </v-btn>
     </div>
+    <template v-slot:left-buttons>
+      <v-btn v-if="todo.dueDate" text @click="clearDueDate" color="red">
+        Remove due date
+      </v-btn>
+    </template>
+    <template v-slot:right-buttons>
+      <v-btn text @click="setDialogOpened(false)">
+        OK
+      </v-btn>
+    </template>
   </BaseDialog>
 </template>
 
@@ -42,7 +51,6 @@ import dateUtils from "@/utils/date";
 
 // interfaces
 import Todo from "@/interfaces/entities/todo";
-import DialogAction from "@/interfaces/logic/dialogAction";
 
 // store modules
 import { todosModule } from "@/store";
@@ -64,22 +72,6 @@ export default class DueDateDialog extends Vue {
 
   // data
   private showDialog = false;
-  private dialogButtons: DialogAction[] = [
-    {
-      text: "Remove due date",
-      onClick: () => {
-        this.clearDueDate();
-      },
-      color: "red",
-      left: true,
-    },
-    {
-      text: "OK",
-      onClick: () => {
-        this.setDialogOpened(false);
-      },
-    },
-  ];
 
   // public methods
   public setDialogOpened(open: boolean) {

@@ -2,15 +2,17 @@
 
 Simple cross-platform todo app, built on top of Typescript, Vue, Vuetify and Neutralinojs
 
-## Build app
+## Scripts
 
-##### 1. Install packages
+#### 🛠 Dev
+
+Install dependencies:
 
 ```console
 yarn && yarn update
 ```
 
-##### 2. Develop
+Open for development:
 
 ```console
 yarn dev
@@ -18,16 +20,40 @@ yarn dev
 
 Visit `http://localhost:8090/` to preview.
 
-##### 3. Build binary
+<hr />
 
-Build for web:
+#### 🏗 Build
+
+Build base for all platforms:
 
 ```console
 yarn build
 ```
 
-Build for desktop:
+Build for web (GitHub pages):
 
 ```console
-yarn build && yarn desktop
+yarn build-github
+```
+
+Build for desktop (MacOS, Windows, Linux):
+
+```console
+yarn build-desktop
+```
+
+<hr />
+
+#### 🖥 Run
+
+Debug on your system (Neutralino):
+
+```console
+yarn open-desktop
+```
+
+Debug android build (Android Studio):
+
+```console
+yarn open-android
 ```
