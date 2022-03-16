@@ -106,7 +106,7 @@ export default class SearchPage extends Vue {
 
   // private methods
   private goBack() {
-    this.$router.push({ name: "main" });
+    this.$router.push({ name: "tasks" });
   }
 
   private search(input: string) {
