@@ -1,5 +1,11 @@
 <template>
-  <v-menu class="new-folder-menu" top offset-y min-width="0">
+  <v-menu
+    class="new-folder-menu"
+    top
+    offset-y
+    min-width="0"
+    transition="scroll-y-transition"
+  >
     <template v-slot:activator="{ on, attrs }">
       <v-list-item link v-bind="attrs" v-on="on" class="ma-0">
         <v-list-item-icon class="mr-4">

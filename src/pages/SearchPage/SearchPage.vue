@@ -29,6 +29,7 @@
                 class="search-page__search-field"
                 ref="searchInput"
                 @input="search"
+                @keypress.enter="unfocus"
               />
               <v-subheader v-if="folders.length" class="pa-0">
                 Folders
@@ -128,6 +129,10 @@ export default class SearchPage extends Mixins(isMobileMixin) {
       this.todos = [];
       this.folders = [];
     }
+  }
+
+  private unfocus() {
+    (document.activeElement as HTMLElement).blur();
   }
 }
 </script>

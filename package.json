@@ -1,6 +1,6 @@
 {
   "name": "neu-todo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "dev": "vue-cli-service serve --host localhost --port 8090",
     "build": "vue-cli-service build && npx cap sync",

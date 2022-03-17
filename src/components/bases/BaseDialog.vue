@@ -1,51 +1,54 @@
 <template>
   <div class="base-dialog">
-    <v-dialog
+    <v-bottom-sheet
       :value="showDialog"
-      max-width="340"
+      :max-width="450"
       @input="dialogValueChanged"
       :content-class="
-        'base-dialog__dialog ma-4' +
+        'base-dialog__dialog rounded-t-lg' +
         (title ? ' base-dialog__dialog--with-title' : '')
       "
     >
-      <v-card>
-        <v-card-title v-if="title" class="px-4 py-3">{{ title }}</v-card-title>
+      <v-card
+        tile
+        :class="{ 'base-dialog__card': true, 'rounded-t-lg': !$isMobileExtra }"
+        :outlined="!$isMobileExtra"
+      >
+        <v-card-title v-if="title" class="pa-4">{{ title }}</v-card-title>
         <v-divider v-if="title" />
         <div class="base-dialog__scroll">
           <div
             :class="{
               'base-dialog__body': true,
-              'px-4 py-6': !noPadding,
+              'pa-4': !noPadding,
             }"
           >
             <slot />
           </div>
         </div>
         <v-divider />
-        <v-card-actions class="pa-2">
-          <div class="base-dialog__left-buttons">
-            <slot name="left-buttons" />
-          </div>
+        <v-card-actions class="pa-4">
+          <slot name="left-buttons" />
           <v-spacer />
-          <div class="base-dialog__right-buttons">
-            <slot name="right-buttons" />
-          </div>
+          <slot name="right-buttons" />
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-bottom-sheet>
   </div>
 </template>
 
 <script lang="ts">
 // utils
-import { Vue, Component, Prop, Model } from "@/utils/vue-imports";
+import { Mixins, Component, Prop, Model } from "@/utils/vue-imports";
+
+// mixins
+import isMobileMixin from "@/mixins/isMobile";
 
 // component
 @Component({
   name: "BaseDialog",
 })
-export default class BaseDialog extends Vue {
+export default class BaseDialog extends Mixins(isMobileMixin) {
   // props
   @Prop() readonly title!: string;
   @Prop({ type: Boolean }) readonly noPadding: boolean | undefined;

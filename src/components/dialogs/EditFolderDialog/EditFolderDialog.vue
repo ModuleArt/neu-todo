@@ -71,7 +71,10 @@
       </v-carousel>
     </v-card>
     <template v-slot:right-buttons>
-      <v-btn text @click="apply">Save</v-btn>
+      <v-btn block text @click="apply">
+        <v-icon left>mdi-content-save-outline</v-icon>
+        <span>Save</span>
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
