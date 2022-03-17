@@ -1,15 +1,13 @@
 .swipeout {
+  overflow: hidden;
+
+  &__container {
+    border-radius: 0 !important;
+  }
+
   &__action {
     height: 100% !important;
     width: 80px;
-
-    &--left {
-      margin-right: 4px;
-    }
-
-    &--right {
-      margin-left: 4px;
-    }
 
     /deep/ .v-btn__content {
       display: flex;

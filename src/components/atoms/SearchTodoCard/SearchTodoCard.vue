@@ -7,7 +7,7 @@
     }"
   >
     <v-card outlined class="search-todo-card__card">
-      <div class="d-flex align-center justify-space-between pr-1">
+      <div class="d-flex align-center pr-1 search-todo-card__header">
         <v-card-title class="px-3 py-2 search-todo-card__title">
           <v-icon v-if="todo.checked" left>mdi-check</v-icon>
           <v-icon v-else left>mdi-crop-square</v-icon>
@@ -16,6 +16,10 @@
         <v-btn icon @click="goToTask" class="mx-1" title="Go to folder">
           <v-icon>mdi-arrow-top-right</v-icon>
         </v-btn>
+        <div
+          v-if="todo.important"
+          class="search-todo-card__important-indicator"
+        />
       </div>
       <v-divider v-if="todo.steps.length" />
       <v-card-text v-if="todo.steps.length" class="px-3 py-2">
