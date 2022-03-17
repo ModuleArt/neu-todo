@@ -2,7 +2,7 @@
 
 .main-page {
   &__content {
-    height: calc(100vh - 56px);
+    height: 100vh;
   }
 
   &__scroll {
@@ -19,6 +19,12 @@
     &__col {
       max-width: 100%;
       width: 100%;
+    }
+  }
+
+  @media screen and (max-width: $is-mobile) {
+    &__content {
+      height: calc(100vh - 56px);
     }
   }
 }

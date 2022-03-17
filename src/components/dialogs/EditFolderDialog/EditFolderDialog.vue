@@ -12,7 +12,6 @@
       counter="64"
       :error-messages="titleErrors"
       :color="folderColor"
-      ref="folderTitleInput"
       @keypress.enter="apply()"
       @contextmenu.stop
     />
@@ -99,11 +98,6 @@ import BaseDialog from "@/components/bases/BaseDialog.vue";
   },
 })
 export default class EditFolderDialog extends Vue {
-  // refs
-  public $refs!: {
-    folderTitleInput: HTMLInputElement;
-  };
-
   // data
   private showDialog = false;
   private titleErrors: string[] = [];
@@ -215,9 +209,6 @@ export default class EditFolderDialog extends Vue {
         }
       });
     }
-    setTimeout(() => {
-      this.$refs.folderTitleInput.focus();
-    }, 0);
   }
 
   // private methods

@@ -58,16 +58,23 @@ Debug android build (Android Studio):
 yarn open-android
 ```
 
+Debug iOS build (Android Studio):
+
+```bash
+yarn open-ios
+```
+
 ## Contribution guide
 
-
 ##### 1. Fork
+
 ##### 2. Create new branch
 
 ```bash
 git checkout dev
 git checkout -b *name-of-branch*
 ```
+
 Where `*name-of-branch*` could be `feature/*feature-name*` or `fix/*bug-name*`.
 
 ##### 3. Make your changes

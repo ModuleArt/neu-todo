@@ -2,8 +2,6 @@
   <div class="nav-bar">
     <v-bottom-navigation
       mandatory
-      shift
-      grow
       class="nav-bar__bar"
       :value="getRouteName"
       color="primary"

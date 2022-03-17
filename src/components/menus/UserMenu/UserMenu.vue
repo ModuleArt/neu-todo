@@ -17,6 +17,9 @@
     </template>
     <v-list dense outlined class="rounded py-1">
       <v-list-item link disabled>
+        <v-list-item-title>NeuTodo v0.1.0</v-list-item-title>
+      </v-list-item>
+      <v-list-item link disabled>
         <v-list-item-icon class="mr-4">
           <v-icon disabled>mdi-cog-outline</v-icon>
         </v-list-item-icon>

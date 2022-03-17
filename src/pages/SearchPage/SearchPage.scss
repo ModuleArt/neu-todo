@@ -30,5 +30,15 @@
       max-width: 100%;
       width: 100%;
     }
+
+    &__content {
+      max-height: calc(100vh - 56px) !important;
+    }
+  }
+
+  @media screen and (max-width: $is-mobile-extra) {
+    &__heading {
+      font-size: 24px;
+    }
   }
 }

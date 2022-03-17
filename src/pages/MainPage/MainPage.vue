@@ -1,6 +1,5 @@
 <template>
   <div class="main-page">
-    <PwaBar />
     <div class="d-flex">
       <Sidebar v-if="!$isMobile" :fullscreen="false" />
       <v-main>
@@ -15,8 +14,6 @@
         </div>
       </v-main>
     </div>
-    <EditFolderDialog />
-    <Snackbar />
   </div>
 </template>
 
@@ -30,9 +27,6 @@ import isMobileMixin from "@/mixins/isMobile";
 // componenets
 import Sidebar from "@/components/organisms/Sidebar/Sidebar.vue";
 import TodoList from "@/components/molecules/TodoList/TodoList.vue";
-import PwaBar from "@/components/organisms/PwaBar/PwaBar.vue";
-import EditFolderDialog from "@/components/dialogs/EditFolderDialog/EditFolderDialog.vue";
-import Snackbar from "@/components/organisms/Snackbar/Snackbar.vue";
 
 // component
 @Component({
@@ -40,9 +34,6 @@ import Snackbar from "@/components/organisms/Snackbar/Snackbar.vue";
   components: {
     Sidebar,
     TodoList,
-    PwaBar,
-    EditFolderDialog,
-    Snackbar,
   },
 })
 export default class MainPage extends Mixins(isMobileMixin) {}

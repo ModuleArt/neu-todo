@@ -43,17 +43,13 @@
               />
             </v-list-item-group>
           </v-list>
-          <v-list nav dense class="pt-0">
-            <v-divider class="ma-2 mt-0" />
-            <NewFolderMenu />
-          </v-list>
         </div>
-        <!-- <v-divider />
+        <v-divider />
         <div class="sidebar__bottom">
           <v-list nav dense>
             <NewFolderMenu />
           </v-list>
-        </div> -->
+        </div>
       </div>
     </v-navigation-drawer>
     <FolderContextMenu
