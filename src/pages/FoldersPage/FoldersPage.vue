@@ -20,3 +20,7 @@ import Sidebar from "@/components/organisms/Sidebar/Sidebar.vue";
 })
 export default class FoldersPage extends Vue {}
 </script>
+
+<style lang="scss" scoped>
+@import "./FoldersPage.scss";
+</style>

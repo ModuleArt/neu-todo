@@ -1,3 +1,4 @@
+@import "@/assets/scss/variables.scss";
 @import "@/assets/scss/mixins/scrollbar.scss";
 
 .base-dialog {
@@ -8,12 +9,23 @@
     @include scrollbar(#1e1e1e);
   }
 
+  &__card {
+    border-bottom: none !important;
+  }
+
   &__dialog--with-title &__scroll {
-    max-height: calc(100vh - 142px);
+    max-height: 70vh;
   }
 
   &__scroll {
     overflow-y: auto;
     max-height: calc(100vh - 85px);
+  }
+
+  @media screen and (max-width: $is-mobile-extra) {
+    &__card {
+      border-top: 1px solid hsla(0,0%,100%,.12) !important;
+      border-radius: 0 !important;
+    }
   }
 }

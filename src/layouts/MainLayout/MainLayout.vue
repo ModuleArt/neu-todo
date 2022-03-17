@@ -1,12 +1,14 @@
 <template>
-  <div class="main-layout d-flex flex-column">
-    <PwaBar />
-    <div class="main-layout__content">
-      <v-scroll-x-transition mode="out-in">
-        <router-view />
-      </v-scroll-x-transition>
+  <div class="main-layout">
+    <div class="main-layout__wrapper d-flex flex-column">
+      <PwaBar />
+      <div class="main-layout__content">
+        <v-scroll-x-transition mode="out-in">
+          <router-view />
+        </v-scroll-x-transition>
+      </div>
+      <NavBar v-if="$isMobile" />
     </div>
-    <NavBar v-if="$isMobile" />
     <EditFolderDialog />
     <Snackbar />
   </div>
@@ -37,3 +39,7 @@ import Snackbar from "@/components/organisms/Snackbar/Snackbar.vue";
 })
 export default class MainLayout extends Mixins(isMobileMixin) {}
 </script>
+
+<style lang="scss" scoped>
+@import "./MainLayout.scss";
+</style>

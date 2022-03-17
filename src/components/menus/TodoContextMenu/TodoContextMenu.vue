@@ -6,7 +6,7 @@
     :position-y="contextMenuY"
     absolute
     offset-y
-    :transition="false"
+    transition="scroll-y-transition"
   >
     <v-list dense outlined class="rounded py-1" v-if="todo">
       <v-list-item link @click="toggleImportant">

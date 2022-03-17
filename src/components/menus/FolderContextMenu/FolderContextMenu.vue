@@ -6,7 +6,7 @@
     :position-y="folderContextMenuY"
     :absolute="!button"
     offset-y
-    :transition="false"
+    transition="scroll-y-transition"
   >
     <template v-if="button" v-slot:activator="{ on, attrs }">
       <v-btn icon v-bind="attrs" v-on="on" title="Folder options">

@@ -1,5 +1,11 @@
 <template>
-  <v-menu class="user-menu" bottom offset-y min-width="0">
+  <v-menu
+    class="user-menu"
+    bottom
+    offset-y
+    min-width="0"
+    transition="scroll-y-transition"
+  >
     <template v-slot:activator="{ on, attrs }">
       <v-list-item link v-bind="attrs" v-on="on" class="ma-0">
         <v-list-item-avatar class="mr-4" size="24">
@@ -17,7 +23,7 @@
     </template>
     <v-list dense outlined class="rounded py-1">
       <v-list-item link disabled>
-        <v-list-item-title>NeuTodo v0.1.0</v-list-item-title>
+        <v-list-item-title>NeuTodo v0.1.1</v-list-item-title>
       </v-list-item>
       <v-list-item link disabled>
         <v-list-item-icon class="mr-4">
