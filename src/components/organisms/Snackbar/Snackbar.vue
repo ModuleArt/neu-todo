@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar v-model="showRemoveSnackbar" :timeout="removeSnackbarTimeout">
+  <v-snackbar v-model="showRemoveSnackbar" :timeout="removeSnackbarTimeout" app>
     Task
     <span v-if="removeSnackbarTempTodo">
       <b>{{ removeSnackbarTempTodo.title }}</b>
@@ -29,7 +29,7 @@ import { todosModule } from "@/store";
 @Component({
   name: "Snackbar",
 })
-export default class FolderListItem extends Vue {
+export default class Snackbar extends Vue {
   // data
   private showRemoveSnackbar = false;
   private removeSnackbarTimeout = config.delays.notificationDelay;

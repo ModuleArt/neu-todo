@@ -1,18 +1,20 @@
 {
   "name": "neu-todo",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "scripts": {
-    "update": "npx @neutralinojs/neu update && npx cap sync",
     "dev": "vue-cli-service serve --host localhost --port 8090",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && npx cap sync",
     "build-github": "NODE_ENV=github vue-cli-service build",
     "build-desktop": "npx @neutralinojs/neu build",
     "open-desktop": "npx @neutralinojs/neu run",
-    "open-android": "npx cap open android"
+    "open-android": "npx cap open android",
+    "open-ios": "npx cap open ios",
+    "update": "npx @neutralinojs/neu update"
   },
   "dependencies": {
     "@capacitor/android": "^3.4.3",
     "@capacitor/core": "^3.4.3",
+    "@capacitor/ios": "^3.4.3",
     "axios": "^0.25.0",
     "core-js": "3.6.5",
     "fuzzy-search": "^3.2.1",
