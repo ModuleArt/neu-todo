@@ -4,12 +4,18 @@
       <v-container class="search-page__content">
         <v-row justify="center" class="search-page__row">
           <v-col cols="8" class="search-page__col">
-            <div class="search-page__header mb-3">
-              <v-btn icon @click="goBack">
-                <v-icon>mdi-arrow-left</v-icon>
-              </v-btn>
-            </div>
-            <div class="search-page__body pb-12">
+            <div
+              :class="{
+                'search-page__body': true,
+                'py-12': !$isMobile,
+              }"
+            >
+              <div class="d-flex align-center mb-4">
+                <v-btn icon @click="goBack" v-if="!$isMobile" class="mr-2">
+                  <v-icon>mdi-arrow-left</v-icon>
+                </v-btn>
+                <h1 class="search-page__heading">Search</h1>
+              </div>
               <v-text-field
                 dense
                 hide-details
@@ -55,11 +61,14 @@
 
 <script lang="ts">
 // utils
-import { Vue, Component } from "@/utils/vue-imports";
+import { Mixins, Component } from "@/utils/vue-imports";
 import FuzzySearch from "fuzzy-search";
 
 // store modules
 import { todosModule, foldersModule } from "@/store";
+
+// mixins
+import isMobileMixin from "@/mixins/isMobile";
 
 // interfaces
 import Todo from "@/interfaces/entities/todo";
@@ -77,7 +86,7 @@ import SearchFolderCard from "@/components/atoms/SearchFolderCard/SearchFolderCa
     SearchFolderCard,
   },
 })
-export default class SearchPage extends Vue {
+export default class SearchPage extends Mixins(isMobileMixin) {
   // refs
   public $refs!: {
     searchInput: HTMLInputElement;
@@ -106,7 +115,7 @@ export default class SearchPage extends Vue {
 
   // private methods
   private goBack() {
-    this.$router.push({ name: "main" });
+    this.$router.push({ name: "tasks" });
   }
 
   private search(input: string) {

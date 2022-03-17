@@ -3,7 +3,6 @@
     :class="{
       'todo-list': true,
       'py-12': !$isMobile,
-      'py-4': $isMobile,
     }"
     v-if="currentFolder"
   >

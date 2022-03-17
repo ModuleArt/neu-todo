@@ -2,29 +2,22 @@
   <div
     :class="{
       sidebar: true,
-      'pl-14': $isMobile,
-      'sidebar--expanded': expandDrawer,
+      'sidebar--fullscreen': fullscreen,
     }"
-    v-touch:swipe="sidebarSwipe"
   >
     <v-navigation-drawer
+      :floating="fullscreen"
       permanent
-      :app="$isMobile"
+      app
       stateless
-      :mini-variant="$isMobile && !expandDrawer"
-      v-click-outside="drawerClickOutside"
+      touchless
       class="sidebar__drawer"
     >
       <div class="d-flex flex-column sidebar__content">
         <div class="sidebar__top">
-          <div v-if="$isMobile" class="sidebar__menu-button">
-            <v-btn icon @click="expandDrawer = !expandDrawer">
-              <v-icon>mdi-menu</v-icon>
-            </v-btn>
-          </div>
           <v-list nav dense>
             <UserMenu />
-            <SearchButton />
+            <SearchButton v-if="!$isMobile" />
           </v-list>
         </div>
         <v-divider />
@@ -69,7 +62,7 @@
 
 <script lang="ts">
 // utils
-import { Mixins, Component } from "@/utils/vue-imports";
+import { Mixins, Component, Prop } from "@/utils/vue-imports";
 
 // interfaces
 import Folder from "@/interfaces/entities/folder";
@@ -104,8 +97,10 @@ export default class Sidebar extends Mixins(isMobileMixin) {
     folderContextMenu: FolderContextMenu;
   };
 
+  // props
+  @Prop() readonly fullscreen!: boolean;
+
   // data
-  private expandDrawer = false;
   private showFolderContextMenu = false;
   private folderWithContextMenu: Folder | null = null;
 
@@ -135,7 +130,9 @@ export default class Sidebar extends Mixins(isMobileMixin) {
   // private methods
   private selectedItemChanged(selectedItem: number) {
     foldersModule.setCurrentFolderId(this.folders[selectedItem || 0].id);
-    this.expandDrawer = false;
+    if (this.fullscreen) {
+      this.$router.push({ name: "tasks" });
+    }
   }
 
   private setFolderContextMenuOpened(
@@ -145,20 +142,6 @@ export default class Sidebar extends Mixins(isMobileMixin) {
     this.folderWithContextMenu = folder;
     this.$refs.folderContextMenu.setCoordinates(e.x, e.y);
     this.showFolderContextMenu = true;
-  }
-
-  private drawerClickOutside() {
-    this.expandDrawer = false;
-  }
-
-  private sidebarSwipe(direction: string) {
-    if (this.$isMobile) {
-      if (!this.expandDrawer && direction == "right") {
-        this.expandDrawer = true;
-      } else if (this.expandDrawer && direction == "left") {
-        this.expandDrawer = false;
-      }
-    }
   }
 }
 </script>
