@@ -1,8 +1,10 @@
 @import "@/assets/scss/variables.scss";
 
 .main-page {
-  &__content {
-    height: 100vh;
+  height: 100%;
+  
+  &__wrapper {
+    height: 100%;
   }
 
   &__scroll {
@@ -19,12 +21,6 @@
     &__col {
       max-width: 100%;
       width: 100%;
-    }
-  }
-
-  @media screen and (max-width: $is-mobile) {
-    &__content {
-      height: calc(100vh - 56px);
     }
   }
 }

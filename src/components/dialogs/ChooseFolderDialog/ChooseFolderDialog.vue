@@ -3,10 +3,9 @@
     class="choose-folder-dialog"
     v-model="showDialog"
     v-if="todo"
-    no-padding
     title="Choose folder"
   >
-    <v-list nav dense>
+    <v-list nav dense class="pa-0">
       <v-list-item
         v-for="(item, index) in foldersToChoose"
         :key="index"
@@ -40,12 +39,14 @@
         @click="setCustomFolderId(null)"
         color="red"
       >
-        No folder
+        <v-icon left>mdi-close</v-icon>
+        <span>No folder</span>
       </v-btn>
     </template>
     <template v-slot:right-buttons>
       <v-btn text @click="setDialogOpened(false)">
-        OK
+        <v-icon left>mdi-check</v-icon>
+        <span>OK</span>
       </v-btn>
     </template>
   </BaseDialog>

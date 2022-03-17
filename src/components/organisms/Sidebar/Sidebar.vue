@@ -8,7 +8,6 @@
     <v-navigation-drawer
       :floating="fullscreen"
       permanent
-      app
       stateless
       touchless
       class="sidebar__drawer"

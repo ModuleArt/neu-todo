@@ -1,7 +1,7 @@
 <template>
   <div class="search-page">
     <div class="search-page__scroll d-flex justify-center">
-      <v-container class="search-page__content">
+      <v-container>
         <v-row justify="center" class="search-page__row">
           <v-col cols="8" class="search-page__col">
             <div
@@ -29,6 +29,7 @@
                 class="search-page__search-field"
                 ref="searchInput"
                 @input="search"
+                @keypress.enter="unfocus"
               />
               <v-subheader v-if="folders.length" class="pa-0">
                 Folders
@@ -128,6 +129,10 @@ export default class SearchPage extends Mixins(isMobileMixin) {
       this.todos = [];
       this.folders = [];
     }
+  }
+
+  private unfocus() {
+    (document.activeElement as HTMLElement).blur();
   }
 }
 </script>

@@ -16,10 +16,11 @@ const routes: Array<RouteConfig> = [
   {
     path: "/",
     name: "main",
+    redirect: "/tasks",
     component: MainLayout,
     children: [
       {
-        path: "/",
+        path: "/tasks",
         name: "tasks",
         component: MainPage,
       },

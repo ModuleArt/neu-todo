@@ -1,7 +1,7 @@
 .sidebar {
+  height: 100%;
+
   &--fullscreen &__drawer {
-    position: initial !important;
-    max-height: calc(100vh - 56px) !important;
     width: 100% !important;
   }
 
