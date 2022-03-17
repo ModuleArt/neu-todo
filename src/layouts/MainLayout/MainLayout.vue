@@ -37,3 +37,7 @@ import Snackbar from "@/components/organisms/Snackbar/Snackbar.vue";
 })
 export default class MainLayout extends Mixins(isMobileMixin) {}
 </script>
+
+<style lang="scss" scoped>
+@import "./MainLayout.scss";
+</style>

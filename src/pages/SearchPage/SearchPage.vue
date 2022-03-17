@@ -1,7 +1,7 @@
 <template>
   <div class="search-page">
     <div class="search-page__scroll d-flex justify-center">
-      <v-container class="search-page__content">
+      <v-container>
         <v-row justify="center" class="search-page__row">
           <v-col cols="8" class="search-page__col">
             <div

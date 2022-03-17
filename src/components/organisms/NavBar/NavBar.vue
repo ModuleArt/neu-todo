@@ -2,7 +2,7 @@
   <div class="nav-bar">
     <v-bottom-navigation
       mandatory
-      class="nav-bar__bar"
+      class="nav-bar__bar elevation-0"
       :value="getRouteName"
       color="primary"
     >
