@@ -5,13 +5,10 @@
     :enable="$isMobile && !expanded"
     :class="{
       'todo-card': true,
-      rounded: true,
       'todo-card--checked': todo.checked,
-      'todo-card--important': todo.important,
     }"
   >
-    <v-card
-      outlined
+    <div
       @contextmenu.prevent="rightClick"
       v-touch:touchhold="touchHold"
       class="todo-card__card"
@@ -54,6 +51,7 @@
             {{ expanded ? "mdi-chevron-up" : "mdi-chevron-down" }}
           </v-icon>
         </v-btn>
+        <div v-if="todo.important" class="todo-card__important-indicator" />
       </div>
       <v-expand-transition>
         <div v-show="expanded" class="todo-card__body">
@@ -81,7 +79,7 @@
         v-if="customTodoFolder || todo.steps.length > 0 || todo.dueDate"
       />
       <TodoCaption :todo="todo" />
-    </v-card>
+    </div>
   </Swipeout>
 </template>
 
@@ -141,7 +139,7 @@ export default class TodoCard extends Mixins(isMobileMixin) {
     {
       icon: "mdi-calendar-blank",
       text: "Due date",
-      color: "red",
+      color: "purple",
       onClick: () => {
         this.addDueDate();
       },

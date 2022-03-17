@@ -5,29 +5,17 @@
     opacity: $opacity-secondary;
   }
 
-  &--important &__card {
-    &::after {
-      border-color: $color-important;
-    }
-  }
-
-  &__card {
-    &::after {
-      content: "";
-      position: absolute;
-      left: -1px;
-      top: -1px;
-      width: calc(100% + 2px);
-      height: calc(100% + 2px);
-      pointer-events: none;
-      border: 2px solid transparent;
-      transition: border-color 0.2s cubic-bezier(0.4, 0, 0.6, 1);
-      border-radius: 4px;
-    }
+  &__important-indicator {
+    background: $color-important;
+    width: 4px;
+    border-radius: 2px;
+    height: 38px;
+    margin: 0 2px;
   }
 
   &__title {
     display: block;
+    flex: 1;
 
     span {
       vertical-align: middle;
