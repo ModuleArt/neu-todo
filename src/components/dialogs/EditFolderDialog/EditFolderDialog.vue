@@ -109,7 +109,7 @@ export default class EditFolderDialog extends Vue {
     { code: "purple", name: "PU" },
     { code: "deep-purple", name: "DP" },
     { code: "indigo", name: "IN" },
-    { code: "primary", name: "BL" },
+    { code: "blue", name: "BL" },
     { code: "light-blue", name: "LB" },
     { code: "cyan", name: "CY" },
     { code: "teal", name: "TE" },

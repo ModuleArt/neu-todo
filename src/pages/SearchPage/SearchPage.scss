@@ -16,6 +16,16 @@
     }
   }
 
+  &__body {
+    padding: 48px 0;
+  }
+
+  @media screen and (max-width: $is-tablet) {
+    &__body {
+      padding: 0;
+    }
+  }
+
   @media screen and (max-width: $is-mobile) {
     &__row {
       display: block;

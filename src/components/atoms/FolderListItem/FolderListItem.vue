@@ -3,7 +3,7 @@
     link
     :title="folder.title"
     @contextmenu.prevent="rightClick"
-    v-touch:touchhold="touchHold"
+    v-touch:touchhold="rightClick"
     class="folder-list-item"
   >
     <v-list-item-icon class="mr-4">
@@ -47,13 +47,6 @@ export default class FolderListItem extends Mixins(isMobileMixin) {
   // private methods
   private rightClick(e: MouseEvent) {
     this.$emit("contextmenu", { x: e.clientX, y: e.clientY });
-  }
-
-  private touchHold(e: MouseEvent) {
-    if (this.$isMobile) {
-      const p = (e.target as HTMLElement).getBoundingClientRect();
-      this.$emit("contextmenu", { x: p.x, y: p.y + p.height - 8 });
-    }
   }
 }
 </script>

@@ -2,7 +2,7 @@
   <Swipeout
     :left-actions="swipeoutLeftActions"
     :right-actions="swipeoutRightActions"
-    :enable="$isMobile && !expanded"
+    :enable="!expanded"
     :class="{
       'todo-card': true,
       'todo-card--checked': todo.checked,
@@ -10,14 +10,15 @@
   >
     <div
       @contextmenu.prevent="rightClick"
-      v-touch:touchhold="touchHold"
+      v-touch:touchhold="rightClick"
       class="todo-card__card"
+      v-if="customTodoFolder"
     >
       <div class="d-flex align-center pa-1 todo-card__header">
         <v-simple-checkbox
           :value="todo.checked"
           @input="toggleChecked()"
-          :color="customTodoFolder ? customTodoFolder.color : 'primary'"
+          :color="customTodoFolder.color"
           class="todo-card__checkbox"
         />
         <div class="todo-card__title mx-1">
@@ -30,7 +31,7 @@
             dense
             placeholder="Task title"
             outlined
-            :color="customTodoFolder ? customTodoFolder.color : 'primary'"
+            :color="customTodoFolder.color"
             ref="taskTitleInput"
             class="todo-card__title-input"
             @blur="setTitle"
@@ -58,7 +59,7 @@
           <v-divider v-if="$isMobile" />
           <TodoSteps
             :steps="todo.steps"
-            :color="customTodoFolder ? customTodoFolder.color : 'primary'"
+            :color="customTodoFolder.color"
             :todo-id="todo.id"
           />
           <v-divider />
@@ -131,7 +132,7 @@ export default class TodoCard extends Mixins(isMobileMixin) {
     {
       icon: "mdi-folder-outline",
       text: "Folder",
-      color: "primary",
+      color: "blue",
       onClick: () => {
         this.chooseFolder();
       },
@@ -236,13 +237,6 @@ export default class TodoCard extends Mixins(isMobileMixin) {
 
   private rightClick(e: MouseEvent) {
     this.$emit("contextmenu", { x: e.clientX, y: e.clientY });
-  }
-
-  private touchHold(e: MouseEvent) {
-    if (this.$isMobile) {
-      const p = (e.target as HTMLElement).getBoundingClientRect();
-      this.$emit("contextmenu", { x: p.x, y: p.y + p.height - 8 });
-    }
   }
 }
 </script>
