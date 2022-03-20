@@ -2,7 +2,7 @@
   <Swipeout
     :left-actions="swipeoutLeftActions"
     :right-actions="swipeoutRightActions"
-    :enable="$isMobile && !expanded"
+    :enable="!expanded"
     :class="{
       'todo-card': true,
       'todo-card--checked': todo.checked,
@@ -10,7 +10,7 @@
   >
     <div
       @contextmenu.prevent="rightClick"
-      v-touch:touchhold="touchHold"
+      v-touch:touchhold="rightClick"
       class="todo-card__card"
     >
       <div class="d-flex align-center pa-1 todo-card__header">
@@ -54,7 +54,7 @@
         <div v-if="todo.important" class="todo-card__important-indicator" />
       </div>
       <v-expand-transition>
-        <div v-show="expanded" class="todo-card__body">
+        <div v-if="expanded" class="todo-card__body">
           <v-divider v-if="$isMobile" />
           <TodoSteps
             :steps="todo.steps"
@@ -131,7 +131,7 @@ export default class TodoCard extends Mixins(isMobileMixin) {
     {
       icon: "mdi-folder-outline",
       text: "Folder",
-      color: "primary",
+      color: "blue",
       onClick: () => {
         this.chooseFolder();
       },
@@ -236,13 +236,6 @@ export default class TodoCard extends Mixins(isMobileMixin) {
 
   private rightClick(e: MouseEvent) {
     this.$emit("contextmenu", { x: e.clientX, y: e.clientY });
-  }
-
-  private touchHold(e: MouseEvent) {
-    if (this.$isMobile) {
-      const p = (e.target as HTMLElement).getBoundingClientRect();
-      this.$emit("contextmenu", { x: p.x, y: p.y + p.height - 8 });
-    }
   }
 }
 </script>

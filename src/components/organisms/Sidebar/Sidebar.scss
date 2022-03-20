@@ -5,6 +5,10 @@
     width: 100% !important;
   }
 
+  &--fullscreen &__scroll {
+    padding-bottom: 80px;
+  }
+
   &__drawer {
     background: #121212 !important;
   }

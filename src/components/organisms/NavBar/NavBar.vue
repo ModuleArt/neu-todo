@@ -4,19 +4,24 @@
       mandatory
       class="nav-bar__bar elevation-0"
       :value="getRouteName"
-      color="primary"
+      :color="currentFolder ? currentFolder.color : 'primary'"
+      grow
+      :horizontal="!$isMobileExtra"
     >
-      <v-btn value="folders" to="/folders">
-        <span class="mt-1">Folders</span>
-        <v-icon>mdi-folder-outline</v-icon>
-      </v-btn>
-      <v-btn value="tasks" to="/">
-        <span class="mt-1">Tasks</span>
-        <v-icon>mdi-sticker-check-outline</v-icon>
-      </v-btn>
-      <v-btn value="search" to="/search">
-        <span class="mt-1">Search</span>
-        <v-icon>mdi-magnify</v-icon>
+      <v-btn
+        v-for="button in buttons"
+        :key="button.to"
+        :value="button.to"
+        :to="`/${button.to}`"
+      >
+        <span
+          :class="{
+            'mt-1': $isMobileExtra,
+          }"
+        >
+          {{ button.title }}
+        </span>
+        <v-icon>{{ button.icon }}</v-icon>
       </v-btn>
     </v-bottom-navigation>
   </div>
@@ -24,16 +29,48 @@
 
 <script lang="ts">
 // utils
-import { Vue, Component } from "@/utils/vue-imports";
+import { Mixins, Component } from "@/utils/vue-imports";
+
+// interfaces
+import Folder from "@/interfaces/entities/folder";
+
+// store modules
+import { foldersModule } from "@/store";
+
+// mixins
+import isMobileMixin from "@/mixins/isMobile";
 
 // component
 @Component({
   name: "NavBar",
 })
-export default class NavBar extends Vue {
+export default class NavBar extends Mixins(isMobileMixin) {
+  // data
+  private buttons = [
+    {
+      icon: "mdi-folder-outline",
+      title: "Folders",
+      to: "folders",
+    },
+    {
+      icon: "mdi-sticker-check-outline",
+      title: "Tasks",
+      to: "tasks",
+    },
+    {
+      icon: "mdi-magnify",
+      title: "Search",
+      to: "search",
+    },
+  ];
+
   // computed
   private get getRouteName() {
     return this.$route.name;
+  }
+
+  private get currentFolder(): Folder | null {
+    return foldersModule.getCurrentFolder;
   }
 }
 </script>
