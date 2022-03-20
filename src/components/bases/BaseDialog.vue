@@ -11,8 +11,8 @@
     >
       <v-card
         tile
-        :class="{ 'base-dialog__card': true, 'rounded-t-lg': !$isMobileExtra }"
-        :outlined="!$isMobileExtra"
+        :class="{ 'base-dialog__card': true, 'rounded-t-lg': !$isPhoneExtra }"
+        :outlined="!$isPhoneExtra"
       >
         <v-card-title v-if="title" class="pa-4">{{ title }}</v-card-title>
         <v-divider v-if="title" />
@@ -42,13 +42,13 @@
 import { Mixins, Component, Prop, Model } from "@/utils/vue-imports";
 
 // mixins
-import isMobileMixin from "@/mixins/isMobile";
+import responsiveMixin from "@/mixins/responsive";
 
 // component
 @Component({
   name: "BaseDialog",
 })
-export default class BaseDialog extends Mixins(isMobileMixin) {
+export default class BaseDialog extends Mixins(responsiveMixin) {
   // props
   @Prop() readonly title!: string;
   @Prop({ type: Boolean }) readonly noPadding: boolean | undefined;

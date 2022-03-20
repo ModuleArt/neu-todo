@@ -7,7 +7,7 @@
           <router-view />
         </v-scroll-x-transition>
       </div>
-      <NavBar v-if="$isMobile" />
+      <NavBar v-if="$isPhone || $route.name == 'folders'" />
     </div>
     <EditFolderDialog />
     <Snackbar />
@@ -19,7 +19,7 @@
 import { Mixins, Component } from "@/utils/vue-imports";
 
 // mixins
-import isMobileMixin from "@/mixins/isMobile";
+import responsiveMixin from "@/mixins/responsive";
 
 // components
 import NavBar from "@/components/organisms/NavBar/NavBar.vue";
@@ -37,7 +37,7 @@ import Snackbar from "@/components/organisms/Snackbar/Snackbar.vue";
     Snackbar,
   },
 })
-export default class MainLayout extends Mixins(isMobileMixin) {}
+export default class MainLayout extends Mixins(responsiveMixin) {}
 </script>
 
 <style lang="scss" scoped>

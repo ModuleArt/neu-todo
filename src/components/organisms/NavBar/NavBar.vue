@@ -6,7 +6,7 @@
       :value="getRouteName"
       :color="currentFolder ? currentFolder.color : 'primary'"
       grow
-      :horizontal="!$isMobileExtra"
+      :horizontal="!$isPhoneExtra"
     >
       <v-btn
         v-for="button in buttons"
@@ -16,7 +16,7 @@
       >
         <span
           :class="{
-            'mt-1': $isMobileExtra,
+            'mt-1': $isPhoneExtra,
           }"
         >
           {{ button.title }}
@@ -38,13 +38,13 @@ import Folder from "@/interfaces/entities/folder";
 import { foldersModule } from "@/store";
 
 // mixins
-import isMobileMixin from "@/mixins/isMobile";
+import responsiveMixin from "@/mixins/responsive";
 
 // component
 @Component({
   name: "NavBar",
 })
-export default class NavBar extends Mixins(isMobileMixin) {
+export default class NavBar extends Mixins(responsiveMixin) {
   // data
   private buttons = [
     {

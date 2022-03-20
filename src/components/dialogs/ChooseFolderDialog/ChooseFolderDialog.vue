@@ -81,7 +81,7 @@ export default class DueDateDialog extends Vue {
   private showDialog = false;
 
   // computed
-  get customTodoFolder(): Folder | null {
+  private get customTodoFolder(): Folder | null {
     if (this.todo) {
       return (
         foldersModule.folders.find(
@@ -93,7 +93,7 @@ export default class DueDateDialog extends Vue {
     }
   }
 
-  get foldersToChoose(): Folder[] {
+  private get foldersToChoose(): Folder[] {
     return foldersModule.folders.filter((folder) => folder.custom);
   }
 

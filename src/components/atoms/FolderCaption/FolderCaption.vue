@@ -44,19 +44,19 @@ export default class TodoSteps extends Vue {
   @Prop() readonly folder!: Folder;
 
   // computed
-  get folderTodos(): Todo[] {
+  private get folderTodos(): Todo[] {
     return todoUtils.getTodosByFolder(this.folder);
   }
 
-  get checkedFolderTodos(): Todo[] {
+  private get checkedFolderTodos(): Todo[] {
     return this.folderTodos.filter((todo) => todo.checked);
   }
 
-  get folderSteps(): Step[] {
+  private get folderSteps(): Step[] {
     return todoUtils.getStepsByFolder(this.folder);
   }
 
-  get checkedFolderSteps(): Step[] {
+  private get checkedFolderSteps(): Step[] {
     return this.folderSteps.filter((step) => step.checked);
   }
 }

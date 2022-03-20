@@ -26,7 +26,7 @@
     }
   }
 
-  @media screen and (max-width: $is-mobile) {
+  @media screen and (max-width: $is-phone) {
     &__row {
       display: block;
     }
@@ -37,7 +37,7 @@
     }
   }
 
-  @media screen and (max-width: $is-mobile-extra) {
+  @media screen and (max-width: $is-phone-extra) {
     &__heading {
       font-size: 24px;
     }

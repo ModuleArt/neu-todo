@@ -16,7 +16,7 @@
         <div class="sidebar__top">
           <v-list nav dense>
             <UserMenu />
-            <SearchButton v-if="!$isMobile" />
+            <SearchButton v-if="!$isPhone" />
           </v-list>
         </div>
         <v-divider />
@@ -26,12 +26,14 @@
               :value="selectedItem"
               :color="currentFolder.color"
               @change="selectedItemChanged($event)"
+              @input="clickOnFolder"
               mandatory
             >
               <FolderListItem
                 v-for="folder in systemFolders"
                 :key="`folder--${folder.id}`"
                 :folder="folder"
+                @click="clickOnFolder"
               />
               <v-divider v-if="customFolders.length" class="ma-2" />
               <FolderListItem
@@ -39,6 +41,7 @@
                 :key="`folder--${folder.id}`"
                 :folder="folder"
                 @contextmenu="setFolderContextMenuOpened($event, folder)"
+                @click="clickOnFolder"
               />
             </v-list-item-group>
           </v-list>
@@ -68,7 +71,7 @@ import Folder from "@/interfaces/entities/folder";
 import { foldersModule } from "@/store";
 
 // mixins
-import isMobileMixin from "@/mixins/isMobile";
+import responsiveMixin from "@/mixins/responsive";
 
 // components
 import FolderListItem from "@/components/atoms/FolderListItem/FolderListItem.vue";
@@ -88,7 +91,7 @@ import SearchButton from "@/components/atoms/SearchButton/SearchButton.vue";
     SearchButton,
   },
 })
-export default class Sidebar extends Mixins(isMobileMixin) {
+export default class Sidebar extends Mixins(responsiveMixin) {
   // refs
   public $refs!: {
     folderContextMenu: FolderContextMenu;
@@ -102,23 +105,23 @@ export default class Sidebar extends Mixins(isMobileMixin) {
   private folderWithContextMenu: Folder | null = null;
 
   // computed
-  get folders(): Folder[] {
+  private get folders(): Folder[] {
     return foldersModule.folders;
   }
 
-  get systemFolders(): Folder[] {
+  private get systemFolders(): Folder[] {
     return foldersModule.getSystemFolders || [];
   }
 
-  get customFolders(): Folder[] {
+  private get customFolders(): Folder[] {
     return foldersModule.getCustomFolders || [];
   }
 
-  get currentFolder(): Folder | null {
+  private get currentFolder(): Folder | null {
     return foldersModule.getCurrentFolder;
   }
 
-  get selectedItem(): number {
+  private get selectedItem(): number {
     return this.folders.findIndex(
       (folder: Folder) => folder.id === foldersModule.currentFolderId
     );
@@ -127,6 +130,9 @@ export default class Sidebar extends Mixins(isMobileMixin) {
   // private methods
   private selectedItemChanged(selectedItem: number) {
     foldersModule.setCurrentFolderId(this.folders[selectedItem || 0].id);
+  }
+
+  private clickOnFolder() {
     if (this.fullscreen) {
       this.$router.push({ name: "tasks" });
     }

@@ -62,15 +62,15 @@ export default class TodoSteps extends Vue {
   @Prop() readonly todo!: Todo;
 
   // computed
-  get formattedDate(): string {
+  private get formattedDate(): string {
     return dateUtils.toDisplay(this.todo.dueDate || 0);
   }
 
-  get isOverdue(): boolean {
+  private get isOverdue(): boolean {
     return dateUtils.isOverdue(this.todo.dueDate);
   }
 
-  get customTodoFolder(): Folder | null {
+  private get customTodoFolder(): Folder | null {
     return (
       foldersModule.folders.find(
         (folder: Folder) => folder.id === this.todo.customFolderId
@@ -78,11 +78,11 @@ export default class TodoSteps extends Vue {
     );
   }
 
-  get dueDateIcon(): string {
+  private get dueDateIcon(): string {
     return dateUtils.getIcon(this.todo.dueDate || 0);
   }
 
-  get checkedStepsCount(): number {
+  private get checkedStepsCount(): number {
     return this.todo.steps.filter((step) => step.checked).length;
   }
 }

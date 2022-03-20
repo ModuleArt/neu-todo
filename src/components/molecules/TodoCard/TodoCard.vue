@@ -10,7 +10,7 @@
   >
     <div
       @contextmenu.prevent="rightClick"
-      v-touch:touchhold="rightClick"
+      v-touch:touchhold="touchHold"
       class="todo-card__card"
     >
       <div class="d-flex align-center pa-1 todo-card__header">
@@ -55,7 +55,7 @@
       </div>
       <v-expand-transition>
         <div v-if="expanded" class="todo-card__body">
-          <v-divider v-if="$isMobile" />
+          <v-divider v-if="$isPhone" />
           <TodoSteps
             :steps="todo.steps"
             :color="customTodoFolder ? customTodoFolder.color : 'primary'"
@@ -95,7 +95,7 @@ import Folder from "@/interfaces/entities/folder";
 import { todosModule, foldersModule } from "@/store";
 
 // mixins
-import isMobileMixin from "@/mixins/isMobile";
+import responsiveMixin from "@/mixins/responsive";
 
 // interfaces
 import SwipeoutAction from "@/interfaces/logic/swipeoutAction";
@@ -114,7 +114,7 @@ import TodoCaption from "@/components/atoms/TodoCaption/TodoCaption.vue";
     TodoCaption,
   },
 })
-export default class TodoCard extends Mixins(isMobileMixin) {
+export default class TodoCard extends Mixins(responsiveMixin) {
   // refs
   public $refs!: {
     taskTitleInput: HTMLInputElement;
@@ -165,7 +165,7 @@ export default class TodoCard extends Mixins(isMobileMixin) {
   ];
 
   // computed
-  get customTodoFolder(): Folder | null {
+  private get customTodoFolder(): Folder | null {
     return (
       foldersModule.folders.find(
         (folder: Folder) => folder.id === this.todo.customFolderId
@@ -232,10 +232,6 @@ export default class TodoCard extends Mixins(isMobileMixin) {
       todoId: this.todo.id,
       body,
     });
-  }
-
-  private rightClick(e: MouseEvent) {
-    this.$emit("contextmenu", { x: e.clientX, y: e.clientY });
   }
 }
 </script>

@@ -2,8 +2,8 @@
   <div
     :class="{
       'todo-steps': true,
-      'px-11 pb-4': !$isMobile,
-      'py-1': $isMobile,
+      'px-11 pb-4': !$isPhone,
+      'py-1': $isPhone,
     }"
   >
     <div
@@ -18,7 +18,7 @@
           'todo-steps__step d-flex mb-1 align-center': true,
           'todo-steps__step--checked': step.checked,
         }"
-        :outlined="!$isMobile"
+        :outlined="!$isPhone"
         flat
       >
         <v-simple-checkbox
@@ -58,7 +58,7 @@
       :color="color"
       solo
       flat
-      :outlined="!$isMobile"
+      :outlined="!$isPhone"
       dense
       hide-details
       :placeholder="steps.length ? 'Next step' : 'Add step'"
@@ -80,13 +80,13 @@ import Step from "@/interfaces/entities/step";
 import { todosModule } from "@/store";
 
 // mixins
-import isMobileMixin from "@/mixins/isMobile";
+import responsiveMixin from "@/mixins/responsive";
 
 // component
 @Component({
   name: "TodoSteps",
 })
-export default class TodoSteps extends Mixins(isMobileMixin) {
+export default class TodoSteps extends Mixins(responsiveMixin) {
   // refs
   $refs!: {
     todoStepsList: HTMLElement;
