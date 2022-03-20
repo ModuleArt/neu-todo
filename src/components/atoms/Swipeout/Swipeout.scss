@@ -1,5 +1,6 @@
 .swipeout {
   overflow: hidden;
+  z-index: 0;
 
   &__container {
     border-radius: 0 !important;

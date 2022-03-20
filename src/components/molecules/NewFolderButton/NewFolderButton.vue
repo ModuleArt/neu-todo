@@ -5,7 +5,7 @@
       offset-y
       min-width="0"
       transition="scroll-y-transition"
-      nudge-top="9"
+      :nudge-top="fab ? 0 : -8"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn

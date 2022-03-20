@@ -3,8 +3,9 @@
     link
     :title="folder.title"
     @contextmenu.prevent="rightClick"
-    v-touch:touchhold="rightClick"
+    v-touch:touchhold="touchHold"
     class="folder-list-item"
+    @click="emitClick"
   >
     <v-list-item-icon class="mr-4">
       <v-icon>{{ folder.icon }}</v-icon>
@@ -29,24 +30,24 @@ import todoUtils from "@/utils/todo";
 import Folder from "@/interfaces/entities/folder";
 
 // mixins
-import isMobileMixin from "@/mixins/isMobile";
+import responsiveMixin from "@/mixins/responsive";
 
 // component
 @Component({
   name: "FolderListItem",
 })
-export default class FolderListItem extends Mixins(isMobileMixin) {
+export default class FolderListItem extends Mixins(responsiveMixin) {
   // props
   @Prop() readonly folder!: Folder;
 
   // computed
-  get folderTodosCount(): number | string {
+  private get folderTodosCount(): number | string {
     return todoUtils.getUncheckedTodosByFolder(this.folder).length || "";
   }
 
   // private methods
-  private rightClick(e: MouseEvent) {
-    this.$emit("contextmenu", { x: e.clientX, y: e.clientY });
+  private emitClick() {
+    this.$emit("click");
   }
 }
 </script>

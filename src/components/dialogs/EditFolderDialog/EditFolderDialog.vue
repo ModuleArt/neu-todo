@@ -39,7 +39,7 @@
       </v-btn>
     </v-card>
     <v-subheader class="pa-0 mt-2">Icon</v-subheader>
-    <v-card outlined>
+    <v-card outlined v-touch:swipe="carouselSwipe">
       <v-carousel
         :continuous="false"
         :show-arrows="false"
@@ -229,6 +229,14 @@ export default class EditFolderDialog extends Vue {
         this.titleErrors = [];
         this.showDialog = false;
       }
+    }
+  }
+
+  private carouselSwipe(direction: string) {
+    if (direction == "left" && this.iconsPage < this.icons.length - 1) {
+      this.iconsPage++;
+    } else if (direction == "right" && this.iconsPage > 0) {
+      this.iconsPage--;
     }
   }
 }

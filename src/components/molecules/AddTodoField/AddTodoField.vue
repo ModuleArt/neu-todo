@@ -36,7 +36,7 @@ export default class Header extends Vue {
   private tempStepTitle = "";
 
   // computed
-  get currentFolder(): Folder | null {
+  private get currentFolder(): Folder | null {
     return foldersModule.getCurrentFolder;
   }
 

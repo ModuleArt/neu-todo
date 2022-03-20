@@ -77,7 +77,7 @@ export default class SearchTodoCard extends Vue {
   @Prop() readonly todo!: Todo;
 
   // computed
-  get limitedSteps(): Step[] {
+  private get limitedSteps(): Step[] {
     return this.todo.steps.length > 5
       ? this.todo.steps.slice(0, 5)
       : this.todo.steps;

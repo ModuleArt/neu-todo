@@ -6,7 +6,7 @@
           <v-col cols="8" class="search-page__col">
             <div class="search-page__body">
               <div class="d-flex align-center mb-4">
-                <v-btn icon @click="goBack" v-if="!$isMobile" class="mr-2">
+                <v-btn icon @click="goBack" v-if="!$isPhone" class="mr-2">
                   <v-icon>mdi-arrow-left</v-icon>
                 </v-btn>
                 <h1 class="search-page__heading">Search</h1>
@@ -25,6 +25,7 @@
                 ref="searchInput"
                 @input="search"
                 @keypress.enter="unfocus"
+                type="text"
               />
               <v-subheader v-if="folders.length" class="pa-0">
                 Folders
@@ -64,7 +65,7 @@ import FuzzySearch from "fuzzy-search";
 import { todosModule, foldersModule } from "@/store";
 
 // mixins
-import isMobileMixin from "@/mixins/isMobile";
+import responsiveMixin from "@/mixins/responsive";
 
 // interfaces
 import Todo from "@/interfaces/entities/todo";
@@ -82,7 +83,7 @@ import SearchFolderCard from "@/components/atoms/SearchFolderCard/SearchFolderCa
     SearchFolderCard,
   },
 })
-export default class SearchPage extends Mixins(isMobileMixin) {
+export default class SearchPage extends Mixins(responsiveMixin) {
   // refs
   public $refs!: {
     searchInput: HTMLInputElement;

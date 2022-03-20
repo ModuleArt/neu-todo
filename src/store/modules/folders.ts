@@ -30,7 +30,7 @@ class FoldersModule extends VuexModule {
       id: "important",
       title: "Important",
       icon: "mdi-octagram-outline",
-      color: "blue",
+      color: "orange",
       custom: false,
       filter: (todo) => todo.important,
       transform: (todo) => {

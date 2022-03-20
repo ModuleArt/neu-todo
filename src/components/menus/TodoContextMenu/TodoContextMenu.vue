@@ -112,7 +112,7 @@ export default class TodoListItem extends Vue {
   private contextMenuY = 0;
 
   // computed
-  get customFolders(): Folder[] {
+  private get customFolders(): Folder[] {
     return foldersModule.getCustomFolders || [];
   }
 

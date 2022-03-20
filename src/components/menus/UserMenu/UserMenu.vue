@@ -23,7 +23,7 @@
     </template>
     <v-list dense outlined class="rounded py-1">
       <v-list-item link disabled>
-        <v-list-item-title>NeuTodo v0.1.1</v-list-item-title>
+        <v-list-item-title>NeuTodo v0.1.2</v-list-item-title>
       </v-list-item>
       <v-list-item link disabled>
         <v-list-item-icon class="mr-4">
