@@ -1,10 +1,10 @@
 <template>
   <v-card outlined class="swipeout">
     <SwipeOut
-      v-if="enable"
       ref="swipeOut"
       v-click-outside="closeActions"
       class="swipeout__container"
+      :disabled="!enable"
     >
       <template v-slot:left="{}">
         <div
@@ -44,9 +44,6 @@
         </div>
       </template>
     </SwipeOut>
-    <div v-else>
-      <slot />
-    </div>
   </v-card>
 </template>
 

@@ -12,13 +12,12 @@
       @contextmenu.prevent="rightClick"
       v-touch:touchhold="rightClick"
       class="todo-card__card"
-      v-if="customTodoFolder"
     >
       <div class="d-flex align-center pa-1 todo-card__header">
         <v-simple-checkbox
           :value="todo.checked"
           @input="toggleChecked()"
-          :color="customTodoFolder.color"
+          :color="customTodoFolder ? customTodoFolder.color : 'primary'"
           class="todo-card__checkbox"
         />
         <div class="todo-card__title mx-1">
@@ -31,7 +30,7 @@
             dense
             placeholder="Task title"
             outlined
-            :color="customTodoFolder.color"
+            :color="customTodoFolder ? customTodoFolder.color : 'primary'"
             ref="taskTitleInput"
             class="todo-card__title-input"
             @blur="setTitle"
@@ -55,11 +54,11 @@
         <div v-if="todo.important" class="todo-card__important-indicator" />
       </div>
       <v-expand-transition>
-        <div v-show="expanded" class="todo-card__body">
+        <div v-if="expanded" class="todo-card__body">
           <v-divider v-if="$isMobile" />
           <TodoSteps
             :steps="todo.steps"
-            :color="customTodoFolder.color"
+            :color="customTodoFolder ? customTodoFolder.color : 'primary'"
             :todo-id="todo.id"
           />
           <v-divider />
