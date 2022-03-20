@@ -4,12 +4,7 @@
       <v-container>
         <v-row justify="center" class="search-page__row">
           <v-col cols="8" class="search-page__col">
-            <div
-              :class="{
-                'search-page__body': true,
-                'py-12': !$isMobile,
-              }"
-            >
+            <div class="search-page__body">
               <div class="d-flex align-center mb-4">
                 <v-btn icon @click="goBack" v-if="!$isMobile" class="mr-2">
                   <v-icon>mdi-arrow-left</v-icon>

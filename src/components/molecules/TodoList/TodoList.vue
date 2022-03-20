@@ -1,14 +1,6 @@
 <template>
-  <div
-    :class="{
-      'todo-list': true,
-      'py-12': !$isMobile,
-    }"
-    v-if="currentFolder"
-  >
-    <div
-      class="d-flex align-center todo-list__title mb-4 justify-space-between"
-    >
+  <div class="todo-list" v-if="currentFolder">
+    <div class="d-flex align-center todo-list__title justify-space-between">
       <h1 class="todo-list__heading">{{ currentFolder.title }}</h1>
       <FolderContextMenu
         v-if="currentFolder.custom"
@@ -16,7 +8,16 @@
         :button="true"
       />
     </div>
-    <AddTodoField v-if="currentFolder.transform || currentFolder.custom" />
+    <span
+      v-if="currentFolder.date"
+      class="todo-list__subtitle text--disabled subtitle-2"
+    >
+      {{ folderDate }}
+    </span>
+    <AddTodoField
+      v-if="currentFolder.transform || currentFolder.custom"
+      class="mt-4"
+    />
     <div class="todo-list__todos">
       <div v-for="(todo, todoIndex) in filteredTodos" :key="`todo--${todo.id}`">
         <TodoCard
@@ -69,6 +70,7 @@ import DueDateDialog from "@/components/dialogs/DueDateDialog/DueDateDialog.vue"
 import AddTodoField from "@/components/molecules/AddTodoField/AddTodoField.vue";
 import TodoContextMenu from "@/components/menus/TodoContextMenu/TodoContextMenu.vue";
 import FolderContextMenu from "@/components/menus/FolderContextMenu/FolderContextMenu.vue";
+import dateUtils from "@/utils/date";
 
 // component
 @Component({
@@ -110,6 +112,17 @@ export default class TodoList extends Mixins(isMobileMixin) {
         }
       }
     });
+  }
+
+  get folderDate(): string {
+    if (this.currentFolder && this.currentFolder.date) {
+      return dateUtils.toDisplay(
+        dateUtils.codeToNumber(this.currentFolder.date),
+        true
+      );
+    } else {
+      return "";
+    }
   }
 
   // watchers

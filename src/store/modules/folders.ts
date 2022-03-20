@@ -17,53 +17,55 @@ class FoldersModule extends VuexModule {
       id: "tasks",
       title: "Tasks",
       icon: "mdi-sticker-check-outline",
-      color: "primary",
+      color: "blue",
       custom: false,
-      board: null,
       filter: (todo) => !todo.customFolderId,
       transform: (todo) => {
         todo.customFolderId = null;
         return todo;
       },
+      board: null,
     },
     {
       id: "important",
       title: "Important",
       icon: "mdi-octagram-outline",
-      color: "orange",
+      color: "blue",
       custom: false,
-      board: null,
       filter: (todo) => todo.important,
       transform: (todo) => {
         todo.important = true;
         return todo;
       },
+      board: null,
     },
     {
       id: "today",
       title: "Today",
       icon: "mdi-calendar-today",
-      color: "primary",
+      color: "blue",
       custom: false,
-      board: null,
       filter: (todo) => dateUtils.numberToCode(todo.dueDate) === "today",
       transform: (todo) => {
         todo.dueDate = dateUtils.codeToNumber("today");
         return todo;
       },
+      board: null,
+      date: "today",
     },
     {
       id: "tomorrow",
       title: "Tomorrow",
       icon: "mdi-calendar-arrow-right",
-      color: "primary",
+      color: "blue",
       custom: false,
-      board: null,
       filter: (todo) => dateUtils.numberToCode(todo.dueDate) === "tomorrow",
       transform: (todo) => {
         todo.dueDate = dateUtils.codeToNumber("tomorrow");
         return todo;
       },
+      board: null,
+      date: "tomorrow",
     },
     {
       id: "overdue",
@@ -71,8 +73,8 @@ class FoldersModule extends VuexModule {
       icon: "mdi-calendar-arrow-left",
       color: "red",
       custom: false,
-      board: null,
       filter: (todo) => dateUtils.isOverdue(todo.dueDate),
+      board: null,
     },
   ];
 
@@ -107,7 +109,7 @@ class FoldersModule extends VuexModule {
       id,
       title: "Untitled folder",
       icon: "mdi-folder-outline",
-      color: "primary",
+      color: "blue",
       custom: true,
       board: null,
     });

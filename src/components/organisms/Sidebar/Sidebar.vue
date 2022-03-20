@@ -12,7 +12,7 @@
       touchless
       class="sidebar__drawer"
     >
-      <div class="d-flex flex-column sidebar__content">
+      <div class="d-flex flex-column sidebar__content" v-if="currentFolder">
         <div class="sidebar__top">
           <v-list nav dense>
             <UserMenu />
@@ -24,7 +24,7 @@
           <v-list nav dense>
             <v-list-item-group
               :value="selectedItem"
-              :color="currentFolder ? currentFolder.color : 'primary'"
+              :color="currentFolder.color"
               @change="selectedItemChanged($event)"
               mandatory
             >
@@ -43,11 +43,9 @@
             </v-list-item-group>
           </v-list>
         </div>
-        <v-divider />
+        <v-divider v-if="!fullscreen" />
         <div class="sidebar__bottom">
-          <v-list nav dense>
-            <NewFolderMenu />
-          </v-list>
+          <NewFolderButton :fab="fullscreen" :color="currentFolder.color" />
         </div>
       </div>
     </v-navigation-drawer>
@@ -75,7 +73,7 @@ import isMobileMixin from "@/mixins/isMobile";
 // components
 import FolderListItem from "@/components/atoms/FolderListItem/FolderListItem.vue";
 import FolderContextMenu from "@/components/menus/FolderContextMenu/FolderContextMenu.vue";
-import NewFolderMenu from "@/components/menus/NewFolderMenu/NewFolderMenu.vue";
+import NewFolderButton from "@/components/molecules/NewFolderButton/NewFolderButton.vue";
 import UserMenu from "@/components/menus/UserMenu/UserMenu.vue";
 import SearchButton from "@/components/atoms/SearchButton/SearchButton.vue";
 
@@ -85,7 +83,7 @@ import SearchButton from "@/components/atoms/SearchButton/SearchButton.vue";
   components: {
     FolderListItem,
     FolderContextMenu,
-    NewFolderMenu,
+    NewFolderButton,
     UserMenu,
     SearchButton,
   },

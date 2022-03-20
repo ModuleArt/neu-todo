@@ -1,9 +1,9 @@
 import moment from "moment";
 
 const dateUtils = {
-  numberToCode(date: number | null, label = false): string {
+  numberToCode(date: number | null, noCodes = false): string {
     if (date) {
-      if (label) {
+      if (noCodes) {
         return moment(date).format("YYYY-MM-DD");
       } else {
         if (moment().isSame(date, "day")) return "today";
@@ -40,16 +40,20 @@ const dateUtils = {
       return false;
     }
   },
-  toDisplay(date: number) {
-    switch (this.numberToCode(date)) {
-      case "today":
-        return "Today";
-      case "tomorrow":
-        return "Tomorrow";
-      case "yesterday":
-        return "Yesterday";
-      default:
-        return moment(date).format("ddd, MMM D");
+  toDisplay(date: number, noCodes = false) {
+    if (noCodes) {
+      return moment(date).format("ddd, MMM D");
+    } else {
+      switch (this.numberToCode(date)) {
+        case "today":
+          return "Today";
+        case "tomorrow":
+          return "Tomorrow";
+        case "yesterday":
+          return "Yesterday";
+        default:
+          return moment(date).format("ddd, MMM D");
+      }
     }
   },
   getIcon(date: number): string {

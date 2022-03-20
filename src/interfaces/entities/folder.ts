@@ -7,9 +7,10 @@ interface Folder {
   icon: string;
   custom: boolean;
   color: string;
-  board: string | null;
   filter?(todo: Todo): boolean;
   transform?(todo: Todo): Todo;
+  board: string | null;
+  date?: string;
 }
 
 export default Folder;
