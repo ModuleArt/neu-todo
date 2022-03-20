@@ -61,7 +61,7 @@ import Folder from "@/interfaces/entities/folder";
 import { todosModule, foldersModule } from "@/store";
 
 // mixins
-import isMobileMixin from "@/mixins/isMobile";
+import responsiveMixin from "@/mixins/responsive";
 
 // components
 import TodoCard from "@/components/molecules/TodoCard/TodoCard.vue";
@@ -84,7 +84,7 @@ import dateUtils from "@/utils/date";
     FolderContextMenu,
   },
 })
-export default class TodoList extends Mixins(isMobileMixin) {
+export default class TodoList extends Mixins(responsiveMixin) {
   // refs
   public $refs!: {
     chooseFolderDialog: ChooseFolderDialog;
@@ -98,11 +98,11 @@ export default class TodoList extends Mixins(isMobileMixin) {
   private showTodoContextMenu = false;
 
   // computed
-  get currentFolder(): Folder | null {
+  private get currentFolder(): Folder | null {
     return foldersModule.getCurrentFolder;
   }
 
-  get filteredTodos(): Todo[] {
+  private get filteredTodos(): Todo[] {
     return todosModule.todos.filter((todo) => {
       if (this.currentFolder) {
         if (this.currentFolder.filter) {
@@ -114,7 +114,7 @@ export default class TodoList extends Mixins(isMobileMixin) {
     });
   }
 
-  get folderDate(): string {
+  private get folderDate(): string {
     if (this.currentFolder && this.currentFolder.date) {
       return dateUtils.toDisplay(
         dateUtils.codeToNumber(this.currentFolder.date),

@@ -1,7 +1,7 @@
 <template>
   <div class="main-page">
     <div class="d-flex main-page__wrapper">
-      <Sidebar v-if="!$isMobile" :fullscreen="false" />
+      <Sidebar v-if="!$isPhone" :fullscreen="false" />
       <v-main>
         <div class="main-page__scroll d-flex justify-center">
           <v-container>
@@ -22,7 +22,7 @@
 import { Mixins, Component } from "@/utils/vue-imports";
 
 // mixins
-import isMobileMixin from "@/mixins/isMobile";
+import responsiveMixin from "@/mixins/responsive";
 
 // componenets
 import Sidebar from "@/components/organisms/Sidebar/Sidebar.vue";
@@ -36,7 +36,7 @@ import TodoList from "@/components/molecules/TodoList/TodoList.vue";
     TodoList,
   },
 })
-export default class MainPage extends Mixins(isMobileMixin) {}
+export default class MainPage extends Mixins(responsiveMixin) {}
 </script>
 
 <style lang="scss" scoped>
