@@ -69,5 +69,5 @@
   }
 
   // scrollbar
-  @include scrollbar(#1e1e1e);
+  @include scrollbar($color-card);
 }

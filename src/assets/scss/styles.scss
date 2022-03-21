@@ -1,3 +1,4 @@
+@import "@/assets/scss/variables.scss";
 @import "@/assets/scss/mixins/scrollbar.scss";
 
 * {
@@ -8,7 +9,7 @@
 }
 
 html {
-  background: #121212;
+  background: $color-background;
   overflow: hidden;
 }
 

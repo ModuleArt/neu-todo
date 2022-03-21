@@ -1,6 +1,8 @@
+@import "@/assets/scss/variables.scss";
+
 .nav-bar {
   &__bar {
-    background: #121212 !important;
-    border-top: 1px solid hsla(0,0%,100%,.12);
+    background: $color-background !important;
+    border-top: $border-main;
   }
 }
