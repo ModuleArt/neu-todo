@@ -1,3 +1,5 @@
+@import "@/assets/scss/variables.scss";
+
 .sidebar {
   height: 100%;
 
@@ -10,7 +12,7 @@
   }
 
   &__drawer {
-    background: #121212 !important;
+    background: $color-background !important;
   }
 
   &__menu-button {

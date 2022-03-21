@@ -2,26 +2,33 @@
 
 .todo-steps {
   &__list {
-    max-height: 260px;
+    max-height: 216px;
     overflow-y: auto;
   }
 
-  &__remove-step {
-    display: none;
-    margin: 0 1px 0 4px;
-  }
-
-  &__step:hover &__remove-step {
+  &__step:hover &__handle,
+  &__slick-item--dragging &__handle {
     display: block;
   }
 
-  &__step {
-    padding: 0 0 0 10px;
-    background: none !important;
+  &__slick-item {
+    margin-bottom: 4px;
+
+    &--dragging {
+      pointer-events: all !important;
+    }
 
     &:last-child {
-      margin-bottom: 0 !important;
+      margin-bottom: 0;
     }
+  }
+
+  &__step {
+    padding: 0 8px;
+    background: $color-card !important;
+    display: flex;
+    align-items: center;
+    position: relative;
 
     &--checked {
       opacity: $opacity-secondary;
@@ -38,6 +45,17 @@
     /deep/ .v-input__slot {
       padding-right: 0 !important;
       background: none !important;
+    }
+  }
+
+  &__handle {
+    display: none;
+    width: 24px !important;
+    height: 24px !important;
+    margin-left: 8px;
+
+    &--drag {
+      cursor: grab;
     }
   }
 

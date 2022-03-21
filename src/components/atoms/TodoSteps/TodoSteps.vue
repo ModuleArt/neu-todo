@@ -6,52 +6,77 @@
       'py-1': $isPhone,
     }"
   >
-    <div
+    <SlickList
       class="todo-steps__list mb-1"
       ref="todoStepsList"
       v-if="steps.length > 0"
+      lockAxis="y"
+      tag="div"
+      :value="steps"
+      use-drag-handle
+      lock-to-container-edges
+      helper-class="todo-steps__slick-item--dragging"
+      @input="reorderSteps"
     >
-      <v-card
+      <SlickItem
+        tag="div"
         v-for="(step, stepIndex) in steps"
         :key="`step--${stepIndex}`"
-        :class="{
-          'todo-steps__step d-flex mb-1 align-center': true,
-          'todo-steps__step--checked': step.checked,
-        }"
-        :outlined="!$isPhone"
-        flat
+        :index="stepIndex"
+        class="todo-steps__slick-item"
       >
-        <v-simple-checkbox
-          :value="step.checked"
-          :color="color"
-          @input="
-            updateStep({
-              stepIndex,
-              stepChecked: !step.checked,
-            })
-          "
-        />
-        <v-text-field
-          :value="step.title"
-          solo
+        <v-card
+          :class="{
+            'todo-steps__step': true,
+            'todo-steps__step--checked': step.checked,
+          }"
+          :outlined="!$isPhone"
           flat
-          dense
-          hide-details
-          :placeholder="`Step ${stepIndex + 1}`"
-          @blur="updateStep({ stepIndex, stepTitle: $event.target.value })"
-          @contextmenu.stop
-          @keypress.enter="unfocus"
-        />
-        <v-btn
-          icon
-          @click="removeStep(stepIndex)"
-          class="todo-steps__remove-step"
-          title="Remove step"
         >
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-card>
-    </div>
+          <v-simple-checkbox
+            :value="step.checked"
+            :color="color"
+            @input="
+              updateStep({
+                stepIndex,
+                stepChecked: !step.checked,
+              })
+            "
+          />
+          <v-text-field
+            :value="step.title"
+            solo
+            flat
+            dense
+            hide-details
+            :placeholder="`Step ${stepIndex + 1}`"
+            @blur="updateStep({ stepIndex, stepTitle: $event.target.value })"
+            @contextmenu.stop
+            @keypress.enter="unfocus"
+          />
+          <v-btn
+            x-small
+            class="todo-steps__handle todo-steps__handle--drag"
+            fab
+            :color="color"
+            v-drag-handle
+            title="Move step"
+          >
+            <v-icon>mdi-drag-horizontal-variant</v-icon>
+          </v-btn>
+          <v-btn
+            x-small
+            class="todo-steps__handle"
+            fab
+            @click="removeStep(stepIndex)"
+            color="red"
+            title="Remove step"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card>
+      </SlickItem>
+    </SlickList>
     <v-text-field
       class="todo-steps__add-step"
       prepend-inner-icon="mdi-plus"
@@ -82,9 +107,17 @@ import { todosModule } from "@/store";
 // mixins
 import responsiveMixin from "@/mixins/responsive";
 
+// components
+import { SlickItem, SlickList, HandleDirective } from "vue-slicksort";
+
 // component
 @Component({
   name: "TodoSteps",
+  components: {
+    SlickItem,
+    SlickList,
+  },
+  directives: { "drag-handle": HandleDirective },
 })
 export default class TodoSteps extends Mixins(responsiveMixin) {
   // refs
@@ -144,6 +177,10 @@ export default class TodoSteps extends Mixins(responsiveMixin) {
 
   private unfocus() {
     (document.activeElement as HTMLElement).blur();
+  }
+
+  private reorderSteps(reorderedSteps: Step[]) {
+    todosModule.updateSteps({ todoId: this.todoId, steps: reorderedSteps });
   }
 }
 </script>

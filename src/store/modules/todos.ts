@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 // interfaces
 import { VuexModule, Module, Mutation, Action } from "vuex-class-modules";
 import Todo from "@/interfaces/entities/todo";
+import Step from "@/interfaces/entities/step";
 
 @Module
 class TodosModule extends VuexModule {
@@ -152,6 +153,20 @@ class TodosModule extends VuexModule {
     }
   }
 
+  @Mutation
+  public mutationUpdateSteps({
+    todoId,
+    steps,
+  }: {
+    todoId: string;
+    steps: Step[];
+  }) {
+    const todo = this.todos.find((todo) => todo.id === todoId);
+    if (todo) {
+      todo.steps = steps;
+    }
+  }
+
   // public actions
   @Action
   public addTodo({
@@ -277,6 +292,11 @@ class TodosModule extends VuexModule {
       stepChecked,
       stepTitle,
     });
+  }
+
+  @Action
+  public updateSteps({ todoId, steps }: { todoId: string; steps: Step[] }) {
+    this.mutationUpdateSteps({ todoId, steps });
   }
 
   // @Action

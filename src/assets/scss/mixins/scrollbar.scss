@@ -1,4 +1,6 @@
-@mixin scrollbar($bg: #121212) {
+@import "@/assets/scss/variables.scss";
+
+@mixin scrollbar($bg: $color-background) {
   ::-webkit-scrollbar {
     width: 15px;
     background: $bg;
