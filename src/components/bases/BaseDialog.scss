@@ -6,7 +6,7 @@
     max-height: none !important;
 
     // scrollbar
-    @include scrollbar(#1e1e1e);
+    @include scrollbar($color-card);
   }
 
   &__card {
@@ -25,7 +25,7 @@
 
   @media screen and (max-width: $is-phone-extra) {
     &__card {
-      border-top: 1px solid hsla(0,0%,100%,.12) !important;
+      border-top: $border-main !important;
       border-radius: 0 !important;
     }
   }
